@@ -1,4 +1,4 @@
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div>
 <c:if test="${user != null}">
 	<a href="me">${user.getUsername()}</a>
@@ -12,7 +12,4 @@
 	Hubo bardo ${error}
 	<% session.removeAttribute("error"); %>
 </c:if>
-	
-
-
 </div>

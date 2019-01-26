@@ -41,7 +41,7 @@ public class ProviderForm extends HttpServlet {
 			dispatcher.forward(request, response);
 		}else {
 			request.getSession().setAttribute("error", "Tenes que estar logueado wachim");
-			response.sendRedirect("/Absence");
+			response.sendRedirect("");
 		}
 		
 	}
@@ -55,7 +55,7 @@ public class ProviderForm extends HttpServlet {
 		try {
 			Provider provider = controller.save_provider(new Provider(request));
 			request.getSession().setAttribute("provider", provider);
-			response.sendRedirect("/Absence/me");
+			response.sendRedirect("me");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

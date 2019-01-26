@@ -17,38 +17,16 @@ public class DataUser {
 		Connection conn = ConnectorBuilder.getConnector();
 				
 		PreparedStatement stmtUser = conn.prepareStatement(
-					"INSERT INTO users (username, password, email) VALUES(?,?,?)",
-					Statement.RETURN_GENERATED_KEYS
+					"INSERT INTO users (userID,username, password, email) VALUES(?,?,?,?)"
 				);
-		stmtUser.setString(1, user.getUsername());
-		stmtUser.setString(2, user.getPassword());
-		stmtUser.setString(3, user.getEmail());
+		stmtUser.setInt(1, user.getUserID());
+		stmtUser.setString(2, user.getUsername());
+		stmtUser.setString(3, user.getPassword());
+		stmtUser.setString(4, user.getEmail());
 		stmtUser.executeUpdate();
-		ResultSet rs = stmtUser.getGeneratedKeys();
-		rs.next();
-		user.setUserID(rs.getInt(1));
 		conn.close();
 		return user;
 	}
-	/*void adc() {
-		PreparedStatement stmtProfile = conn.prepareStatement(
-				"INSERT INTO users VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-			);
-		Profile profile = user.getProfile();
-		stmtProfile.setInt(1, nextID); 
-		stmtProfile.setString(2, profile.getFirstName());
-		stmtProfile.setString(3, profile.getLastName());
-		stmtProfile.setString(4, profile.getMainTel());
-		stmtProfile.setString(5, profile.getAltTel());
-		stmtProfile.setInt(6, profile.getPostalCode());
-		stmtProfile.setString(7, profile.getStreet());
-		stmtProfile.setInt(8, profile.getStreetNumber());
-		stmtProfile.setBoolean(9, profile.getStreetNumberIsBis());
-		stmtProfile.setString(10, profile.getGender());
-		stmtProfile.setObject(11, profile.getLastLoginTime());
-		stmtProfile.setInt(12, profile.getAccount_status());
-		stmtProfile.setObject(13, profile.getBirthDate());
-	}*/
 
 	//Queries to DB returning ResultSets (only user)
 	public User getUserByID(int userID) throws Exception{

@@ -44,6 +44,7 @@ public class Signup extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ControllerCRUDUser controller = new ControllerCRUDUser();
 		User user = new User();
+		user.setUserID(1);
 		user.setUsername(request.getParameter("username"));
 		user.setPassword(request.getParameter("password"));
 		user.setEmail(request.getParameter("email"));
@@ -53,7 +54,7 @@ public class Signup extends HttpServlet {
 		try {
 			user = controller.saveUser(user);
 			session.setAttribute("user", user);
-			response.sendRedirect("/Absence");
+			response.sendRedirect("");
 		} catch (UserException e) {
 			System.out.print(e.getMessage());
 			session.setAttribute("error", e.getMessage());

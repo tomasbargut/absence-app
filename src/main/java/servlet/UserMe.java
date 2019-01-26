@@ -31,7 +31,7 @@ public class UserMe extends HttpServlet {
 		if(request.getSession().getAttribute("user")!=null) {
 			request.getRequestDispatcher("/WEB-INF/me.jsp").forward(request, response);
 		}else {
-			response.sendRedirect("/Absence/singin");
+			response.sendRedirect("singin");
 		}
 	}
 

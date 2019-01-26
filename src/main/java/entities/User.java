@@ -14,7 +14,7 @@ public class User {
 	public User() {};
 	
 	public User(ResultSet rs) throws SQLException {
-		this.setUserID(rs.getInt("id"));
+		this.setUserID(rs.getInt("userID"));
 		this.setUsername(rs.getString("username"));
 		this.setEmail(rs.getString("email"));
 		this.setPassword(rs.getString("password"));

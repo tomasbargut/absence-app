@@ -68,7 +68,7 @@ public class ContactProvider extends HttpServlet {
 				session.setAttribute("request", userRequest);
 			}else {
 				error = "Debe ingresar con su cuenta para poder contactar";
-				response.sendRedirect("/Absence/signin");
+				response.sendRedirect("signin");
 			}
 		} catch (Exception e) {
 			error = e.getMessage();

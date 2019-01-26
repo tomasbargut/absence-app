@@ -55,7 +55,7 @@ public class Singin extends HttpServlet {
 					if(provider != null) {
 						session.setAttribute("provider", provider);
 					}
-					response.sendRedirect("/Absence");
+					response.sendRedirect("");
 				}else {
 					error = "Grrr...";
 				}

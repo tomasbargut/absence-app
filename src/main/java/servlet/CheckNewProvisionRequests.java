@@ -66,7 +66,7 @@ public class CheckNewProvisionRequests extends HttpServlet {
 
 			} else {
 				error = "Debe ingresar con su cuenta para poder ver si tiene nuevas solicitudes de contacto";
-				response.sendRedirect("/Absence/signin");
+				response.sendRedirect("signin");
 			}
 		} catch (Exception e) {
 			error = e.getMessage();
