@@ -19,5 +19,7 @@ public class DataChat {
 		stmtReq.executeUpdate();		
 	
 		conn.close();
-	}				
+	}			
+	
+
 }
