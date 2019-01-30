@@ -1,15 +1,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div>
-<c:if test="${user != null}">
-	<a href="me">${user.getUsername()}</a>
-	<a href="singout">Sing out</a>
-</c:if>
-<c:if test="${user == null }">
-	<a href="singup">Sing up</a>
-	<a href="singin">Sing in</a>
-</c:if>
 <c:if test="${error != null }">
 	Hubo bardo ${error}
 	<% session.removeAttribute("error"); %>
 </c:if>
-</div>
+<nav class="nav">
+	<li class="nav-item">
+		<a href="" class="nav-link">Absence</a>
+	</li>
+	<ul class="nav justify-content-end">
+	<c:if test="${user != null}">
+		<li class="nav-item">
+			<a href="me" class="nav-link">${user.getUsername()}</a>
+		</li>
+		<li class="nav-item">
+			<a href="signout" class="nav-link">signout</a>
+		</li>
+	</c:if>
+	<c:if test="${user == null }">
+		<li class="nav-item">
+			<a href="singup" class="nav-link">Sing up</a>
+		</li>
+		<li class="nav-item">
+			<a href="singin" class="nav-link">Sing in</a>
+		</li>
+	</c:if>
+	</ul>
+</nav>
