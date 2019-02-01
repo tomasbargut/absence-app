@@ -1,32 +1,59 @@
 package entities;
 
-public class Category {
-	private int categoryID;
-	private String desc;
-	private String name;
-	public int getCategoryID() {
-		return categoryID;
-	}
-	public void setCategoryID(int categoryID) {
-		this.categoryID = categoryID;
-	}
-	public String getDesc() {
-		return desc;
-	}
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public Category(int categoryID, String desc, String name) {
-		super();
-		this.categoryID = categoryID;
-		this.desc = desc;
-		this.name = name;
-	}
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+public class Category {
+    private int categoryID;
+    private String desc;
+    private String name;
+
+    public Category(ResultSet rs) throws SQLException {
+        this.categoryID = rs.getInt("categoryID");
+        this.name = rs.getString("name");
+        this.desc = rs.getString("desc");
+    }
+    /**
+     * @return the categoryID
+     */
+    public int getCategoryID() {
+        return categoryID;
+    }
+
+    /**
+     * @param categoryID the categoryID to set
+     */
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    /**
+     * @return the desc
+     */
+    public String getDesc() {
+        return desc;
+    }
+
+    /**
+     * @param desc the desc to set
+     */
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    
 }

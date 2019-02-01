@@ -3,30 +3,34 @@ package entities;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class User {
 	private int userID;
 	private String username;
 	private String password;
 	private String email;
-	private Profile profile;
+	private String lastLogin;
+	private String accountStatus;
+	private String salt;
 	
-
 	public User() {};
 	
 	public User(ResultSet rs) throws SQLException {
 		this.setUserID(rs.getInt("userID"));
 		this.setUsername(rs.getString("username"));
+		this.setLastLogin(rs.getString("lastLogin"));
+		this.setAccountStatus(rs.getString("accountStatus"));
 		this.setEmail(rs.getString("email"));
 		this.setPassword(rs.getString("password"));
 	}
-	
+
 	public User(int userID, String username, String password, String email, Profile profile) {
 		super();
 		this.userID = userID;
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.profile = profile;
 	}
 	
 	public User(int userID, String username, String password, String email) {
@@ -37,6 +41,9 @@ public class User {
 		this.email = email;
 	}
 	
+	public User(HttpServletRequest request) {
+	}
+
 	public int getUserID() {
 		return userID;
 
@@ -62,11 +69,23 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Profile getProfile() {
-		return profile;
+	private void setAccountStatus(String accountStatus) {
+		this.accountStatus = accountStatus;
 	}
-	public void setProfile(Profile profile) {
-		this.profile = profile;
+
+	private void setLastLogin(String lastLogin) {
+		this.lastLogin = lastLogin;
 	}
-	
+
+	public String getLastLogin() {
+		return lastLogin;
+	}
+
+	public String getAccountStatus() {
+		return accountStatus;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
 }

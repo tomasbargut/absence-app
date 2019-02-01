@@ -27,14 +27,12 @@ public class Singin extends HttpServlet {
         super();
         this.data_user = new DataUser();
         this.data_provider = new DataProvider();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		request.getRequestDispatcher("/WEB-INF/singin.jsp").forward(request, response);
 	}
 
@@ -42,7 +40,6 @@ public class Singin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String nombre = request.getParameter("username");
 		String error = null;
 		HttpSession session = request.getSession();

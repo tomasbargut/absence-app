@@ -2,88 +2,182 @@ package entities;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class Provider {
-	private int user_id;
-	private String name;
-	private String phone;
-	private String postal_code;
-	private String street;
-	private String birthdate;
-	private Boolean pendingNotifications;
-	
-	public Provider(ResultSet rs) throws SQLException {
-		this.user_id = rs.getInt("user_id");
-		this.name = rs.getString("name");
-		this.phone = rs.getString("phone");
-		this.postal_code = rs.getString("postal_code");
-		this.street = rs.getString("street");
-		this.birthdate = rs.getString("birth_date");
+public class Provider extends User{
+	private String fullname;
+	private String telephone;
+	private String postalCode;
+	private String address;
+	private String birthDate;
+	private int prestige;
+	private String providerType;
+	private ArrayList<Service> services;
+
+	public Provider(ResultSet rs, ArrayList<Service> services) throws SQLException {
+		super(rs);
+		this.prestige = rs.getInt("prestigeID");
+		this.providerType = rs.getString("providerType");
+		this.fullname = rs.getString("fullName");
+		this.telephone = rs.getString("telephone");
+		this.postalCode = rs.getString("postalCode");
+		this.address = rs.getString("address");
+		this.birthDate = rs.getString("birthDate");
+		this.services = services;
+	}
+
+	public Provider(HttpServletRequest request) {
+		
+		this.fullname = request.getParameter("fullname");
+		this.telephone = request.getParameter("telephone");
+		this.postalCode = request.getParameter("postalCode");
+		this.address = request.getParameter("street");
+		this.birthDate = request.getParameter("birthDate");
+	}
+
+	/**
+	 * @param prestige the prestige to set
+	 */
+	public void setPrestige(int prestige) {
+		this.prestige = prestige;
+	}
+
+	/**
+	 * @return the providerType
+	 */
+	public String getProviderType() {
+		return providerType;
+	}
+
+	/**
+	 * @param providerType the providerType to set
+	 */
+	public void setProviderType(String providerType) {
+		this.providerType = providerType;
+	}
+
+	/**
+	 * @return the prestige
+	 */
+	public int getPrestige() {
+		return prestige;
 	}
 	
-	public Provider(HttpServletRequest request){
-		this.user_id = ((User)request.getSession().getAttribute("user")).getUserID();
-		this.name = request.getParameter("name");
-		this.phone = request.getParameter("phone");
-		this.postal_code = request.getParameter("postal_code");
-		this.street = request.getParameter("street");
-		this.birthdate = request.getParameter("birth_date");
-	}
-	
-	public Provider(int user_id, String name, String phone, String postal_code, String street, String birthdate) {
-		super();
-		this.user_id = user_id;
-		this.name = name;
-		this.phone = phone;
-		this.postal_code = postal_code;
-		this.street = street;
-		this.birthdate = birthdate;
-	}
-	
-	public int getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
-	}
 	public String getName() {
-		return name;
+		return fullname;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.fullname = name;
 	}
 	public String getPhone() {
-		return phone;
+		return telephone;
 	}
 	public void setPhone(String phone) {
-		this.phone = phone;
+		this.telephone = phone;
 	}
 	public String getPostal_code() {
-		return postal_code;
+		return postalCode;
 	}
 	public void setPostal_code(String postal_code) {
-		this.postal_code = postal_code;
+		this.postalCode = postal_code;
 	}
 	public String getStreet() {
-		return street;
+		return address;
 	}
 	public void setStreet(String street) {
-		this.street = street;
+		this.address = street;
 	}
 	public String getBirthdate() {
-		return birthdate;
+		return birthDate;
 	}
 	public void setBirthdate(String birthdate) {
-		this.birthdate = birthdate;
+		this.birthDate = birthdate;
 	}
 
-	public Boolean getPendingNotifications() {
-		return pendingNotifications;
+
+	/**
+	 * @return the fullname
+	 */
+	public String getFullname() {
+		return fullname;
 	}
 
-	public void setPendingNotifications(Boolean pendingNotifications) {
-		this.pendingNotifications = pendingNotifications;
+	/**
+	 * @param fullname the fullname to set
+	 */
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
+	/**
+	 * @return the telephone
+	 */
+	public String getTelephone() {
+		return telephone;
+	}
+
+	/**
+	 * @param telephone the telephone to set
+	 */
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	/**
+	 * @return the postalCode
+	 */
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	/**
+	 * @param postalCode the postalCode to set
+	 */
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	/**
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address the address to set
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	/**
+	 * @return the birthDate
+	 */
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	/**
+	 * @param birthDate the birthDate to set
+	 */
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	/**
+	 * @return the services
+	 */
+	public ArrayList<Service> getServices() {
+		return services;
+	}
+
+	/**
+	 * @param services the services to set
+	 */
+	public void setServices(ArrayList<Service> services) {
+		this.services = services;
 	}
 }
