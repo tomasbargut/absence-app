@@ -19,7 +19,7 @@ public class ConnectorBuilder {
 			try {
 				Connection conn = null;
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Absence?useSSL=false","admin","absence-admin");
+				conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/absence?useSSL=false","admin","absence-admin");
 
 				return conn;
 
