@@ -20,8 +20,10 @@ public class DataUser {
 			stmtUser.setString(1, user.getUsername());
 			stmtUser.setString(2, user.getPassword());
 			stmtUser.setString(3, user.getEmail());
-			int id = stmtUser.executeUpdate();
-			user.setUserID(id);
+			stmtUser.executeUpdate();
+			ResultSet generatedKeys = stmtUser.getGeneratedKeys();
+			generatedKeys.next();
+			user.setUserID(generatedKeys.getInt(1));
 			conn.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

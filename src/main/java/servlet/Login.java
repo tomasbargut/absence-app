@@ -52,7 +52,7 @@ public class Login extends HttpServlet {
 					if(provider != null) {
 						session.setAttribute("provider", provider);
 					}
-					response.sendRedirect("");
+					response.sendRedirect("me");
 				}else {
 					error = "Grrr...";
 				}

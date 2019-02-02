@@ -48,7 +48,7 @@ public class Signup extends HttpServlet {
 		try {
 			controllerUser.save(user);
 			session.setAttribute("user", user);
-			response.sendRedirect("");
+			response.sendRedirect("index.jsp");
 		} catch (UserException e) {
 			System.out.print(e.getMessage());
 			session.setAttribute("error", e.getMessage());

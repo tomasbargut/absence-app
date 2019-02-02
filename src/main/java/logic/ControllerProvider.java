@@ -6,6 +6,7 @@ import java.util.Date;
 import data.DataProvider;
 import entities.Provider;
 import logic.exceptions.ProviderException;
+import utils.Utils;
 
 public class ControllerProvider {
 	private DataProvider dataProvider;
@@ -16,7 +17,9 @@ public class ControllerProvider {
 	}
 	
 	public void save(Provider provider) throws Exception{
-		if(new SimpleDateFormat("yyyyMMdd").parse(provider.getBirthdate()).getTime() - new Date().getTime() < EDAD_MAX) {
+		long ahora = new Date().getTime();
+		long nacimiento = new SimpleDateFormat(Utils.DATE_FORMAT).parse(provider.getBirthdate()).getTime();
+		if(ahora - nacimiento  < EDAD_MAX) {
 			throw new ProviderException("El usuario no es mayor de edad");
 		}
 		if(dataProvider.get(provider.getUserID()) != null) {
