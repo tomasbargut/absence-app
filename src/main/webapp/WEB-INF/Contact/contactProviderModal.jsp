@@ -34,9 +34,12 @@
 
 <!-- jQuery.js function executed when modal is loaded, configuring its content dynamically-->
 <script type="text/javascript">
+    var mode = "${mode}";
     if (mode == "contactar") {
         $("#modal-title").text("Contactar Proveedor");
-        $("#modal-body").text("//Info y opciones contacto (fecha tentativa inicio/fin, tareas, consulta, compartir datos, etc) con append(html)");//TODO
+        $("#modal-body").text(
+            "//Info y opciones contacto (fecha tentativa inicio/fin, tareas, consulta, compartir datos, etc) con append(html)"
+        ); //TODO
         $("#contactModal").show();
     } else {
         $("#modal-title").text("Cancelar Contacto");
