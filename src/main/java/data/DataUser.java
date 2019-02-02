@@ -13,16 +13,15 @@ public class DataUser {
 	public void save(User user) {
 		try {
 			Connection conn = ConnectorBuilder.getConnector();
-
 			PreparedStatement stmtUser = conn.prepareStatement(
-					"INSERT INTO users (username, password, email, lastlogin, accountStatus, salt) VALUES(?,?,?,?,?, ?)");
+				"INSERT INTO users (username, password, email) VALUES(?,?,?)",
+				Statement.RETURN_GENERATED_KEYS
+			);
 			stmtUser.setString(1, user.getUsername());
 			stmtUser.setString(2, user.getPassword());
 			stmtUser.setString(3, user.getEmail());
-			stmtUser.setString(4, user.getLastLogin());
-			stmtUser.setString(5, user.getAccountStatus());
-			stmtUser.setString(6, user.getSalt());
-			stmtUser.executeUpdate();
+			int id = stmtUser.executeUpdate();
+			user.setUserID(id);
 			conn.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -48,7 +47,7 @@ public class DataUser {
 		return user;
 	}
 
-	public User getUserByUsername(String username) {
+	public User getByUsername(String username) {
 		User user = null;
 		try {
 			Connection conn = ConnectorBuilder.getConnector();
@@ -65,10 +64,9 @@ public class DataUser {
 			e.printStackTrace();
 		}
 		return user;
-
 	}
 
-	public User getUserByEmail(String email) {
+	public User getByEmail(String email) {
 		User user = null;
 		try {
 			Connection conn = ConnectorBuilder.getConnector();
@@ -86,5 +84,4 @@ public class DataUser {
 		}
 		return user;
 	}
-	
 }

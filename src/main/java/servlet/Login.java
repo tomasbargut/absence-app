@@ -15,25 +15,25 @@ import entities.User;
 /**
  * Servlet implementation class Login
  */
-@WebServlet("/singin")
-public class Singin extends HttpServlet {
+@WebServlet("/login")
+public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private DataUser data_user ;
-    private DataProvider data_provider;
+    private DataUser dataUser ;
+    private DataProvider dataProvider;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Singin() {
+    public Login() {
         super();
-        this.data_user = new DataUser();
-        this.data_provider = new DataProvider();
+        this.dataUser = new DataUser();
+        this.dataProvider = new DataProvider();
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/singin.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
 	}
 
 	/**
@@ -44,11 +44,11 @@ public class Singin extends HttpServlet {
 		String error = null;
 		HttpSession session = request.getSession();
 		try {
-			User user = data_user.getUserByUsername(nombre);
+			User user = dataUser.getByUsername(nombre);
 			if(user != null) {
 				if(user.getPassword().equals(request.getParameter("password"))) {
 					session.setAttribute("user", user);
-					Provider provider = data_provider.get_provider_by_id(user.getUserID());
+					Provider provider = dataProvider.get(user.getUserID());
 					if(provider != null) {
 						session.setAttribute("provider", provider);
 					}
@@ -64,7 +64,7 @@ public class Singin extends HttpServlet {
 		}
 		if(error != null) {
 			request.setAttribute("error", error);
-			request.getRequestDispatcher("WEB-INF/singin.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
 		}
 	}
 }

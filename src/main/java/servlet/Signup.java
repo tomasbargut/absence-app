@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import logic.ControllerCRUDUser;
-import logic.exceptions.UserException;
 import entities.User;
+import logic.ControllerUser;
+import logic.exceptions.UserException;
 
 /**
  * Servlet implementation class Signup
@@ -21,14 +21,14 @@ import entities.User;
 @WebServlet("/singup")
 public class Signup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private ControllerUser controllerUser;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Signup() {
         super();
-        // TODO Auto-generated constructor stub
-    }
+		this.controllerUser = new ControllerUser();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -42,17 +42,11 @@ public class Signup extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ControllerCRUDUser controller = new ControllerCRUDUser();
-		User user = new User();
-		user.setUserID(1);
-		user.setUsername(request.getParameter("username"));
-		user.setPassword(request.getParameter("password"));
-		user.setEmail(request.getParameter("email"));
-		
+		User user = new User(request);
 		HttpSession session = request.getSession();
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/singup.jsp");
 		try {
-			user = controller.saveUser(user);
+			controllerUser.save(user);
 			session.setAttribute("user", user);
 			response.sendRedirect("");
 		} catch (UserException e) {

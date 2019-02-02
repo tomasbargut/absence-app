@@ -3,6 +3,8 @@ package entities;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class Request {
 	private int requestID;
 	private User petitioner;
@@ -25,6 +27,10 @@ public class Request {
 		this.status = rs.getString("status");
 		this.report = report;
 		this.responseDate = rs.getString("responseDate");
+	}
+
+	public Request(HttpServletRequest request){
+		// TODO: NOT IMPLEMENTED
 	}
 	
 	public int getRequestID() {

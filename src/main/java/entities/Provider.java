@@ -28,8 +28,8 @@ public class Provider extends User{
 		this.services = services;
 	}
 
-	public Provider(HttpServletRequest request) {
-		
+	public Provider(HttpServletRequest request, User user) {
+		super(user);
 		this.fullname = request.getParameter("fullname");
 		this.telephone = request.getParameter("telephone");
 		this.postalCode = request.getParameter("postalCode");

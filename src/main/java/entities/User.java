@@ -2,6 +2,7 @@ package entities;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,9 +14,7 @@ public class User {
 	private String lastLogin;
 	private String accountStatus;
 	private String salt;
-	
-	public User() {};
-	
+		
 	public User(ResultSet rs) throws SQLException {
 		this.setUserID(rs.getInt("userID"));
 		this.setUsername(rs.getString("username"));
@@ -24,24 +23,20 @@ public class User {
 		this.setEmail(rs.getString("email"));
 		this.setPassword(rs.getString("password"));
 	}
-
-	public User(int userID, String username, String password, String email, Profile profile) {
-		super();
-		this.userID = userID;
-		this.username = username;
-		this.password = password;
-		this.email = email;
-	}
 	
-	public User(int userID, String username, String password, String email) {
-		super();
-		this.userID = userID;
-		this.username = username;
-		this.password = password;
-		this.email = email;
+	protected User(User user){
+		this.userID = user.getUserID();
+		this.username = user.getUsername();
+		this.email = user.getEmail();
+		this.lastLogin = user.getLastLogin();
+		this.accountStatus = user.getAccountStatus();
+		this.password = user.getPassword();
+		this.salt = user.getSalt();
 	}
-	
 	public User(HttpServletRequest request) {
+		this.username = request.getParameter("username");
+		this.email = request.getParameter("email");
+		this.password = request.getParameter("password");
 	}
 
 	public int getUserID() {
@@ -69,11 +64,11 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	private void setAccountStatus(String accountStatus) {
+	public void setAccountStatus(String accountStatus) {
 		this.accountStatus = accountStatus;
 	}
 
-	private void setLastLogin(String lastLogin) {
+	public void setLastLogin(String lastLogin) {
 		this.lastLogin = lastLogin;
 	}
 

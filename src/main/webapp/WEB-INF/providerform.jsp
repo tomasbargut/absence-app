@@ -3,16 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <t:base>
 	<form action="provider" method="post">
-		<label for="name">Nombre completo</label>
-		<input type="text" name="name">
-		<label for="phone">Telefono</label>
-        <input type="phone" name="phone">
-        <label for="postal_code">Codigo Postal</label>
-        <input type="text" name="postal_code">
+		<label for="fullname">Nombre completo</label>
+		<input type="text" name="fullname">
+		<label for="telephone">Telefono</label>
+        <input type="phone" name="telephone">
+        <label for="postalCode">Codigo Postal</label>
+        <input type="text" name="postalCode">
         <label for="street">Domicilio</label>
         <input type="text" name="street">
-        <label for="birth_date">Fecha de nacimiento</label>
-        <input type="text" name="birth_date">
+        <label for="birthDate">Fecha de nacimiento</label>
+        <input type="date" name="birthDate">
         <input type = "submit" value = "Ser proveedor" />
 	</form>
 </t:base>

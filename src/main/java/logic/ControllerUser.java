@@ -3,27 +3,22 @@ package logic;
 import data.DataUser;
 import entities.User;
 import logic.exceptions.UserException;
+import utils.Utils;
 
-public class ControllerCRUDUser {
+public class ControllerUser {
 	private DataUser datauser;
-	public ControllerCRUDUser() {
+	public ControllerUser() {
 		datauser = new DataUser();
 	}
 	
-	public User saveUser(User user) throws Exception{
+	public void save(User user) throws Exception{
+		// TODO IMPLEMENTAR HASH A PASSWORD
 		comprobarUsuario(user);
-		//comprobarProfile(user.getProfile());
-		user = datauser.newUser(user);
-		return user;
+		user.setAccountStatus("activo");
+		user.setLastLogin(Utils.getCurrentTime());
+		datauser.save(user);
 	}
 	
-//	public User retrieveUser()
-	/**
-	 * Se fija y el campo es valido
-	 * @param field
-	 * @return
-	 * @throws Exception
-	 */
 	public boolean isValid(String field) {
 		//Chequea si no estta vacio o nulo
 		if(isNullOrEmpty(field)) {
@@ -51,10 +46,10 @@ public class ControllerCRUDUser {
 		if(!isEmailValid(user.getEmail())) {
 			throw new UserException("Email no valido");
 		}
-		if(datauser.getUserByUsername(user.getUsername()) != null){
+		if(datauser.getByUsername(user.getUsername()) != null){
 			throw new UserException("Nombre de usuario ya usado");
 		}
-		if(datauser.getUserByEmail(user.getEmail()) != null){
+		if(datauser.getByEmail(user.getEmail()) != null){
 			throw new UserException("Nombre de usuario ya usado");
 		}
 	}
@@ -66,7 +61,4 @@ public class ControllerCRUDUser {
 	private boolean isNullOrEmpty(String str) {
 		return (str == null || str.isEmpty());
 	}
-	
-	
-	
 }

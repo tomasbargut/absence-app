@@ -52,10 +52,10 @@ public class DataRequest {
 		}
 	}
 
-	public ArrayList<Request> all() throws Exception {
-		Connection conn = ConnectorBuilder.getConnector();
+	public ArrayList<Request> all(){
 		ArrayList<Request> ProvisionRequestList = new ArrayList<Request>();
 		try {
+			Connection conn = ConnectorBuilder.getConnector();
 			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM request");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
