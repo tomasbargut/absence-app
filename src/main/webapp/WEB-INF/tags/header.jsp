@@ -13,7 +13,7 @@
 			<a href="me" class="nav-link">${user.getUsername()}</a>
 		</li>
 		<li class="nav-item">
-			<a href="signout" class="nav-link">signout</a>
+			<a href="logout" class="nav-link">Log out</a>
 		</li>
 	</c:if>
 	<c:if test="${user == null }">
@@ -21,7 +21,7 @@
 			<a href="singup" class="nav-link">Sing up</a>
 		</li>
 		<li class="nav-item">
-			<a href="singin" class="nav-link">Sing in</a>
+			<a href="login" class="nav-link">Login</a>
 		</li>
 	</c:if>
 	</ul>

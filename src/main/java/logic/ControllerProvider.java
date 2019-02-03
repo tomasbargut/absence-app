@@ -1,26 +1,30 @@
 package logic;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import data.DataProvider;
 import entities.Provider;
 import logic.exceptions.ProviderException;
+import utils.Utils;
 
 public class ControllerProvider {
-	private DataProvider data;
-	private final long EDAD_MAX = 18 * 365 * 24 * 1000;
-	
+	private DataProvider dataProvider;
+	private final long EDAD_MAX = 18*365*1000;
+
 	public ControllerProvider() {
-		data = new DataProvider();
+		dataProvider = new DataProvider();
 	}
 	
-	public Provider save_provider(Provider provider) throws Exception{
-		/*if(new SimpleDateFormat("yyyyMMdd").parse(provider.getBirthdate()).getTime() - new Date().getTime() < EDAD_MAX) {
-			throw new ProviderException("no es mayo de edad");
-		}*/
-		Provider providerite = data.get_provider_by_id(provider.getUser_id());
-		if(providerite != null) {
+	public void save(Provider provider) throws Exception{
+		long ahora = new Date().getTime();
+		long nacimiento = new SimpleDateFormat(Utils.DATE_FORMAT).parse(provider.getBirthdate()).getTime();
+		if(ahora - nacimiento  < EDAD_MAX) {
+			throw new ProviderException("El usuario no es mayor de edad");
+		}
+		if(dataProvider.get(provider.getUserID()) != null) {
 			throw new ProviderException("El wachin ya es proveedor");
 		}
-		provider = this.data.save_provider(provider);
-		return provider;
+		this.dataProvider.save(provider);
 	}
 }

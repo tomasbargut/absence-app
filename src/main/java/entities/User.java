@@ -2,41 +2,43 @@ package entities;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class User {
 	private int userID;
 	private String username;
 	private String password;
 	private String email;
-	private Profile profile;
-	
-
-	public User() {};
-	
+	private String lastLogin;
+	private String accountStatus;
+	private String salt;
+		
 	public User(ResultSet rs) throws SQLException {
 		this.setUserID(rs.getInt("userID"));
 		this.setUsername(rs.getString("username"));
+		this.setLastLogin(rs.getString("lastLogin"));
+		this.setAccountStatus(rs.getString("accountStatus"));
 		this.setEmail(rs.getString("email"));
 		this.setPassword(rs.getString("password"));
 	}
 	
-	public User(int userID, String username, String password, String email, Profile profile) {
-		super();
-		this.userID = userID;
-		this.username = username;
-		this.password = password;
-		this.email = email;
-		this.profile = profile;
+	protected User(User user){
+		this.userID = user.getUserID();
+		this.username = user.getUsername();
+		this.email = user.getEmail();
+		this.lastLogin = user.getLastLogin();
+		this.accountStatus = user.getAccountStatus();
+		this.password = user.getPassword();
+		this.salt = user.getSalt();
 	}
-	
-	public User(int userID, String username, String password, String email) {
-		super();
-		this.userID = userID;
-		this.username = username;
-		this.password = password;
-		this.email = email;
+	public User(HttpServletRequest request) {
+		this.username = request.getParameter("username");
+		this.email = request.getParameter("email");
+		this.password = request.getParameter("password");
 	}
-	
+
 	public int getUserID() {
 		return userID;
 
@@ -62,11 +64,23 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Profile getProfile() {
-		return profile;
+	public void setAccountStatus(String accountStatus) {
+		this.accountStatus = accountStatus;
 	}
-	public void setProfile(Profile profile) {
-		this.profile = profile;
+
+	public void setLastLogin(String lastLogin) {
+		this.lastLogin = lastLogin;
 	}
-	
+
+	public String getLastLogin() {
+		return lastLogin;
+	}
+
+	public String getAccountStatus() {
+		return accountStatus;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
 }

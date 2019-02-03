@@ -2,7 +2,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <t:base>
-	<form method="post" action="singin">
+	<form method="post" action="login">
 	          <label for="username">Username</label>
 	          <input type="text" name="username">
 	          <label for="password">Password</label>
