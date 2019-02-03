@@ -16,6 +16,7 @@
 
   <body>
     <jsp:include page="/WEB-INF/tags/header.jsp" />
+    <jsp:include page="/WEB-INF/include.jsp" />
     <div id="body">
       <jsp:doBody/>
     </div>

@@ -7,6 +7,9 @@
     <div id="testingDiv" class="container-fluid">
         <h2>Testeo</h2>
         <div id="divContact">
+
+            <!--Author notice: This HTML is only for testing purposes, it will be reformatted to a cleaner version later-->
+
             <button id="openContactModal" type="button" class="btn btn-primary">Contactar Proveedor</button>
             <div id="divContactModal" class="modal fade" tabindex="-1" role="dialog" style="display: none">
                 <div class="modal-dialog" role="document">
@@ -18,10 +21,18 @@
                             </h5>
                         </div>
                         <div class="modal-body">
-                            <form class="form-horizontal" role="form">
+                            <form id="formContacto" class="form-horizontal" role="form">
                                 <div class="form-group">
-                                    <label class="control-label" for="inputDate">Para que fecha lo necesitas?</label>
-                                    <div class="col-sm-10">
+                                    <label class="control-label" for="inputMessage">Quieres contarme de que necesitas
+                                        que haga?</label>
+                                    <div class="col-sm-12">
+                                        <input type="textarea" maxlength="120" class="form-control" id="inputMessage"
+                                            placeholder="Tu mensaje aqui." />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label" for="inputDate">Para que fecha me necesitas?</label>
+                                    <div class="col-sm-12">
                                         <input type="date" class="form-control" id="inputDate" placeholder="Fecha" />
                                     </div>
                                 </div>
@@ -36,21 +47,31 @@
                                     </div>
                                 </div>
                             </form>
+                            <div id="divContactoExitoso" style="display: none">
+                                <h6>Hemos enviado tu mensaje!</h6>
+                                <row class="rowComprobanteContacto">
+                                    <h5>Solicitud Nro:</h5>
+                                    <p id="pNroSolicitud"></p>
+                                    <strong>Para:</strong>
+                                    <p id="pReqProvider"></p>
+                                    <strong>Tu Mensaje</strong>
+                                    <p id="pReqMessage"></p>
+                                </row>
+                            </div>
                         </div>
-
                         <!-- Modal Footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">
                                 Volver
                             </button>
                             <button id="btnContactar" type="button" class="btn btn-primary accion">
-                                Contactar
+                                Contactame
                             </button>
                             <button id="btnCancelar" type="button" class="btn btn-danger accion">
                                 Cancelar Contacto
                             </button>
-
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -87,6 +108,7 @@
                 var provisionID = "${provisionID}";
                 var userID = "${userID}";
                 var fechaInicio = $("#inputDate").val;
+                var mensajeDeContacto = $("#inputMessage").val;
                 var telefono = ($('input.compartirContacto').is(':checked')) ? ("${telefono}") : (null)
 
                 var data = {
@@ -95,13 +117,31 @@
                     fechaInicio: fechaInicio,
                     telefono: telefono
                 };
+                //solicitud de proveeduria y formatos post-solicitud del panel modal
                 $.post("${pageContext.request.contextPath}/contacto/realizarContacto", data,
-                    function (res) {
-                        $("#table").html(res);
-                        $("#nuevoNombreComun").val("");
-                        $.unblockUI();
-                    }
-                );
+                        function (req) {}
+                    ).done(function () {
+                        $("#modal-title").text("Contacto Realizado!");
+                        $("#modal-body").empty().replaceWith("#divContactoExitoso").show();;
+                        $("#pNroSolicitud").text("${req.requestID}");
+                        $("#pReqProvider").text("${req.providerFullName}");
+                        $("#pReqMessage").text("${req.requestMessage}");
+                        $("#btnContactar").hide();
+                        $("#btnCancelar").hide();
+                    })
+                    .fail(function () {
+                        $("#modal-title").text("Ocurrio un Error");
+                        $("#modal-body").text(
+                            "Algo ha salido mal, por favor reintenta mas tarde o contacta a un administrador (link/post with stacktrace)."
+                        );
+                        $("#btnContactar").hide();
+                        $("#btnCancelar").hide();
+                    })
+                    .always(function () {
+                        $("#divContactModal").modal('show');
+                    });
+
+
             } else {
                 var provisionID = "${provisionID}";
                 var userID = "${userID}";
@@ -109,7 +149,7 @@
 
                 var data = {
                     provisionID: provisionID,
-                    userID: userID,                    
+                    userID: userID,
                 };
                 $.post("${pageContext.request.contextPath}/contacto/cancelarContacto", data,
                     function (res) {
