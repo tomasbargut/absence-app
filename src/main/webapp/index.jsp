@@ -103,17 +103,15 @@
     //luego se añadira reconocimiento dinamico de estado de esta solicitud, para que el boton SIEMPRE tenga el estado correcto para cada usuario solicitante
     $(".accion").click(function () {
 
-        if ("${userID}" != null) {
+        if ("${user}" != null) {
             if (mode = true) {
-                var provisionID = "${provisionID}";
-                var userID = "${userID}";
+                var publicationID = "${publicationID}";
                 var fechaInicio = $("#inputDate").val;
                 var mensajeDeContacto = $("#inputMessage").val;
                 var telefono = ($('input.compartirContacto').is(':checked')) ? ("${telefono}") : (null)
 
                 var data = {
-                    provisionID: provisionID,
-                    userID: userID,
+                    publicationID: publicationID,
                     fechaInicio: fechaInicio,
                     telefono: telefono
                 };

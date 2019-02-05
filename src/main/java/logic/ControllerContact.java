@@ -1,4 +1,4 @@
-package logic.contact;
+package logic;
 
 import data.*;
 import entities.*;
@@ -21,14 +21,15 @@ public class ControllerContact {
         dataprovision = new DataProvision();
 	}
 	
-	public void save(User user) throws Exception{
-		// TODO IMPLEMENTAR HASH A PASSWORD
-		comprobarUsuario(user);
+	public void newRequest(User user, Integer providerID, String mensaje, String fechaInicio) throws Exception{
+		// TODO IMPLEMENTAR AVISO A PROVEEDOR Y GUARDADO DE REQUEST
+
+		/* comprobarUsuario(user);
 		user.setAccountStatus("activo");
 		user.setLastLogin(Utils.getCurrentTime());
-		datauser.save(user);
+		datauser.save(user); */
 	}
-	
+	/* 
 	public boolean isValid(String field) {
 		//Chequea si no estta vacio o nulo
 		if(isNullOrEmpty(field)) {
@@ -70,5 +71,8 @@ public class ControllerContact {
 	
 	private boolean isNullOrEmpty(String str) {
 		return (str == null || str.isEmpty());
+	} */
+
+	public void deleteRequest(User solicitante, Integer publicationID, String mensaje, String fechaInicio) {
 	}
 }
