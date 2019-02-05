@@ -37,9 +37,6 @@ public class ProviderForm extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		HttpSession session = request.getSession();
-		if(session.getAttribute("user") == null){
-			response.sendRedirect("login");
-		}
 		if(session.getAttribute("provider") != null){
 			response.sendRedirect("me");
 		}else{
