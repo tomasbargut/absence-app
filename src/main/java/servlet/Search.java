@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import entities.User;
 
+//TODO Get Search Parameters and return the desired services
+
 /**
  * Servlet implementation class Search
  */
