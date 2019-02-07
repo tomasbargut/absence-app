@@ -39,6 +39,26 @@ public class DataService {
         return service;
     }
 
+    public Service[] getByKeywords(String[] keyowrds) {
+        Service[] services = null;
+        try {
+            Connection conn = ConnectorBuilder.getConnector();
+            PreparedStatement stmtService = conn.prepareStatement(
+                "select * from services where serviceID = ?"
+            );
+            stmtService.setInt(1, serviceID);
+            ResultSet rs = stmtService.executeQuery();
+            if(rs.next() && rs != null){
+                service = new Service(rs);
+            }
+            conn.close();
+        } catch (Exception e) {
+            // TODO: Implemetar logger
+        }
+        return services[];
+    }
+
+
     public void save(Service service){
         try{
             Connection conn = ConnectorBuilder.getConnector();
