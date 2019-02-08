@@ -20,6 +20,15 @@ public class DataRequest {
 	private DataReview dataReview;
 	private DataReport dataReport;
 
+	//#region
+	private static final String STATUS_SOLICITADA = "solicitado";
+	private static final String STATUS_RESPONDIDA = "respondid";
+	private static final String STATUS_VISTA = "visto";
+	private static final String STATUS_CANCELADA = "cancelado";
+	private static final String STATUS_MODERACION = "moderacio";
+	private static final String STATUS_INHABILITADA = "inhabilit";
+	//#endregion
+
 	public DataRequest() {
 		this.dataService = new DataService();
 		this.dataUser = new DataUser();
@@ -80,5 +89,43 @@ public class DataRequest {
 		}
 
 		return ProvisionRequestList;
+	}
+
+	public boolean deleteRequest(Request solicitud) {
+		Connection conn = ConnectorBuilder.getConnector();
+		try {
+			PreparedStatement stmtReq = null;
+			
+			if (solicitud.getRequestID() != 0) {
+				stmtReq = conn.prepareStatement(
+						"UPDATE requests SET request_statusID = ? WHERE requestID = ? AND requesting_user = ? AND providerID = ? AND serviceID = ? AND request_statusID = ? ");		
+				stmtReq.setString(1, solicitud.getStatus(STATUS_CANCELADA));
+				stmtReq.setInt(2, solicitud.getRequestID());
+				stmtReq.setInt(3, solicitud.getPetitioner().getUserID());
+				stmtReq.setInt(4, solicitud.getProvider().getUserID());
+				stmtReq.setInt(5, solicitud.getService().getServiceID());
+				stmtReq.setString(6, solicitud.getStatus(STATUS_SOLICITADA));
+				stmtReq.executeUpdate();
+			} else {
+				stmtReq = conn.prepareStatement(
+						"UPDATE requests SET request_statusID = ? WHERE requesting_user = ? AND providerID = ? AND serviceID = ? AND request_statusID = ? ");		
+				stmtReq.setString(1, solicitud.getStatus(STATUS_CANCELADA));
+				stmtReq.setInt(2, solicitud.getPetitioner().getUserID());
+				stmtReq.setInt(3, solicitud.getProvider().getUserID());
+				stmtReq.setInt(4, solicitud.getService().getServiceID());
+				stmtReq.setString(5, solicitud.getStatus(STATUS_SOLICITADA));
+				stmtReq.executeUpdate();
+			}
+			ResultSet rs = stmtReq.executeQuery("select last_insert_id() as last_id from requests");
+			Integer lastid = Integer.parseInt(rs.getString("last_id"));
+			conn.close();
+
+			return true;
+
+		} catch (Exception e) {
+			// TODO: IMPLEMENTAR LOGGER
+			return false;
+		}
+		return false;
 	}
 }

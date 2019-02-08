@@ -54,7 +54,8 @@ public class ContactProvider extends HttpServlet {
 
 		String mensaje = Utils.getStringValue(request, "requestMessage", null);
 		String fechaInicio = Utils.getStringValue(request, "fechaInicio", null);
-		Integer publicationID = Utils.getIntValue(request, "publicationID", null);
+		String publicationID = Utils.getStringValue(request, "publicationID", null);
+		Integer requestid = Utils.getIntValue(request, "RequestID", null);
 
 		HttpSession session = request.getSession();
 		User solicitante = (User) request.getAttribute("user");
@@ -65,9 +66,12 @@ public class ContactProvider extends HttpServlet {
 
 		case "SOLICITAR_CONTACTO":
 			try {
-				cc.newRequest(solicitante, publicationID, mensaje, fechaInicio);
-				// TODO Respuesta a panel modal con datos de contacto logrado o error
-
+				if(publicationID != null){
+					Request solicitud = cc.newRequest(solicitante, publicationID, mensaje, fechaInicio);
+					request.setAttribute("solicitud", solicitud);
+				} else {
+					session.setAttribute("error", "La publicacion ha dejado de existir");
+				}
 			} catch (ContactException e) {
 				e.printStackTrace();
 				session.setAttribute("error", e.getMessage());
@@ -84,7 +88,7 @@ public class ContactProvider extends HttpServlet {
 
 		case "CANCELAR_CONTACTO":
 			try {
-				cc.deleteRequest(solicitante, publicationID, mensaje, fechaInicio);
+				cc.deleteRequest(solicitante, publicationID, mensaje, fechaInicio, requestid);
 				// COSAS QUE SE HACEN SI CANCELA CONTACTO
 			} catch (ContactException e) {
 				e.printStackTrace();

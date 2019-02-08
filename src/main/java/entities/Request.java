@@ -30,7 +30,8 @@ public class Request {
 		this.report = report;
 		this.responseDate = rs.getString("responseDate");
 	}
-	public Request(User petitioner, Service service, Provider provider, String requestDate,	String message){
+
+	public Request(User petitioner, Service service, Provider provider, String requestDate, String message) {
 
 		this.petitioner = petitioner;
 		this.service = service;
@@ -70,34 +71,43 @@ public class Request {
 	public Request(HttpServletRequest request) {
 		// TODO: NOT IMPLEMENTED
 	}
-	
+
 	public int getRequestID() {
 		return requestID;
 	}
+
 	public void setRequestID(int requestID) {
 		this.requestID = requestID;
 	}
+
 	public User getPetitioner() {
 		return petitioner;
 	}
+
 	public void setPetitioner(User petitioner) {
 		this.petitioner = petitioner;
 	}
+
 	public Service getService() {
 		return service;
 	}
+
 	public void setService(Service service) {
 		this.service = service;
 	}
+
 	public Provider getProvider() {
 		return provider;
 	}
+
 	public void setProvider(Provider provider) {
 		this.provider = provider;
 	}
+
 	public String getRequestDate() {
 		return requestDate;
 	}
+
 	public void setRequestDate(String requestDate) {
 		this.requestDate = requestDate;
 	}
