@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Login
  */
-@WebFilter({"/me","/provider"})
+@WebFilter({"/me","/provider", "/admin"})
 public class LoginFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {   }
     
@@ -26,7 +26,7 @@ public class LoginFilter implements Filter {
                 HttpSession session = request.getSession();
                 if(session.getAttribute("user") == null) {
                     HttpServletResponse response = (HttpServletResponse) res;
-                    response.sendRedirect("login");
+                    response.sendError(403);
                 }
     }
 
