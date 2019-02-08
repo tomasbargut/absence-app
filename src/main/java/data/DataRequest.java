@@ -19,24 +19,24 @@ public class DataRequest {
 	private DataProvider dataProvider;
 	private DataReview dataReview;
 	private DataReport dataReport;
-	
-	public DataRequest(){
+
+	public DataRequest() {
 		this.dataService = new DataService();
 		this.dataUser = new DataUser();
 		this.dataProvider = new DataProvider();
 	}
+
 	/**
 	 * @author ferna
 	 * @param userProvisionRequest
 	 * @return ProvisionRequest
 	 * @throws Exception
 	 */
-	public void save(Request request) throws Exception {
+	public Integer save(Request request) throws Exception {
 		Connection conn = ConnectorBuilder.getConnector();
 		try {
 			PreparedStatement stmtReq = conn.prepareStatement(
-				"INSERT INTO requests (requesting_userID, providerID, serviceID, requestDate, responseDate, reviewID, request_statusID, reportID) VALUES(?,?,?,?,?,?,?,?)"
-			);
+					"INSERT INTO requests (requesting_userID, providerID, serviceID, requestDate, responseDate, reviewID, request_statusID, reportID) VALUES(?,?,?,?,?,?,?,?)");
 			stmtReq.setInt(1, request.getPetitioner().getUserID());
 			stmtReq.setInt(2, request.getProvider().getUserID());
 			stmtReq.setInt(3, request.getService().getServiceID());
@@ -46,13 +46,20 @@ public class DataRequest {
 			stmtReq.setString(7, request.getStatus());
 			stmtReq.setInt(8, request.getReport().getReportID());
 			stmtReq.executeUpdate();
+
+			ResultSet rs = stmtReq.executeQuery("select last_insert_id() as last_id from requests");
+			Integer lastid = Integer.parseInt(rs.getString("last_id"));
 			conn.close();
+
+			return lastid;
+
 		} catch (Exception e) {
 			// TODO: IMPLEMENTAR LOGGER
+			return null;
 		}
 	}
 
-	public ArrayList<Request> all(){
+	public ArrayList<Request> all() {
 		ArrayList<Request> ProvisionRequestList = new ArrayList<Request>();
 		try {
 			Connection conn = ConnectorBuilder.getConnector();
@@ -64,7 +71,7 @@ public class DataRequest {
 				Provider provider = dataProvider.get(rs.getInt("providerID"));
 				Review review = dataReview.get(rs.getInt("reviewID"));
 				Report report = dataReport.get(rs.getInt("reportID"));
-				Request request = new Request(rs,petitioner, service, provider, review, report);
+				Request request = new Request(rs, petitioner, service, provider, review, report);
 				ProvisionRequestList.add(request);
 			}
 

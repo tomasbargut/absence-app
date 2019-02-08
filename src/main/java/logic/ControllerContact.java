@@ -12,16 +12,33 @@ public class ControllerContact {
     private DataUser datauser;
     private DataProvider dataprovider;
     private DataRequest datarequest;
-    private DataProvision dataprovision;
+    private DataPublication datapublication;
 
 	public ControllerContact() {
         datauser = new DataUser();
         dataprovider = new DataProvider();
         datarequest = new DataRequest();
-        dataprovision = new DataProvision();
+		datapublication = new DataPublication();
 	}
 	
-	public void newRequest(User user, Integer providerID, String mensaje, String fechaInicio) throws Exception{
+	public Request newRequest(User solicitante, String publicationID, String mensaje, String fechaInicio) throws Exception {
+		try {
+			Publication publication = new Publication(publicationID); 
+			datapublication.getOneByID(publication.getProviderID(), publication.getServiceID());
+			
+			Request solicitud = new Request(solicitante, publication.getService(), publication.getProvider(), fechaInicio, mensaje);
+			Integer requestID = datarequest.save(solicitud);
+			if(requestID != null){
+				solicitud.setRequestID(requestID);
+				return solicitud;
+			} else {
+				return null;
+			}
+
+		} catch (Exception ex){
+			//error la publicacion no existe
+
+		}
 		// TODO IMPLEMENTAR AVISO A PROVEEDOR Y GUARDADO DE REQUEST
 
 		/* comprobarUsuario(user);

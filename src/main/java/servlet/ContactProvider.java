@@ -81,6 +81,7 @@ public class ContactProvider extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 			break;
+
 		case "CANCELAR_CONTACTO":
 			try {
 				cc.deleteRequest(solicitante, publicationID, mensaje, fechaInicio);

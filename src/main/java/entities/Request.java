@@ -15,6 +15,8 @@ public class Request {
 	private Review review;
 	private String status;
 	private Report report;
+	private String message;
+	private String response;
 
 	public Request(ResultSet rs, User petitioner, Service service, Provider provider, Review review, Report report)
 			throws SQLException {
@@ -28,8 +30,44 @@ public class Request {
 		this.report = report;
 		this.responseDate = rs.getString("responseDate");
 	}
+	public Request(User petitioner, Service service, Provider provider, String requestDate,	String message){
 
-	public Request(HttpServletRequest request){
+		this.petitioner = petitioner;
+		this.service = service;
+		this.provider = provider;
+		this.requestDate = requestDate;
+		this.message = message;
+	}
+
+	/**
+	 * @return the response
+	 */
+	public String getResponse() {
+		return response;
+	}
+
+	/**
+	 * @param response the response to set
+	 */
+	public void setResponse(String response) {
+		this.response = response;
+	}
+
+	/**
+	 * @return the message
+	 */
+	public String getMessage() {
+		return message;
+	}
+
+	/**
+	 * @param message the message to set
+	 */
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Request(HttpServletRequest request) {
 		// TODO: NOT IMPLEMENTED
 	}
 	
