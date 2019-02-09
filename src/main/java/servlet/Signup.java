@@ -46,21 +46,17 @@ public class Signup extends HttpServlet {
 		HttpSession session = request.getSession();
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/singup.jsp");
 		try {
-			controllerUser.save(user);
-			session.setAttribute("user", user);
-			response.sendRedirect("index.jsp");
+			if(controllerUser.save(user)){
+				session.setAttribute("user", user);
+				response.sendRedirect("index.jsp");
+			}{
+				response.sendError(500);
+			}
 		} catch (UserException e) {
 			System.out.print(e.getMessage());
 			session.setAttribute("error", e.getMessage());
 			dispatcher.forward(request, response);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			session.setAttribute("error", e.getMessage());
-			dispatcher.forward(request, response);
-		} catch (Exception e) {
-			session.setAttribute("error", "Servicio no disponible");
-			dispatcher.forward(request, response);
-		} 
+		}
 	}
 
 }

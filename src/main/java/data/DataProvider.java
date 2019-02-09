@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import javax.servlet.ServletException;
+
 import entities.Provider;
 import entities.Service;
 import entities.User;
@@ -19,8 +21,8 @@ public class DataProvider {
 
 	public Provider get(int userID) {
 		Provider provider = null;
-		try {
-			Connection conn = ConnectorBuilder.getConnector();
+		try (Connection conn = ConnectorBuilder.getConnector()){
+			
 			PreparedStatement stmt = conn.prepareStatement(
 				"SELECT * FROM providers AS p INNER JOIN users AS u ON p.userID=u.userID  WHERE userID = ?"
 			);
@@ -36,18 +38,14 @@ public class DataProvider {
 				}
 				provider = new Provider(rs, services);
 			}
-			conn.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// TODO Implementar logger
 		}
 		return provider;
 	}
 
-	public void save(Provider provider) {
-		try {
-			Connection conn = ConnectorBuilder.getConnector();
-
+	public boolean save(Provider provider) {
+		try(Connection conn = ConnectorBuilder.getConnector()){
 			PreparedStatement stmt = conn.prepareStatement("INSERT INTO providers VALUES(?,?,?,?,?,?)");
 			stmt.setInt(1, provider.getUserID());
 			stmt.setString(2, provider.getName());
@@ -56,8 +54,6 @@ public class DataProvider {
 			stmt.setString(5, provider.getStreet());
 			stmt.setString(6, provider.getBirthdate());
 			stmt.execute();
-			conn.close();
-
 			if (!provider.getServices().isEmpty()) {
 				PreparedStatement stmtService = conn.prepareStatement("INSERT INTO provisions VALUES(?,?)");
 				for (Service service : provider.getServices()) {
@@ -67,7 +63,8 @@ public class DataProvider {
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 }

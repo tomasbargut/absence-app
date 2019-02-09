@@ -57,9 +57,12 @@ public class ProviderForm extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/providerform.jsp");
 		try {
 			Provider provider = new Provider(request, (User)session.getAttribute("user"));
-			controllerProvider.save(provider);
-			request.getSession().setAttribute("provider", provider);
-			response.sendRedirect("me");
+			if(controllerProvider.save(provider)){
+				request.getSession().setAttribute("provider", provider);
+				response.sendRedirect("me");
+			}else{
+				response.sendError(500);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.getSession().setAttribute("error", e.getMessage());

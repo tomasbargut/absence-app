@@ -31,9 +31,9 @@ public class DataRequest {
 	 * @return ProvisionRequest
 	 * @throws Exception
 	 */
-	public void save(Request request) throws Exception {
-		Connection conn = ConnectorBuilder.getConnector();
-		try {
+	public boolean save(Request request) throws Exception {
+		
+		try(Connection conn = ConnectorBuilder.getConnector()) {
 			PreparedStatement stmtReq = conn.prepareStatement(
 				"INSERT INTO requests (requesting_userID, providerID, serviceID, requestDate, responseDate, reviewID, request_statusID, reportID) VALUES(?,?,?,?,?,?,?,?)"
 			);
@@ -49,13 +49,14 @@ public class DataRequest {
 			conn.close();
 		} catch (Exception e) {
 			// TODO: IMPLEMENTAR LOGGER
+			return false;
 		}
+		return true;
 	}
 
 	public ArrayList<Request> all(){
 		ArrayList<Request> ProvisionRequestList = new ArrayList<Request>();
-		try {
-			Connection conn = ConnectorBuilder.getConnector();
+		try(Connection conn = ConnectorBuilder.getConnector();){
 			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM request");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -69,7 +70,7 @@ public class DataRequest {
 			}
 
 		} catch (Exception e) {
-			System.out.println(e);
+			// TODO: IMPLEMENTAR LOGGER
 		}
 
 		return ProvisionRequestList;

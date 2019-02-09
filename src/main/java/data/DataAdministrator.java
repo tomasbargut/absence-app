@@ -13,8 +13,7 @@ public class DataAdministrator {
 
     public Administrator get(int userID) {
         Administrator administrator = null;
-        try {
-            Connection conn = ConnectorBuilder.getConnector();
+        try(Connection conn = ConnectorBuilder.getConnector()) {
             PreparedStatement stmt = conn.prepareStatement(
                 "select * from users as u inner join administrators as a on u.`userID` = a.`userID` where u.`userID` = ?"
             );
@@ -29,9 +28,8 @@ public class DataAdministrator {
         return administrator;
     }
 
-    public void save(Administrator administrator){
-        try{
-            Connection conn = ConnectorBuilder.getConnector();
+    public boolean save(Administrator administrator){
+        try(Connection conn = ConnectorBuilder.getConnector()){
             PreparedStatement stmt = conn.prepareStatement(
                 "INSERT INTO administrators(userID, accessLevel) VALUES(?,?)"
             );
@@ -39,6 +37,8 @@ public class DataAdministrator {
             stmt.setString(2, administrator.getAccessLevel());
         }catch(Exception e){
             //TODO: implementar logger
+            return false;
         }
+        return true;
     }
 }

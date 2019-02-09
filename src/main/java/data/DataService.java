@@ -22,8 +22,7 @@ public class DataService {
 
     public Service get(int serviceID) {
         Service service = null;
-        try {
-            Connection conn = ConnectorBuilder.getConnector();
+        try(Connection conn = ConnectorBuilder.getConnector()) {
             PreparedStatement stmtService = conn.prepareStatement(
                 "select * from services where serviceID = ?"
             );
@@ -32,16 +31,14 @@ public class DataService {
             if(rs.next() && rs != null){
                 service = new Service(rs);
             }
-            conn.close();
         } catch (Exception e) {
             // TODO: Implemetar logger
         }
         return service;
     }
 
-    public void save(Service service){
-        try{
-            Connection conn = ConnectorBuilder.getConnector();
+    public boolean save(Service service){
+        try(Connection conn = ConnectorBuilder.getConnector()){
             PreparedStatement stmt = conn.prepareStatement(
                 "INSERT INTO service(title, desc, categoryID) values(?,?,?)"
             );
@@ -51,6 +48,8 @@ public class DataService {
             stmt.execute();
         }catch(Exception e){
             // TODO: IMPLEMENTAR LOGGER
+            return false;
         }
+        return true;
     }
 }

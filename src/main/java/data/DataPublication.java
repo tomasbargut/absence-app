@@ -23,8 +23,7 @@ public class DataPublication {
     }
 
     public boolean save(Publication publication){
-        try{
-            Connection conn = ConnectorBuilder.getConnector();
+        try(Connection conn = ConnectorBuilder.getConnector()){
             PreparedStatement stmt = conn.prepareStatement(
                 "insert into provisions(`userID`,`serviceID`) values(?,?)"
             );
@@ -39,8 +38,7 @@ public class DataPublication {
 
     public ArrayList<Publication> getByProvider(Provider provider){
         ArrayList<Publication> publications = new ArrayList<Publication>();
-        try {
-            Connection conn = ConnectorBuilder.getConnector();
+        try(Connection conn = ConnectorBuilder.getConnector()){
             PreparedStatement statementPublications = conn.prepareStatement(
                 "select * from provisions where userID = ?"
             );
@@ -59,8 +57,7 @@ public class DataPublication {
 
     public ArrayList<Publication> getByService(Service service){
         ArrayList<Publication> publications = new ArrayList<Publication>();
-        try {
-            Connection conn = ConnectorBuilder.getConnector();
+        try (Connection conn = ConnectorBuilder.getConnector()){
             PreparedStatement statementPublications = conn.prepareStatement(
                 "select * from provisions where serviceID = ?"
             );
