@@ -2,7 +2,6 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +14,6 @@ import entities.*;
 import logic.ControllerContact;
 import logic.exceptions.ContactException;
 import utils.*;
-
-//PLACEHOLDER CLASS
 
 /**
  * Servlet implementation class Contact/Request
@@ -52,10 +49,9 @@ public class ContactProvider extends HttpServlet {
 			throws ServletException, IOException {
 		String action = request.getParameter("ACTION");
 
+		String publicationID = Utils.getStringValue(request, "publicationID", null);
 		String mensaje = Utils.getStringValue(request, "requestMessage", null);
 		String fechaInicio = Utils.getStringValue(request, "fechaInicio", null);
-		String publicationID = Utils.getStringValue(request, "publicationID", null);
-		Integer requestid = Utils.getIntValue(request, "RequestID", null);
 
 		HttpSession session = request.getSession();
 		User solicitante = (User) request.getAttribute("user");
@@ -63,10 +59,31 @@ public class ContactProvider extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/index.jsp");// contact/contactProviderModal
 
 		switch (action) {
+		case "VERIFICAR_CONTACTO":
+			try {
+				if (publicationID != null) {
+					Request solicitud = cc.getRequestIfExists(solicitante, publicationID);
+					request.setAttribute("solicitud", solicitud);
+				} else {
+					session.setAttribute("error", "La publicacion ha dejado de existir");
+				}
+			} catch (ContactException e) {
+				e.printStackTrace();
+				session.setAttribute("error", e.getMessage());
+				dispatcher.forward(request, response);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				session.setAttribute("error", e.getMessage());
+				dispatcher.forward(request, response);
+			} catch (Exception e) {
+				session.setAttribute("error", "Servicio no disponible");
+				dispatcher.forward(request, response);
+			}
+			break;
 
 		case "SOLICITAR_CONTACTO":
 			try {
-				if(publicationID != null){
+				if (publicationID != null) {
 					Request solicitud = cc.newRequest(solicitante, publicationID, mensaje, fechaInicio);
 					request.setAttribute("solicitud", solicitud);
 				} else {
@@ -88,7 +105,7 @@ public class ContactProvider extends HttpServlet {
 
 		case "CANCELAR_CONTACTO":
 			try {
-				cc.deleteRequest(solicitante, publicationID, mensaje, fechaInicio, requestid);
+				cc.deleteRequest(solicitante, publicationID);
 				// COSAS QUE SE HACEN SI CANCELA CONTACTO
 			} catch (ContactException e) {
 				e.printStackTrace();

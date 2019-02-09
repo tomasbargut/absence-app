@@ -5,84 +5,114 @@ import java.sql.SQLException;
 import data.*;
 import entities.*;
 import logic.exceptions.*;
-import utils.Utils;
-
-//PLACEHOLDER CLASS
 
 public class ControllerContact {
-	private DataUser datauser;
-	private DataProvider dataprovider;
 	private DataRequest datarequest;
 	private DataPublication datapublication;
 
 	public ControllerContact() {
-		datauser = new DataUser();
-		dataprovider = new DataProvider();
 		datarequest = new DataRequest();
 		datapublication = new DataPublication();
 	}
 
+	/**
+	 * 
+	 * @param solicitante
+	 * @param publicationID
+	 * @param mensaje
+	 * @param fechaInicio
+	 * @return Saved Request (Full DTO)
+	 * @throws Exception
+	 */
 	public Request newRequest(User solicitante, String publicationID, String mensaje, String fechaInicio)
 			throws Exception {
 		try {
-			Publication publication = new Publication(publicationID);
+			Request requestToSave = null;
 
-			publication = datapublication.getOneByID(publication.getProviderID(), publication.getServiceID());
-
-			if (publication != null) {
-				Request solicitud = new Request(solicitante, publication.getService(), publication.getProvider(),
-						fechaInicio, mensaje);
-				Integer requestID = datarequest.save(solicitud);
+			requestToSave = getRequestIfExists(solicitante, publicationID);
+			if (requestToSave.getRequestID() == 0) {
+				Integer requestID = datarequest.save(requestToSave);
 				if (requestID != null) {
-					solicitud.setRequestID(requestID);
-					return solicitud;
+					requestToSave.setRequestID(requestID);
+
+					//si fue registrada, la retorna entera con ID para mostrar datos confirmatorios.
+					return requestToSave;
 				} else {
 					throw new ContactException("Error, solicitud no registrada");
 				}
 			} else {
 				throw new ContactException("Error, publicacion no encontrada.");
-			}
-
-		} catch (ContactException e) {
-			// error la publicacion no existe
-			return null;
+			}		
 		} catch (SQLException e) {
+			// error general sql
+			return null;
+		}	catch (Exception e) {
 			// error general sql
 			return null;
 		}
 	}
-
-	public String deleteRequest(User solicitante, String publicationID, String mensaje, String fechaInicio,
-			Integer requestIDtoDelete) {
-
+	
+	/**
+	 * 
+	 * @param solicitante
+	 * @param publicationID
+	 * @param requestIDtoDelete
+	 * @return Deletion Status String
+	 * @throws Exception
+	 */
+	public String deleteRequest(User solicitante, String publicationID) throws Exception {
+		// Este metodo no borra datos, solo la busca en DB y actualiza su estado a "cancelada".
+		// RN: No podra "eliminarla" si: 1) no existe la request. 2) La request fue
+		// vista, respondida, moderada, inhibida, borrada.
+		// (Esto ultimo asegura que la publicacion sea la ultima que haya hecho el
+		// usuario)
 		try {
-			Publication publication = new Publication(publicationID);
+			Request requestToDelete = null;
 
-			publication = datapublication.getOneByID(publication.getProviderID(), publication.getServiceID());
-
-			if (publication != null) {
-				Request solicitud = new Request(solicitante, publication.getService(), publication.getProvider(),
-						fechaInicio, mensaje);
-				if (requestIDtoDelete != null) {
-					solicitud.setRequestID(requestIDtoDelete);
-				}
-				boolean deletion = datarequest.deleteRequest(solicitud);
-
+			requestToDelete = getRequestIfExists(solicitante, publicationID);
+			if (requestToDelete.getRequestID() != 0) {
+				boolean deletion = datarequest.deleteRequest(requestToDelete);
 				if (deletion == true) {
 					return "La solicitud ha sido eliminada con exito.";
 				} else {
 					throw new ContactException("La solicitud no existe.");
 				}
-			} else {
-				throw new ContactException("La publicacion no existe.");
 			}
+		} catch (Exception ex) {
+			return null;
+		}
+		return "Si ves esto, algo salio mal.";
+	}
 
-		} catch (ContactException e) {
-			// error la publicacion no existe
-			return null;
-		} catch (SQLException e) {
-			// error general sql
-			return null;
+	/**
+	 * 
+	 * @param solicitante
+	 * @param publicationID
+	 * @return Request with/without ID (if exists/notExists in DB)
+	 * @throws Exception
+	 */
+	public Request getRequestIfExists(User solicitante, String publicationID) throws Exception {
+		// Este metodo realiza ingenieria inversa para reconstruir una Request, para luego validar su existencia contra la DB.
+		
+		// Crea instancia publicacion con solo ID
+		Publication publication = new Publication(publicationID);
+		// Obtiene todos los datos enlazados de la publicacion y la reescribe
+		publication = datapublication.getOneByID(publication.getProviderID(), publication.getServiceID());
+		// Si la publicacion fue obtenida con exito, no sera nula y genero una request a partir de ella
+		// RN: Esto es posible solo porque no puede haber mas de 1 request de un usuario a una publicacion activa.
+		// busco en la DB su ID y lo retorno, si no la encuentro, no existia en DB.
+		if (publication != null) {
+			Request solicitud = new Request(solicitante, publication.getService(), publication.getProvider(), null,
+					null);
+			Integer requestid = datarequest.getIdByAttr(solicitud);
+			if (requestid != 0) {
+				solicitud.setRequestID(requestid);
+				return solicitud;
+			} else {
+				return solicitud;
+			}
+		} else {
+			throw new ContactException("La publicacion ya no existe.");
 		}
 	}
 }

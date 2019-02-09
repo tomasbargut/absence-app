@@ -2,10 +2,20 @@ package entities;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.servlet.http.HttpServletRequest;
 
 public class Request {
+	//Constants
+	//#region
+	public static final String STATUS_SOLICITADA = "solicitado";
+	public static final String STATUS_RESPONDIDA = "respondid";
+	public static final String STATUS_VISTA = "visto";
+	public static final String STATUS_CANCELADA = "cancelado";
+	public static final String STATUS_MODERACION = "moderacio";
+	public static final String STATUS_INHABILITADA = "inhabilit";
+	//#endregion
+
+	//Attributes
 	private int requestID;
 	private User petitioner;
 	private Service service;
