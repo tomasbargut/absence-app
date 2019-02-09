@@ -33,8 +33,8 @@ public class DataRequest {
 	 * @throws Exception
 	 */
 	public Integer save(Request request) throws Exception {
-		Connection conn = ConnectorBuilder.getConnector();
-		try {
+		
+		try(Connection conn = ConnectorBuilder.getConnector()) {
 			PreparedStatement stmtReq = conn.prepareStatement(
 					"INSERT INTO requests (requesting_userID, providerID, serviceID, requestDate, responseDate, reviewID, request_statusID, reportID)"
 							+ " VALUES(?,?,?,?,?,?,?,?)");
@@ -62,8 +62,7 @@ public class DataRequest {
 
 	public ArrayList<Request> all() throws Exception {
 		ArrayList<Request> ProvisionRequestList = new ArrayList<Request>();
-		try {
-			Connection conn = ConnectorBuilder.getConnector();
+		try(Connection conn = ConnectorBuilder.getConnector();){
 			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM request");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -77,7 +76,7 @@ public class DataRequest {
 			}
 
 		} catch (Exception e) {
-			System.out.println(e);
+			// TODO: IMPLEMENTAR LOGGER
 		}
 
 		return ProvisionRequestList;

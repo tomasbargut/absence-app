@@ -22,11 +22,11 @@ public class DataPublication {
         this.dataService = new DataService();
     }
 
-    public boolean save(Publication publication) {
-        try {
-            Connection conn = ConnectorBuilder.getConnector();
-            PreparedStatement stmt = conn.prepareStatement("insert into provisions(`userID`,`serviceID`) values(?,?)");
-            // les falta mapear el servicio???
+    public boolean save(Publication publication){
+        try(Connection conn = ConnectorBuilder.getConnector()){
+            PreparedStatement stmt = conn.prepareStatement(
+                "insert into provisions(`userID`,`serviceID`) values(?,?)"
+            );
             stmt.setInt(1, publication.getProvider().getUserID());
             stmt.setInt(2, publication.getService().getServiceID());
         } catch (Exception e) {
@@ -62,10 +62,17 @@ public class DataPublication {
 
     public ArrayList<Publication> getByProvider(Provider provider) {
         ArrayList<Publication> publications = new ArrayList<Publication>();
+<<<<<<< HEAD
         try {
             Connection conn = ConnectorBuilder.getConnector();
             PreparedStatement statementPublications = conn
                     .prepareStatement("select * from provisions where userID = ?");
+=======
+        try(Connection conn = ConnectorBuilder.getConnector()){
+            PreparedStatement statementPublications = conn.prepareStatement(
+                "select * from provisions where userID = ?"
+            );
+>>>>>>> 2662ae3534864d047c4d72782b5a9ca58cd1bd56
             statementPublications.setInt(1, provider.getUserID());
             ResultSet rs = statementPublications.executeQuery();
             while (rs.next()) {
@@ -81,10 +88,17 @@ public class DataPublication {
 
     public ArrayList<Publication> getByService(Service service) {
         ArrayList<Publication> publications = new ArrayList<Publication>();
+<<<<<<< HEAD
         try {
             Connection conn = ConnectorBuilder.getConnector();
             PreparedStatement statementPublications = conn
                     .prepareStatement("select * from provisions where serviceID = ?");
+=======
+        try (Connection conn = ConnectorBuilder.getConnector()){
+            PreparedStatement statementPublications = conn.prepareStatement(
+                "select * from provisions where serviceID = ?"
+            );
+>>>>>>> 2662ae3534864d047c4d72782b5a9ca58cd1bd56
             statementPublications.setInt(1, service.getServiceID());
             ResultSet rs = statementPublications.executeQuery();
             while (rs.next()) {

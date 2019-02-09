@@ -27,9 +27,8 @@ class DataCategory {
         return category;
     }
 
-    public void save(Category category) {
-        try {
-            Connection conn = ConnectorBuilder.getConnector();
+    public boolean save(Category category) {
+        try (Connection conn = ConnectorBuilder.getConnector()){
             PreparedStatement stmt = conn.prepareStatement(
                 "insert into categories(desc, name) values(?,?)"
             );
@@ -38,6 +37,8 @@ class DataCategory {
             stmt.executeQuery();
         } catch (Exception e) {
             // TODO Implementar Logger
+            return false;
         }
+        return true;
     }
 }
