@@ -38,7 +38,7 @@ public class ProviderForm extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		if(session.getAttribute("provider") != null){
-			response.sendRedirect("me");
+			response.sendError(403);
 		}else{
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/providerform.jsp");
 			dispatcher.forward(request, response);
@@ -59,14 +59,13 @@ public class ProviderForm extends HttpServlet {
 			Provider provider = new Provider(request, (User)session.getAttribute("user"));
 			if(controllerProvider.save(provider)){
 				request.getSession().setAttribute("provider", provider);
-				response.sendRedirect("me");
+				response.sendRedirect(request.getContextPath() + "/me");
 			}else{
 				response.sendError(500);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			request.getSession().setAttribute("error", e.getMessage());
-			dispatcher.forward(request, response);
+			doGet(request, response);
 		}
 	}
 

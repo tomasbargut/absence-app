@@ -1,7 +1,5 @@
 package entities;
 
-import java.sql.SQLException;
-
 /**
  * Publication
  */
@@ -11,7 +9,7 @@ public class Publication {
     private Service service;
     private Provider provider;
 
-    public Publication(Service service, Provider provider) throws SQLException {
+    public Publication(Service service, Provider provider) {
         this.publicationID = Integer.toString(provider.getUserID()).concat(Integer.toString(service.getServiceID())); 
         this.service = service;
         this.provider = provider;

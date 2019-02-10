@@ -1,13 +1,16 @@
 package servlet;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import entities.User;
+import data.DataProvider;
+import entities.Provider;
 
 /**
  * Servlet implementation class UserMe
@@ -19,8 +22,10 @@ public class UserMe extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
+	private DataProvider dataProvider;
     public UserMe() {
-        super();
+		super();
+		dataProvider = new DataProvider();
         // TODO Auto-generated constructor stub
     }
 
@@ -28,7 +33,12 @@ public class UserMe extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getSession().getAttribute("user")!=null) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user")!=null) {
+			Provider provider = (Provider)session.getAttribute("provider");
+			if(provider != null){
+				session.setAttribute("provider", dataProvider.get(provider.getUserID()));
+			}
 			request.getRequestDispatcher("/WEB-INF/me.jsp").forward(request, response);
 		}else {
 			response.sendRedirect("singin");

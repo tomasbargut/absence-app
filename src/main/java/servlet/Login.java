@@ -71,10 +71,10 @@ public class Login extends HttpServlet {
 			}
 		} catch (Exception e) {
 			error = e.getMessage();
+			session.setAttribute("error", error);
 		}
-		if(error != null) {
-			request.setAttribute("error", error);
-			request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
+		if(error != null){ 	// FIX ME: Debe de haber una mejor forma de hacer estos
+			doGet(request, response);
 		}
 	}
 }
