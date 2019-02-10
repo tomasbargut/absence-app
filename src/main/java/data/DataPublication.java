@@ -29,12 +29,8 @@ public class DataPublication {
             );
             stmt.setInt(1, publication.getProvider().getUserID());
             stmt.setInt(2, publication.getService().getServiceID());
-<<<<<<< HEAD
-        } catch (Exception e) {
-=======
             stmt.executeUpdate();
         }catch(Exception e){
->>>>>>> cbc43c294aea7414121306bd75cbb39b7e50aaad
             // TODO: Implementar logger
             return false;
         }
