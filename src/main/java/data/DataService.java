@@ -40,7 +40,7 @@ public class DataService {
     public boolean save(Service service){
         try(Connection conn = ConnectorBuilder.getConnector()){
             PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO service(title, desc, categoryID) values(?,?,?)"
+                "INSERT INTO service(title, desc) values(?,?)"
             );
             stmt.setString(1, service.getTitle());
             stmt.setString(2, service.getDesc());

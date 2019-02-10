@@ -23,7 +23,7 @@ public class ControllerUser {
 	
 	public boolean isValid(String field) {
 		//Chequea si no estta vacio o nulo
-		if(isNullOrEmpty(field)) {
+		if(Utils.isNullOrEmpty(field)) {
 			return false;
 		}
 		//Chequea si tiene la longitud correcta
@@ -60,7 +60,5 @@ public class ControllerUser {
 		return eMail.matches("^(.+)@(.+)$");
 	}
 	
-	private boolean isNullOrEmpty(String str) {
-		return (str == null || str.isEmpty());
-	}
+	
 }

@@ -2,5 +2,5 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <t:base>
-Soy GAY
+<a href="admin/category">Añadir categorias</a>
 </t:base>

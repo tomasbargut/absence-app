@@ -3,15 +3,13 @@ package data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import entities.Category;
 
-class DataCategory {
+public class DataCategory {
     public Category get(int categoryID) {
         Category category = null;
-        try {
-            Connection conn = ConnectorBuilder.getConnector();
+        try(Connection conn = ConnectorBuilder.getConnector()) {
             PreparedStatement stmtCategory = conn.prepareStatement("select * from categories where categoryID = ?");
             stmtCategory.setInt(1, categoryID);
             ResultSet rs = stmtCategory.executeQuery();
@@ -30,11 +28,11 @@ class DataCategory {
     public boolean save(Category category) {
         try (Connection conn = ConnectorBuilder.getConnector()){
             PreparedStatement stmt = conn.prepareStatement(
-                "insert into categories(desc, name) values(?,?)"
+                "insert into categories(`desc`,name) values(?,?)"
             );
             stmt.setString(1, category.getDesc());
             stmt.setString(2, category.getName());
-            stmt.executeQuery();
+            stmt.executeUpdate();
         } catch (Exception e) {
             // TODO Implementar Logger
             return false;
