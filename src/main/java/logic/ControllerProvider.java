@@ -32,6 +32,7 @@ public class ControllerProvider {
 		if(dataProvider.get(provider.getUserID()) != null) {
 			throw new ProviderException("El wachin ya es proveedor");
 		}
+		provider.setPrestige(0);
 		return dataProvider.save(provider);
 	}
 }

@@ -10,7 +10,7 @@ public class Publication {
     private Service service;
     private Provider provider;
 
-    public Publication(Service service, Provider provider) throws SQLException {
+    public Publication(Service service, Provider provider){
         this.service = service;
         this.provider = provider;
     }

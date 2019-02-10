@@ -17,7 +17,7 @@ public class Category {
     }
     public Category(HttpServletRequest request) {
         this.name = request.getParameter("name");
-        this.desc = request.getParameter("description");
+        this.desc = request.getParameter("desc");
 	}
 	/**
      * @return the categoryID

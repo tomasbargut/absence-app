@@ -49,13 +49,13 @@ public class Signup extends HttpServlet {
 			if(controllerUser.save(user)){
 				session.setAttribute("user", user);
 				response.sendRedirect("index.jsp");
-			}{
+			}else{
 				response.sendError(500);
 			}
 		} catch (UserException e) {
 			System.out.print(e.getMessage());
 			session.setAttribute("error", e.getMessage());
-			dispatcher.forward(request, response);
+			doGet(request, response);
 		}
 	}
 

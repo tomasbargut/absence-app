@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import entities.Category;
 import logic.ControllerCategory;
@@ -40,15 +41,17 @@ public class AdminCategory extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Category category = new Category(request);
+        HttpSession session = request.getSession();
         try {
             if(controllerCategory.save(category)){
-                request.setAttribute("success", "ok");
+                session.setAttribute("success", "ok");
                 response.sendRedirect(request.getContextPath()+"/admin/category");
             }else{
                 response.sendError(500);
             }
         } catch (CategoryException e) {
-            request.setAttribute("error", e.getMessage());
+            session.setAttribute("error", e.getMessage());
+            doGet(request, response);
         }
     }
 }
