@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import data.DataAdministrator;
 import data.DataProvider;
 import data.DataUser;
+import entities.Administrator;
 import entities.Provider;
 import entities.User;
 /**
@@ -19,14 +21,16 @@ import entities.User;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private DataUser dataUser ;
-    private DataProvider dataProvider;
+	private DataProvider dataProvider;
+	private DataAdministrator dataAdministrator;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Login() {
         super();
         this.dataUser = new DataUser();
-        this.dataProvider = new DataProvider();
+		this.dataProvider = new DataProvider();
+		this.dataAdministrator = new DataAdministrator();
     }
 
 	/**
@@ -52,7 +56,13 @@ public class Login extends HttpServlet {
 					if(provider != null) {
 						session.setAttribute("provider", provider);
 					}
-					response.sendRedirect("me");
+					Administrator admin = dataAdministrator.get(user.getUserID());
+					if(admin != null){
+						session.setAttribute("administrator", admin);
+						response.sendRedirect(request.getContextPath() + "/admin");
+					}else{
+						response.sendRedirect(request.getContextPath() + "/me");
+					}
 				}else {
 					error = "Grrr...";
 				}
@@ -61,10 +71,10 @@ public class Login extends HttpServlet {
 			}
 		} catch (Exception e) {
 			error = e.getMessage();
+			session.setAttribute("error", error);
 		}
-		if(error != null) {
-			request.setAttribute("error", error);
-			request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
+		if(error != null){ 	// FIX ME: Debe de haber una mejor forma de hacer estos
+			doGet(request, response);
 		}
 	}
 }

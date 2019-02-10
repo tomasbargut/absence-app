@@ -37,11 +37,8 @@ public class ProviderForm extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		HttpSession session = request.getSession();
-		if(session.getAttribute("user") == null){
-			response.sendRedirect("login");
-		}
 		if(session.getAttribute("provider") != null){
-			response.sendRedirect("me");
+			response.sendError(403);
 		}else{
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/providerform.jsp");
 			dispatcher.forward(request, response);
@@ -60,13 +57,15 @@ public class ProviderForm extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/providerform.jsp");
 		try {
 			Provider provider = new Provider(request, (User)session.getAttribute("user"));
-			controllerProvider.save(provider);
-			request.getSession().setAttribute("provider", provider);
-			response.sendRedirect("me");
+			if(controllerProvider.save(provider)){
+				request.getSession().setAttribute("provider", provider);
+				response.sendRedirect(request.getContextPath() + "/me");
+			}else{
+				response.sendError(500);
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			request.getSession().setAttribute("error", e.getMessage());
-			dispatcher.forward(request, response);
+			doGet(request, response);
 		}
 	}
 

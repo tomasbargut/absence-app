@@ -3,6 +3,8 @@ package entities;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class Category {
     private int categoryID;
     private String desc;
@@ -13,7 +15,11 @@ public class Category {
         this.name = rs.getString("name");
         this.desc = rs.getString("desc");
     }
-    /**
+    public Category(HttpServletRequest request) {
+        this.name = request.getParameter("name");
+        this.desc = request.getParameter("desc");
+	}
+	/**
      * @return the categoryID
      */
     public int getCategoryID() {

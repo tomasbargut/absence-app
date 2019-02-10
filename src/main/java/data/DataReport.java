@@ -18,9 +18,8 @@ public class DataReport {
         this.dataAdministrator = new DataAdministrator();
     }
 
-    public void save(Report report){
-        try {
-            Connection conn = ConnectorBuilder.getConnector();
+    public boolean save(Report report){
+        try(Connection conn = ConnectorBuilder.getConnector();){
             PreparedStatement stmt = conn.prepareStatement(
                 "INSERT INTO reports(title, desc, sentDate, answerDate, statusID, administratorID, reportType) values(?,?,?,?,?,?,?)"
             );
@@ -32,16 +31,16 @@ public class DataReport {
             stmt.setInt(6, report.getAdministrator().getUserID());
             stmt.setString(7, report.getReportType());
             stmt.executeUpdate();
-            conn.close();
         } catch (Exception e) {
-            //TODO: handle exception
+            //TODO: handle except
+            return false;
         }
+        return true;
     }
 
     public Report get(int reportID){
         Report report = null;
-        try {
-            Connection conn = ConnectorBuilder.getConnector();
+        try(Connection conn = ConnectorBuilder.getConnector()){
             PreparedStatement stmt = conn.prepareStatement(
                 "SELECT * FROM reports WHERE reportID = ?"
             );
@@ -51,9 +50,8 @@ public class DataReport {
                 Administrator administrator = dataAdministrator.get(rs.getInt("administratedBy"));
                 report = new Report(rs, administrator);
             }
-            conn.close();
         } catch (Exception e) {
-            //TODO: handle exception
+            //TODO: Implementar logger
         }
         return report;
     }

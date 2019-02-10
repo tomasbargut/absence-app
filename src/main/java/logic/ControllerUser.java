@@ -1,5 +1,7 @@
 package logic;
 
+import java.sql.SQLException;
+
 import data.DataUser;
 import entities.User;
 import logic.exceptions.UserException;
@@ -11,17 +13,17 @@ public class ControllerUser {
 		datauser = new DataUser();
 	}
 	
-	public void save(User user) throws Exception{
+	public boolean save(User user) throws UserException{
 		// TODO IMPLEMENTAR HASH A PASSWORD
 		comprobarUsuario(user);
 		user.setAccountStatus("activo");
 		user.setLastLogin(Utils.getCurrentTime());
-		datauser.save(user);
+		return datauser.save(user);
 	}
 	
 	public boolean isValid(String field) {
 		//Chequea si no estta vacio o nulo
-		if(isNullOrEmpty(field)) {
+		if(Utils.isNullOrEmpty(field)) {
 			return false;
 		}
 		//Chequea si tiene la longitud correcta
@@ -36,7 +38,7 @@ public class ControllerUser {
 	}
 	
 	
-	public void comprobarUsuario(User user) throws Exception {
+	public void comprobarUsuario(User user) throws UserException {
 		if(!isValid(user.getUsername())) {
 			throw new UserException("Usuario no valido");
 		}
@@ -58,7 +60,5 @@ public class ControllerUser {
 		return eMail.matches("^(.+)@(.+)$");
 	}
 	
-	private boolean isNullOrEmpty(String str) {
-		return (str == null || str.isEmpty());
-	}
+	
 }
