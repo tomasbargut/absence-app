@@ -21,4 +21,7 @@ public class Utils {
        return formattedDate;
     
     }
+    public static boolean isNullOrEmpty(String str) {
+		return (str == null || str.isEmpty());
+	}
 }
