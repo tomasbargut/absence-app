@@ -116,90 +116,81 @@
     */
     //var publicationID = $("#publicationID").val();
     //var publicationID = "${publicationID}";
-    if ("${user != null}") {
-        var publicationID = "${publicationID}";
-        var action = "VERIFICAR_CONTACTO";
+
+    var publicationID = "${publicationID}";
+    var action = "VERIFICAR_CONTACTO";
+
+    var data = {
+        publicationID: publicationID,
+        ACTION: action
+    };
+
+    //dinamiza el formato inicial del boton que lanza el modal
+    $.post("${pageContext.request.contextPath}/contact", data,
+            function (req) {}
+        ).done(function () {
+            if ("${req.solicitud != null || req.solicitud != ''}") {
+                $("#estadoInicial").text("Contacto realizado el: " + "${req.solicitud.requestDate}");
+                $("#openContactModal").text("Ver Estado");
+                mode = 1;
+            } else {
+                $("#estadoInicial").text("Puedes contactar!");
+                $("#openContactModal").text("Contactar");
+                mode = 0;
+            }
+        })
+        .fail(function () {
+            alert("Error intentando recuperar datos, intenta mas tarde.");
+        });
+
+    //dinamiza el formato inicial del panel modal de contacto
+    $("#openContactModal").click(function () {
+        if (mode == 0) {
+            $(".modal-title").text("Contactar Proveedor");
+        } else {
+            $(".modal-title").text("Cancelar Contacto");
+        }
+        $("#divContactModal").modal('show');
+    });
+
+    $(".accion").click(function () {
+        $("#divContactModal").modal('hide');
+        if (mode == 0) {
+            action == SOLICITAR_CONTACTO;
+            var fechaInicio = $("#inputDate").val;
+            var mensajeDeContacto = $("#inputMessage").val;
+            var telefono = ($('input.compartirContacto').is(':checked')) ? ("${telefono}") : (null);
+
+        } else {
+            action == CANCELAR_CONTACTO;
+        }
 
         var data = {
             publicationID: publicationID,
-            ACTION: action
+            ACTION: action,
+            fechaInicio: fechaInicio,
+            mensaje: mensajeDeContacto,
+            telefono: telefono
         };
 
-        //dinamiza el formato inicial del boton que lanza el modal
-        $.post("${pageContext.request.contextPath}/contact", data,
+        $.post("${pageContext.request.contextPath}/contacto/realizarContacto", data,
                 function (req) {}
             ).done(function () {
-                if ("${req.solicitud != null || req.solicitud != ''}") {
-                    $("#estadoInicial").text("Contacto realizado el: " + "${req.solicitud.requestDate}");
-                    $("#openContactModal").text("Ver Estado");
-                    mode = 1;
-                } else {
-                    $("#estadoInicial").text("Puedes contactar!");
-                    $("#openContactModal").text("Contactar");
-                    mode = 0;
-                }
+                var resultado = "${req.resultado}";
+                setTimeout(function () {
+                    if (resultado != "") {
+                        //reemplazar con modal modificado y cambio de boton
+                        alert("solicitud realizada con exito!");
+                        mode = 1;
+                    } else {
+                        //reemplazar con modal modificado y cambio de boton
+                        alert("solicitud eliminada con exito!");
+                        mode = 0;
+                    }
+                    //recargar pagina?
+                }, 500);
             })
-            .fail(function () {
-                alert("Error intentando recuperar datos, intenta mas tarde.");
-            });
-
-        //dinamiza el formato inicial del panel modal de contacto
-        $("#openContactModal").click(function () {
-            if (mode == 0) {
-                $(".modal-title").text("Contactar Proveedor");
-            } else {
-                $(".modal-title").text("Cancelar Contacto");
-            }
-            $("#divContactModal").modal('show');
-        });
-
-        //dependiendo del formato inicial del panel modal valida si el usuario esta logueado, de estarlo solicita el contacto, caso contrario (transmuta modal) invita a loguearse y se cierra
-        //luego se añadira reconocimiento dinamico de estado de esta solicitud, para que el boton SIEMPRE tenga el estado correcto para cada usuario solicitante
-        $(".accion").click(function () {
-            $("#divContactModal").modal('hide');
-            if (mode == 0) {
-                action == SOLICITAR_CONTACTO;
-                var fechaInicio = $("#inputDate").val;
-                var mensajeDeContacto = $("#inputMessage").val;
-                var telefono = ($('input.compartirContacto').is(':checked')) ? ("${telefono}") : (null);
-
-            } else {
-                action == CANCELAR_CONTACTO;
-            }
-
-            var data = {
-                publicationID: publicationID,
-                ACTION: action,
-                fechaInicio: fechaInicio,
-                mensaje: mensajeDeContacto,
-                telefono: telefono
-            };
-
-            $.post("${pageContext.request.contextPath}/contacto/realizarContacto", data,
-                    function (req) {}
-                ).done(function () {
-                    var resultado = "${req.resultado}";
-                    setTimeout(function () {
-                        if (resultado != "") {
-                            //reemplazar con modal modificado y cambio de boton
-                            alert("solicitud realizada con exito!");
-                            mode = 1;
-                        } else {
-                            //reemplazar con modal modificado y cambio de boton
-                            alert("solicitud eliminada con exito!");
-                            mode = 0;
-                        }
-                        //recargar pagina?
-                    }, 500);
-                })
-                .fail(function () {                    
-                })
-                .always(function () {                   
-                });     
-        });    
-    } else {
-        $("#estadoInicial").text("Debes ingresar para contactar");
-        $("#openContactModal").text("Ingresar");
-        //TODO: levantar modal/redireccion a login.
-    }
+            .fail(function () {})
+            .always(function () {});
+    });
 </script>
