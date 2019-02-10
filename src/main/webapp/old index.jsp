@@ -21,32 +21,49 @@
                             </h5>
                         </div>
                         <div class="modal-body">
-                            <form id="formContacto" class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <label class="control-label" for="inputMessage">Quieres contarme de que necesitas
-                                        que haga?</label>
-                                    <div class="col-sm-12">
-                                        <input type="textarea" maxlength="120" class="form-control" id="inputMessage"
-                                            placeholder="Tu mensaje aqui." />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label" for="inputDate">Para que fecha me necesitas?</label>
-                                    <div class="col-sm-12">
-                                        <input type="date" class="form-control" id="inputDate" placeholder="Fecha" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" class="compartirContacto" /> Compartir mis datos
-                                                de contacto.
-                                            </label>
+                                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
+                                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+                                
+                                <form>
+                                  <div class="form-group">
+                                    <label for="fechaInicio">Fecha tentativa de comienzo del trabajo</label> 
+                                    <div class="input-group">
+                                      <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                          <i class="fa fa-calendar"></i>
                                         </div>
+                                      </div> 
+                                      <input id="fechaInicio" name="fechaInicio" placeholder="dd-mm-aaaa" type="text" aria-describedby="fechaInicioHelpBlock" required="required" class="form-control">
+                                    </div> 
+                                    <span id="fechaInicioHelpBlock" class="form-text text-muted">Esto ayudara al proveedor del servicio a responderte con mayor certidumbre.</span>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="message">Mensaje</label> 
+                                    <textarea id="message" name="message" cols="40" rows="5" aria-describedby="messageHelpBlock" class="form-control"></textarea> 
+                                    <span id="messageHelpBlock" class="form-text text-muted">Ej.: Que necesitas que se haga?</span>
+                                  </div>
+                                  <div class="form-group">
+                                    <label>Que datos de contacto deseas compartir?</label> 
+                                    <div>
+                                      <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input name="checkbox" id="checkbox_0" type="checkbox" class="custom-control-input" value="tel" aria-describedby="checkboxHelpBlock" checked="checked"> 
+                                        <label for="checkbox_0" class="custom-control-label">Telefono</label>
+                                      </div>
+                                      <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input name="checkbox" id="checkbox_1" type="checkbox" class="custom-control-input" value="email" aria-describedby="checkboxHelpBlock"> 
+                                        <label for="checkbox_1" class="custom-control-label">Email</label>
+                                      </div>
+                                      <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input name="checkbox" id="checkbox_2" type="checkbox" aria-describedby="checkboxHelpBlock" class="custom-control-input" value=""> 
+                                        <label for="checkbox_2" class="custom-control-label">Otro</label>
+                                      </div> 
+                                      <span id="checkboxHelpBlock" class="form-text text-muted">Aunque no elijas ninguno, siempre te notificaremos en nuestro sitio.</span>
                                     </div>
-                                </div>
-                            </form>
+                                  </div> 
+                                  <div class="form-group">
+                                    <button name="submit" type="submit" class="btn btn-primary">Contactar</button>
+                                  </div>
+                                </form>
                             <div id="divContactoExitoso" style="display: none">
                                 <h6>Hemos enviado tu mensaje!</h6>
                                 <row class="rowComprobanteContacto">

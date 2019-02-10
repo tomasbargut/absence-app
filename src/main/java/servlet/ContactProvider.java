@@ -105,7 +105,8 @@ public class ContactProvider extends HttpServlet {
 
 		case "CANCELAR_CONTACTO":
 			try {
-				cc.deleteRequest(solicitante, publicationID);
+				String resultado = cc.deleteRequest(solicitante, publicationID);
+				request.setAttribute("resultado", resultado);
 				// COSAS QUE SE HACEN SI CANCELA CONTACTO
 			} catch (ContactException e) {
 				e.printStackTrace();
