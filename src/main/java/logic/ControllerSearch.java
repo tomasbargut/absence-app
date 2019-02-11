@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import entities.Category;
 import entities.Provider;
 import entities.Report;
 import entities.Request;
@@ -44,12 +45,12 @@ public class ControllerSearch {
         //Finish Last
     }
 
-    public ArrayList<Publication> searchByKeywords(String[] keywords) {
+    public ArrayList<Publication> searchByKeywords(ArrayList<String> keywords) {
         ArrayList<Publication> publicationResults = new ArrayList<>();
 		try (Connection conn = ConnectorBuilder.getConnector()){
 			
 			PreparedStatement stmt = conn.prepareStatement(
-				""
+				"SELECT * from services WHERE CONCAT ('serviceID', 'serviceDesc') LIKE '%"+keywords+"%'"
 			);
 			ResultSet rs = stmt.executeQuery();
 			if (rs != null && rs.next()) {
@@ -65,8 +66,21 @@ public class ControllerSearch {
         //Finish Last
     }
 
-    public void searchByCategory(String category) {
-        
+    public Category searchByCategory(String category) {
+        Category categoryResult = null;
+        try (Connection conn = ConnectorBuilder.getConnector()){
+			
+			PreparedStatement stmt = conn.prepareStatement(
+				"SELECT * from sategories WHERE categoryID LIKE '%"+category+"%'"
+			);
+			ResultSet rs = stmt.executeQuery();
+			if (rs != null && rs.next()) {
+			}
+		} catch (Exception e) {
+			// TODO Implementar logger
+			System.out.print(e.getMessage());
+        }
+        return categoryResult;
     }
 
 }
