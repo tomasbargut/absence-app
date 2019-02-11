@@ -1,6 +1,7 @@
 package logic;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,11 +14,10 @@ import entities.Review;
 import entities.Service;
 import entities.User;
 import data.DataService;
-import data.DataProvider;;
+import data.DataProvider;
+import entities.Publication;
 
 
-//TODO Send the parameter values to DataSearch.java and format them to be shown on Search.java
-//code multiple filter selection scenarios
 
 public class ControllerSearch {
 
@@ -36,20 +36,33 @@ public class ControllerSearch {
 
 
     public void searchByPrice(int bottomPrice, int topPrice) {
-        Connection conn = ConnectorBuilder.getConnector();
-        
+        //Connection conn = ConnectorBuilder.getConnector();
+        //Finish Last
     }
 
     public void searchByProximity(int proximity) {
-        
+        //Finish Last
     }
 
-    public void searchByKeywords(String[] keywords) {
-        
+    public ArrayList<Publication> searchByKeywords(String[] keywords) {
+        ArrayList<Publication> publicationResults = new ArrayList<>();
+		try (Connection conn = ConnectorBuilder.getConnector()){
+			
+			PreparedStatement stmt = conn.prepareStatement(
+				""
+			);
+			ResultSet rs = stmt.executeQuery();
+			if (rs != null && rs.next()) {
+			}
+		} catch (Exception e) {
+			// TODO Implementar logger
+			System.out.print(e.getMessage());
+		}
+		return publicationResults;
     }
 
     public void searchServicesByPrestige(int prestige) {
-        
+        //Finish Last
     }
 
     public void searchByCategory(String category) {
