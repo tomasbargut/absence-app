@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.mysql.cj.Session;
+
 import entities.*;
 import logic.ControllerContact;
 import logic.exceptions.ContactException;
@@ -54,7 +56,7 @@ public class ContactProvider extends HttpServlet {
 		String fechaInicio = Utils.getStringValue(request, "fechaInicio", null);
 
 		HttpSession session = request.getSession();
-		User solicitante = (User) request.getAttribute("user");
+		User solicitante = (User)session.getAttribute("user");
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/index.jsp");// contact/contactProviderModal
 
@@ -62,7 +64,7 @@ public class ContactProvider extends HttpServlet {
 		case "VERIFICAR_CONTACTO":
 			try {
 				if (publicationID != null) {
-					Request solicitud = cc.getRequestIfExists(solicitante, publicationID);
+					Request solicitud = cc.getRequestIfExists(solicitante, publicationID); 
 					request.setAttribute("solicitud", solicitud);
 				} else {
 					session.setAttribute("error", "La publicacion ha dejado de existir");

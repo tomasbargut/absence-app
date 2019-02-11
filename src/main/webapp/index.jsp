@@ -118,7 +118,7 @@
     //var publicationID = "${publicationID}";
     if ("${user != null}") {
         //var publicationID = "${publicationID}";
-        var publicationID = "0000000000100023242286";
+        var publicationID = "000000001000000001";
         var action = "VERIFICAR_CONTACTO";
 
         var data = {

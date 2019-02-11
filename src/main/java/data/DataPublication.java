@@ -47,12 +47,12 @@ public class DataPublication {
             statementPublications.setInt(1, proveedor);
             statementPublications.setInt(2, servicio);
             ResultSet rs = statementPublications.executeQuery();
-
+            rs.next();
             Service service = dataService.get(rs.getInt("serviceID"));
             Provider provider = dataProvider.get(rs.getInt("userID"));
             publication = new Publication(service, provider);
 
-            conn.close();           
+            conn.close(); 
 
         } catch (Exception e) {
             // TODO: Implementar logger
