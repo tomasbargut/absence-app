@@ -14,7 +14,9 @@ import entities.Request;
 import entities.Review;
 import entities.Service;
 import entities.User;
-import data.*;
+import data.DataService;
+import data.DataProvider;
+import data.ConnectorBuilder;
 import entities.Publication;
 
 
@@ -44,15 +46,43 @@ public class ControllerSearch {
         //Finish Last
     }
 
-    public ArrayList<Publication> searchByKeywords(ArrayList<String> keywords) {
+    public ArrayList<Publication> searchBySentence(ArrayList<String> keywords) {
         ArrayList<Publication> publicationResults = new ArrayList<>();
-		try (Connection conn = ConnectorBuilder.getConnector()){
-			
+        
+		try (Connection conn = ConnectorBuilder.getConnector()){			
 			PreparedStatement stmt = conn.prepareStatement(
 				"SELECT * from services WHERE CONCAT ('serviceID', 'serviceDesc') LIKE '%"+keywords+"%'"
 			);
 			ResultSet rs = stmt.executeQuery();
 			if (rs != null && rs.next()) {
+			}
+		} catch (Exception e) {
+			// TODO Implementar logger
+			System.out.print(e.getMessage());
+		}
+		return publicationResults;
+    }
+
+    public ArrayList<Publication> searchByKeywords(ArrayList<String> keywords) throws Exception {
+        ArrayList<Publication> publicationResults = new ArrayList<>();
+        String dynamicQueryString = null;
+
+        //Query builder, tal vez sea buena idea crear una util para esto.
+        if(keywords.size() > 1){
+            String firstKeyword = keywords.get(0);
+            keywords.remove(0);
+            dynamicQueryString = "SELECT * FROM services WHERE CONCAT ('serviceID','title', 'desc') LIKE '%"+ firstKeyword + String.join("%' OR LIKE '%", keywords);
+        } else if (keywords.size() == 1){
+            dynamicQueryString = "SELECT * FROM services WHERE CONCAT ('serviceID','title', 'desc') LIKE '%" + keywords.get(0) +"%'";
+        } else { 
+            throw new Exception("error Listado de keywords invalido");
+        }    
+        //consulta a DB con la query      
+		try (Connection conn = ConnectorBuilder.getConnector()){			
+			PreparedStatement stmt = conn.prepareStatement(dynamicQueryString);
+			ResultSet rs = stmt.executeQuery();
+			if (rs != null && rs.next()) {
+                //falta construir todas las publicaciones en base al ID del servicio
 			}
 		} catch (Exception e) {
 			// TODO Implementar logger
