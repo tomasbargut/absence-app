@@ -76,7 +76,7 @@ public class ControllerSearch {
             dynamicQueryString = "SELECT * FROM services WHERE CONCAT ('serviceID','title', 'desc') LIKE '%" + keywords.get(0) +"%'";
         } else { 
             throw new Exception("error Listado de keywords invalido");
-        }   
+        }    
         //consulta a DB con la query      
 		try (Connection conn = ConnectorBuilder.getConnector()){			
 			PreparedStatement stmt = conn.prepareStatement(dynamicQueryString);
