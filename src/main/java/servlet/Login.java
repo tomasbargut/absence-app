@@ -71,9 +71,9 @@ public class Login extends HttpServlet {
 			}
 		} catch (Exception e) {
 			error = e.getMessage();
-			session.setAttribute("error", error);
 		}
 		if(error != null){ 	// FIX ME: Debe de haber una mejor forma de hacer estos
+			session.setAttribute("error", error);
 			doGet(request, response);
 		}
 	}
