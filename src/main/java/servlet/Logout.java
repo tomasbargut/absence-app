@@ -1,31 +1,24 @@
 package servlet;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import data.DataProvider;
-import entities.Provider;
 
 /**
- * Servlet implementation class UserMe
+ * Servlet implementation class Singout
  */
-@WebServlet("/me")
-public class UserMe extends HttpServlet {
+@WebServlet("/logout")
+public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-	private DataProvider dataProvider;
-    public UserMe() {
-		super();
-		dataProvider = new DataProvider();
+    public Logout() {
+        super();
         // TODO Auto-generated constructor stub
     }
 
@@ -33,24 +26,15 @@ public class UserMe extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		if(session.getAttribute("user")!=null) {
-			Provider provider = (Provider)session.getAttribute("provider");
-			if(provider != null){
-				session.setAttribute("provider", dataProvider.get(provider.getUserID()));
-			}
-			request.getRequestDispatcher("/WEB-INF/me.jsp").forward(request, response);
-		}else {
-			response.sendRedirect("singin");
-		}
+		// TODO Auto-generated method stub
+		doPost(request,response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		request.getSession().invalidate();
+		response.sendRedirect("index.jsp");
 	}
-
 }
