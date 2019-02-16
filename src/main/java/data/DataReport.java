@@ -21,15 +21,16 @@ public class DataReport {
     public boolean save(Report report){
         try(Connection conn = ConnectorBuilder.getConnector();){
             PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO reports(title, desc, sentDate, answerDate, statusID, administratorID, reportType) values(?,?,?,?,?,?,?)"
+                "INSERT INTO reports(title, `desc`, sentDate, answerDate, `statusID`, `administratorID`, reportType, `serviceID`) values(?,?,?,?,?,?,?,?)"
             );
-            stmt.setString(1,report.getTilte());
+            stmt.setString(1,report.getTitle());
             stmt.setString(2, report.getDesc());
             stmt.setString(3, report.getSentDate());
             stmt.setString(4, report.getAnswerDate());
             stmt.setString(5, report.getStatus());
             stmt.setInt(6, report.getAdministrator().getUserID());
             stmt.setString(7, report.getReportType());
+            stmt.setInt(8, report.getPublication().getService().getServiceID());
             stmt.executeUpdate();
         } catch (Exception e) {
             //TODO: handle except
@@ -54,5 +55,27 @@ public class DataReport {
             //TODO: Implementar logger
         }
         return report;
+    }
+
+	public boolean update(Report report) {
+        try(Connection conn = ConnectorBuilder.getConnector()){
+            PreparedStatement stmt = conn.prepareStatement(
+                "update reports set title=?,`desc`=?,sentDate=?,answerDate=?,`statusID`=?,`administratorID`=?,reportType=?, `serviceID`=? WHERE reportID = ?"
+            );
+            stmt.setString(1,report.getTitle());
+            stmt.setString(2, report.getDesc());
+            stmt.setString(3, report.getSentDate());
+            stmt.setString(4, report.getAnswerDate());
+            stmt.setString(5, report.getStatus());
+            stmt.setInt(6, report.getAdministrator().getUserID());
+            stmt.setString(7, report.getReportType());
+            stmt.setInt(8, report.getPublication().getService().getServiceID());
+            stmt.setInt(9, report.getReportID());
+            stmt.executeUpdate();
+        }catch(Exception e){
+            //TODO: IMPLEMENTAR LOGGER
+            return false;
+        }
+        return true;
     }
 }
