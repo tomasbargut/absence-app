@@ -34,7 +34,3 @@ Sino:
 ---
 
 Bueno esto fue Absence para la Nintendo 64 espero que les haya gustado chau.
-
-### P.D.: No probe el tema de las base de datos porque no tengo la base de datos y ya son las 12, me desperte a las 6 ... BASE DE DATOS!
-
-P.P.D.:No te puese jquery fer me dio paja...

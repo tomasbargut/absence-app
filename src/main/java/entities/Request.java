@@ -2,10 +2,20 @@ package entities;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.servlet.http.HttpServletRequest;
 
 public class Request {
+	//Constants
+	//#region
+	public static final String STATUS_SOLICITADA = "solicitado";
+	public static final String STATUS_RESPONDIDA = "respondid";
+	public static final String STATUS_VISTA = "visto";
+	public static final String STATUS_CANCELADA = "cancelado";
+	public static final String STATUS_MODERACION = "moderacio";
+	public static final String STATUS_INHABILITADA = "inhabilit";
+	//#endregion
+
+	//Attributes
 	private int requestID;
 	private User petitioner;
 	private Service service;
@@ -15,6 +25,8 @@ public class Request {
 	private Review review;
 	private String status;
 	private Report report;
+	private String message;
+	private String response;
 
 	public Request(ResultSet rs, User petitioner, Service service, Provider provider, Review review, Report report)
 			throws SQLException {
@@ -29,37 +41,83 @@ public class Request {
 		this.responseDate = rs.getString("responseDate");
 	}
 
-	public Request(HttpServletRequest request){
+	public Request(User petitioner, Service service, Provider provider, String requestDate, String message) {
+
+		this.petitioner = petitioner;
+		this.service = service;
+		this.provider = provider;
+		this.requestDate = requestDate;
+		this.message = message;
+	}
+
+	/**
+	 * @return the response
+	 */
+	public String getResponse() {
+		return response;
+	}
+
+	/**
+	 * @param response the response to set
+	 */
+	public void setResponse(String response) {
+		this.response = response;
+	}
+
+	/**
+	 * @return the message
+	 */
+	public String getMessage() {
+		return message;
+	}
+
+	/**
+	 * @param message the message to set
+	 */
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Request(HttpServletRequest request) {
 		// TODO: NOT IMPLEMENTED
 	}
-	
+
 	public int getRequestID() {
 		return requestID;
 	}
+
 	public void setRequestID(int requestID) {
 		this.requestID = requestID;
 	}
+
 	public User getPetitioner() {
 		return petitioner;
 	}
+
 	public void setPetitioner(User petitioner) {
 		this.petitioner = petitioner;
 	}
+
 	public Service getService() {
 		return service;
 	}
+
 	public void setService(Service service) {
 		this.service = service;
 	}
+
 	public Provider getProvider() {
 		return provider;
 	}
+
 	public void setProvider(Provider provider) {
 		this.provider = provider;
 	}
+
 	public String getRequestDate() {
 		return requestDate;
 	}
+
 	public void setRequestDate(String requestDate) {
 		this.requestDate = requestDate;
 	}
