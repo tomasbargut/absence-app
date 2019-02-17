@@ -11,7 +11,7 @@
 	<c:if test="${provider != null }">
 		<a href="service">Añadir servicios</a>
 		<c:forEach items="${provider.getServices()}" var="service">
-  			<a href="#">${service.getTitle()}</a>
+  			<a href="${pageContext.request.contextPath}/service/${service.getServiceID()}">${service.getTitle()}</a>
  		</c:forEach>
 	</c:if>
 </t:base>

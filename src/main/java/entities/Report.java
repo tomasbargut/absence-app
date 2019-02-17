@@ -3,19 +3,22 @@ package entities;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class Report {
     private int reportID;
-    private String tilte;
+    private String title;
     private String desc;
     private String sentDate;
     private String answerDate;
     private String status;
     private Administrator administrator;
+    private Publication publication;
     private String reportType;
 
     public Report(ResultSet rs, Administrator admin) throws SQLException {
         this.reportID = rs.getInt("reportID");
-        this.tilte = rs.getString("title");
+        this.title = rs.getString("title");
         this.desc = rs.getString("desc");
         this.sentDate = rs.getString("sentDate");
         this.answerDate = rs.getString("answerDate");
@@ -23,7 +26,12 @@ public class Report {
         this.administrator = admin;
         this.reportType = rs.getString("reportType");
     }
-    /**
+    public Report(HttpServletRequest req, Publication publication) {
+        this.title = req.getParameter("title");
+        this.desc = req.getParameter("desc");
+        this.publication = publication;
+	}
+	/**
      * @return the reportID
      */
     public int getReportID() {
@@ -38,17 +46,17 @@ public class Report {
     }
 
     /**
-     * @return the tilte
+     * @return the title
      */
-    public String getTilte() {
-        return tilte;
+    public String getTitle() {
+        return title;
     }
 
     /**
-     * @param tilte the tilte to set
+     * @param title the title to set
      */
-    public void setTilte(String tilte) {
-        this.tilte = tilte;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**
@@ -133,5 +141,26 @@ public class Report {
      */
     public void setReportType(String reportType) {
         this.reportType = reportType;
+    }
+
+    /**
+     * @param administrator the administrator to set
+     */
+    public void setAdministrator(Administrator administrator) {
+        this.administrator = administrator;
+    }
+
+    /**
+     * @return the publication
+     */
+    public Publication getPublication() {
+        return publication;
+    }
+
+    /**
+     * @param publication the publication to set
+     */
+    public void setPublication(Publication publication) {
+        this.publication = publication;
     }
 }
