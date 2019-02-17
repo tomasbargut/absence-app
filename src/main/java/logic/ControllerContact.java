@@ -21,7 +21,7 @@ public class ControllerContact {
 	 * @param publicationID
 	 * @param mensaje
 	 * @param fechaInicio
-	 * @return Saved Request (Full DTO)
+	 * @return Saved Request (Full DTO) or Error message
 	 * @throws Exception
 	 */
 	public Request newRequest(User solicitante, String publicationID, String mensaje, String fechaInicio)

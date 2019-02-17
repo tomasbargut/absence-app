@@ -3,6 +3,8 @@ package entities;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Request {
 	//Constants
@@ -176,5 +178,29 @@ public class Request {
 	 */
 	public void setResponseDate(String responseDate) {
 		this.responseDate = responseDate;
+	}
+
+
+	@Override
+	public String toString() {
+		return "{" +
+			" requestID='" + getRequestID() + "'" +
+			", petitioner='" + getPetitioner() + "'" +
+			", service='" + getService() + "'" +
+			", provider='" + getProvider() + "'" +
+			", requestDate='" + getRequestDate() + "'" +
+			", responseDate='" + getResponseDate() + "'" +
+			", review='" + getReview() + "'" +
+			", status='" + getStatus() + "'" +
+			", report='" + getReport() + "'" +
+			", message='" + getMessage() + "'" +
+			", response='" + getResponse() + "'" +
+			"}";
+	}
+
+	public String toJson(){
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		return gson.toJson(this);
 	}
 }
