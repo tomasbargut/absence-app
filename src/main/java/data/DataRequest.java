@@ -3,7 +3,7 @@ package data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import entities.Provider;
@@ -37,7 +37,7 @@ public class DataRequest {
 		try(Connection conn = ConnectorBuilder.getConnector()) {
 			PreparedStatement stmtReq = conn.prepareStatement(
 					"INSERT INTO requests (requesting_userID, providerID, serviceID, requestDate, responseDate, reviewID, request_statusID, reportID)"
-							+ " VALUES(?,?,?,?,?,?,?,?)");
+							+ " VALUES(?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 			stmtReq.setInt(1, request.getPetitioner().getUserID());
 			stmtReq.setInt(2, request.getProvider().getUserID());
 			stmtReq.setInt(3, request.getService().getServiceID());
@@ -48,12 +48,10 @@ public class DataRequest {
 			stmtReq.setInt(8, request.getReport().getReportID());
 			stmtReq.executeUpdate();
 
-			ResultSet rs = stmtReq.executeQuery("select last_insert_id() as last_id from requests");
-			Integer lastid = Integer.parseInt(rs.getString("last_id"));
-			conn.close();
-
-			return lastid;
-
+			ResultSet generatedKeys = stmtReq.getGeneratedKeys();
+			generatedKeys.next();
+			request.setRequestID(generatedKeys.getInt(1));
+			return request.getRequestID();
 		} catch (Exception e) {
 			// TODO: IMPLEMENTAR LOGGER
 			return null;
@@ -82,7 +80,7 @@ public class DataRequest {
 		return ProvisionRequestList;
 	}
 
-	public boolean deleteRequest(Request solicitud) throws Exception {
+	public boolean delete(Request solicitud) throws Exception {
 		Connection conn = ConnectorBuilder.getConnector();
 		try {
 			PreparedStatement stmtReq = null;
@@ -107,8 +105,6 @@ public class DataRequest {
 				stmtReq.setString(5, Request.STATUS_SOLICITADA);
 				stmtReq.executeUpdate();
 			}
-			ResultSet rs = stmtReq.executeQuery("select last_insert_id() as last_id from requests");
-			Integer lastid = Integer.parseInt(rs.getString("last_id"));
 			conn.close();
 
 			return true;
@@ -139,5 +135,50 @@ public class DataRequest {
 			return requestID;
 		}
 		return requestID;
+	}
+
+	public boolean update(Request request) {
+		try(Connection conn = ConnectorBuilder.getConnector()){
+			PreparedStatement stmtReq = conn.prepareStatement(
+				"UPDATE request requesting_userID=?, providerID=?, serviceID=?, requestDate=?, responseDate=?, reviewID=?, request_statusID=?, reportID=? WHERE `requestID = ?"
+			);
+			stmtReq.setInt(1, request.getPetitioner().getUserID());
+			stmtReq.setInt(2, request.getProvider().getUserID());
+			stmtReq.setInt(3, request.getService().getServiceID());
+			stmtReq.setString(4, request.getRequestDate());
+			stmtReq.setString(5, request.getResponseDate());
+			stmtReq.setInt(6, request.getReview().getReviewID());
+			stmtReq.setString(7, request.getStatus());
+			stmtReq.setInt(8, request.getReport().getReportID());
+			stmtReq.setInt(9, request.getRequestID());
+			stmtReq.executeUpdate();
+		}catch(Exception e ){
+			//TODO: IMPLEMENTAR LOGGER
+			return false;
+		}
+		return true;
+	}
+
+	public Request get(int requestID) {
+		Request request = null;
+		try(Connection conn = ConnectorBuilder.getConnector()){
+			PreparedStatement stmt = conn.prepareStatement(
+				"select * from requests where id = ?"
+			);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()){
+				User petitioner = dataUser.get(rs.getInt("requesting_userID"));
+				Provider provider = dataProvider.get(rs.getInt("providerID"));
+				Service service = dataService.get(rs.getInt("serviceID"));
+				Report report = dataReport.get(rs.getInt("reportID"));
+				Review review = dataReview.get(rs.getInt("reviewID"));
+				request = new Request(rs, petitioner, service, provider, review, report);
+				return request;
+			}
+		}catch(Exception e){
+			//TODO IMPLEMENTAR LOGGER
+			e.printStackTrace();
+		}
+		return request;
 	}
 }

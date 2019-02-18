@@ -10,10 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import entities.Publication;
 import entities.Report;
+import entities.Request;
+import logic.ControllerContact;
 import logic.ControllerReport;
-import logic.exceptions.ReportException;
+import logic.exceptions.ContactException;
 
 /**
  * Reports
@@ -24,17 +25,14 @@ public class ReportsServlet extends HttpServlet{
     
     private static final long serialVersionUID = 1L;
     private final ControllerReport controllerReport;
+    private final ControllerContact controllerContact;
     public ReportsServlet(){
         super();
         controllerReport = new ControllerReport();
+        controllerContact = new ControllerContact();
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //TODO: EVALUAR UN FILTER CON ESTO
-        HttpSession session = req.getSession();
-        if(session.getAttribute("publication") == null){
-            resp.sendError(404);
-        }
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/reportForm.jsp");
         dispatcher.forward(req, resp);
     }
@@ -42,18 +40,19 @@ public class ReportsServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        if(session.getAttribute("publication") == null){
+        if(session.getAttribute("request") == null){
             resp.sendError(400);
         }
-        Publication publication = (Publication) session.getAttribute("publication");
-        Report report = new Report(req, publication);
+        Request request= (Request) session.getAttribute("request");
+        Report report = new Report(req);
+        request.setReport(report);
         try{
-            if(controllerReport.save(report)){
+            if(controllerContact.update(request)){
                 resp.sendRedirect(req.getContextPath());
             }else{
                 resp.sendError(500);
             }
-        }catch(ReportException e){
+        }catch(ContactException e){
             session.setAttribute("error", e.getMessage());
         }
     }

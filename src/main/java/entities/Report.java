@@ -26,10 +26,9 @@ public class Report {
         this.administrator = admin;
         this.reportType = rs.getString("reportType");
     }
-    public Report(HttpServletRequest req, Publication publication) {
+    public Report(HttpServletRequest req) {
         this.title = req.getParameter("title");
         this.desc = req.getParameter("desc");
-        this.publication = publication;
 	}
 	/**
      * @return the reportID

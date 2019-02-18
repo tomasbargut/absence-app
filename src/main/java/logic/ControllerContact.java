@@ -25,7 +25,7 @@ public class ControllerContact {
 	 * @throws Exception
 	 */
 	public Request newRequest(User solicitante, String publicationID, String mensaje, String fechaInicio)
-			throws Exception {
+			throws ContactException {
 		try {
 			Request requestToSave = null;
 
@@ -71,7 +71,7 @@ public class ControllerContact {
 
 			requestToDelete = getRequestIfExists(solicitante, publicationID);
 			if (requestToDelete.getRequestID() != 0) {
-				boolean deletion = datarequest.deleteRequest(requestToDelete);
+				boolean deletion = datarequest.delete(requestToDelete);
 				if (deletion == true) {
 					return "La solicitud ha sido eliminada con exito.";
 				} else {
@@ -114,5 +114,10 @@ public class ControllerContact {
 		} else {
 			throw new ContactException("La publicacion ya no existe.");
 		}
+	}
+
+	public boolean update(Request request) throws ContactException{
+		
+		return datarequest.update(request);
 	}
 }
