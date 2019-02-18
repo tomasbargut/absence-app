@@ -105,7 +105,7 @@
 
 
 <script type="text/javascript">
-    //0=contactar, 1=cancelar
+    //0=contactar, 1=ver/cancelar contacto
     var mode = 0;
 
     /* 
@@ -116,7 +116,7 @@
     */
     //var publicationID = $("#publicationID").val();
     //var publicationID = "${publicationID}";
-    //var publicationID = "${publicationID}";
+
     var publicationID = "000000001000000001";
     var action = "VERIFICAR_CONTACTO";
 
@@ -126,11 +126,15 @@
     };
 
     //dinamiza el formato inicial del boton que lanza el modal
-    $.post("${pageContext.request.contextPath}/contact", data,
-            function (req) {}
-        ).done(function () {
-            if ("${req.solicitud != null || req.solicitud != ''}") {
-                $("#estadoInicial").text("Contacto realizado el: " + "${req.solicitud.requestDate}");
+    $.ajax({
+        method: "POST",
+        url: "${pageContext.request.contextPath}/contact",
+        data: data,
+        dataType: "json",
+        success: function (res) {
+            console.log(res);
+            if ("${res.requestID != 0}") {
+                $("#estadoInicial").text("Contacto realizado el: " + "${res.requestDate}");
                 $("#openContactModal").text("Ver Estado");
                 mode = 1;
             } else {
@@ -138,10 +142,11 @@
                 $("#openContactModal").text("Contactar");
                 mode = 0;
             }
-        })
-        .fail(function () {
+        },
+        error: function (res) {
             alert("Error intentando recuperar datos, intenta mas tarde.");
-        });
+        }
+    });
 
     //dinamiza el formato inicial del panel modal de contacto
     $("#openContactModal").click(function () {
@@ -173,10 +178,13 @@
             telefono: telefono
         };
 
-        $.post("${pageContext.request.contextPath}/contacto/realizarContacto", data,
-                function (req) {}
-            ).done(function () {
-                var resultado = "${req.resultado}";
+        $.ajax({
+            method: "POST",
+            url: "${pageContext.request.contextPath}/contact",
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                var resultado = "${res.resultado}";
                 setTimeout(function () {
                     if (resultado != "") {
                         //reemplazar con modal modificado y cambio de boton
@@ -189,8 +197,8 @@
                     }
                     //recargar pagina?
                 }, 500);
-            })
-            .fail(function () {})
-            .always(function () {});
+
+            }
+        });
     });
 </script>

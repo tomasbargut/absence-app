@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,7 +39,7 @@ public class ContactProvider extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/contact/contactProviderModal.jsp").forward(request, response);
+		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 
 	/**
@@ -57,7 +58,8 @@ public class ContactProvider extends HttpServlet {
 		User solicitante = (User) session.getAttribute("user");
 		Request solicitud = null;
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/index.jsp");// contact/contactProviderModal
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");// contact/contactProviderModal
+		PrintWriter pw = response.getWriter();
 
 		switch (action) {
 		case "VERIFICAR_CONTACTO":
@@ -65,12 +67,16 @@ public class ContactProvider extends HttpServlet {
 				if (publicationID != null) {
 					if (solicitante != null) {
 						solicitud = cc.getRequestIfExists(solicitante, publicationID);
-						request.setAttribute("solicitud", solicitud);
-						dispatcher.forward(request, response);
+						String jsonSolicitud = solicitud.toJson();
+						System.out.println(jsonSolicitud);
+						
+						request.setAttribute("solicitud", jsonSolicitud);						
+						pw.println(jsonSolicitud);
 					} else {
 						//ver como manejar esto, el login filter debe ser una mejor solucion
 						session.setAttribute("error", "Debes ingresar para continuar");
-						response.sendRedirect("/login");
+						//antes de redirigir guardar locacion para regresar.
+						response.sendRedirect("/login"); //no puede redirigir.
 						dispatcher.forward(request, response);
 					}
 				} else {

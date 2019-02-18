@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Login
  */
-@WebFilter({ "/me", "/provider", "/admin"/*, "/contact"*/ })
+@WebFilter({ "/me", "/provider", "/admin"/* , "/contact" */ })
 public class LoginFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
     }
