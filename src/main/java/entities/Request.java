@@ -2,22 +2,30 @@ package entities;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 public class Request {
-	//Constants
-	//#region
+	// Constants
+	// #region
 	public static final String STATUS_SOLICITADA = "solicitado";
 	public static final String STATUS_RESPONDIDA = "respondid";
 	public static final String STATUS_VISTA = "visto";
 	public static final String STATUS_CANCELADA = "cancelado";
 	public static final String STATUS_MODERACION = "moderacio";
 	public static final String STATUS_INHABILITADA = "inhabilit";
-	//#endregion
+	// #endregion
 
-	//Attributes
+	// Attributes
 	private int requestID;
 	private User petitioner;
 	private Service service;
@@ -112,12 +120,8 @@ public class Request {
 		return provider;
 	}
 
-	public void setProvider(Provider provider) {
-		this.provider = provider;
-	}
-
 	public String getRequestDate() {
-		return requestDate;
+		return this.requestDate;
 	}
 
 	public void setRequestDate(String requestDate) {
@@ -180,27 +184,38 @@ public class Request {
 		this.responseDate = responseDate;
 	}
 
-
 	@Override
 	public String toString() {
-		return "{" +
-			" requestID='" + getRequestID() + "'" +
-			", petitioner='" + getPetitioner() + "'" +
-			", service='" + getService() + "'" +
-			", provider='" + getProvider() + "'" +
-			", requestDate='" + getRequestDate() + "'" +
-			", responseDate='" + getResponseDate() + "'" +
-			", review='" + getReview() + "'" +
-			", status='" + getStatus() + "'" +
-			", report='" + getReport() + "'" +
-			", message='" + getMessage() + "'" +
-			", response='" + getResponse() + "'" +
-			"}";
+		return "{" + " requestID='" + getRequestID() + "'" + ", petitioner='" + getPetitioner() + "'" + ", service='"
+				+ getService() + "'" + ", provider='" + getProvider() + "'" + ", requestDate='" + getRequestDate() + "'"
+				+ ", responseDate='" + getResponseDate() + "'" + ", review='" + getReview() + "'" + ", status='"
+				+ getStatus() + "'" + ", report='" + getReport() + "'" + ", message='" + getMessage() + "'"
+				+ ", response='" + getResponse() + "'" + "}";
 	}
 
-	public String toJson(){
+	public String toJson() {
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.create();
 		return gson.toJson(this);
+	}
+
+
+	public String toJsonSimplified() {
+		Gson gson = new Gson();
+		JsonObject data = new JsonObject();
+
+		data.addProperty("requestID", this.requestID); 
+		data.addProperty("requestDate", this.requestDate); 
+		data.addProperty("petitionerID", this.petitioner.getUserID()); 
+		data.addProperty("petitionerName", this.petitioner.getUsername()); 
+		data.addProperty("providerID", this.provider.getUserID()); 
+		data.addProperty("providerName", this.provider.getName());
+		data.addProperty("providerPhone", this.provider.getPhone()); 
+		data.addProperty("providerEmail", this.provider.getEmail()); 
+		data.addProperty("serviceID", this.service.getServiceID());
+		data.addProperty("serviceTitle", this.service.getTitle());
+		String request = gson.toJson(data);
+		
+		return request;
 	}
 }

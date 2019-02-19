@@ -68,7 +68,7 @@ public class ContactProvider extends HttpServlet {
 					if (solicitante != null) {
 						solicitud = cc.getRequestIfExists(solicitante, publicationID);
 						String jsonSolicitud = solicitud.toJson();
-						System.out.println(jsonSolicitud);
+						System.out.println(jsonSolicitud); 
 						
 						request.setAttribute("solicitud", jsonSolicitud);						
 						pw.println(jsonSolicitud);
