@@ -19,11 +19,7 @@ public class ControllerService {
     }
 	public boolean save(Service service) throws ServiceException {
         validar(service);
-        if(dataService.save(service)){
-            return true;
-        }else{
-            return false;   
-        }
+        return dataService.save(service);
     }
     
     private void validar(Service service) throws ServiceException {
@@ -34,6 +30,10 @@ public class ControllerService {
             throw new ServiceException("Descripcion invalida");
         }
     }
+	public boolean update(Service service) throws ServiceException{
+        validar(service);
+        return dataService.update(service);
+	}
 
     
 }

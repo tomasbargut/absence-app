@@ -3,6 +3,7 @@ package data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import entities.Category;
 
@@ -39,4 +40,28 @@ public class DataCategory {
         }
         return true;
     }
+
+	public ArrayList<Category> getAll() {
+        ArrayList<Category> categories = new ArrayList<Category>();
+        try(Connection conn = ConnectorBuilder.getConnector()){
+            PreparedStatement stmt = conn.prepareStatement(
+                "select * from categories"
+            );
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                categories.add(new Category(rs));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+		return categories;
+	}
+    // TODO: Esto capaz que sirva
+	// public ArrayList<Category> getBatch(ArrayList<Integer> categoriesID) {
+    //     ArrayList<Category> categories = new ArrayList<Category>();
+    //     for(Integer categoryID: categoriesID){
+    //         categories.add(this.get(categoryID));
+    //     }
+    //     return categories;
+	// }
 }

@@ -51,9 +51,6 @@ public class ProviderForm extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		if(session.getAttribute("user") == null){
-			response.sendError(403);
-		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/providerform.jsp");
 		try {
 			Provider provider = new Provider(request, (User)session.getAttribute("user"));

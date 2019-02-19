@@ -105,10 +105,6 @@ public class ContactProvider extends HttpServlet {
 				e.printStackTrace();
 				session.setAttribute("error", e.getMessage());
 				dispatcher.forward(request, response);
-			} catch (SQLException e) {
-				e.printStackTrace();
-				session.setAttribute("error", e.getMessage());
-				dispatcher.forward(request, response);
 			} catch (Exception e) {
 				session.setAttribute("error", "Servicio no disponible");
 				dispatcher.forward(request, response);
