@@ -39,8 +39,8 @@
                                                         </div>
                                                     </div>
                                                     <input id="fechaInicio" name="fechaInicio" placeholder="dd-mm-aaaa"
-                                                        type="date" aria-describedby="fechaInicioHelpBlock" required="required"
-                                                        class="form-control">
+                                                           type="date" aria-describedby="fechaInicioHelpBlock" required="required"
+                                                           class="form-control">
                                                 </div>
                                                 <span id="fechaInicioHelpBlock" class="form-text text-muted">Esto
                                                     ayudara al
@@ -50,7 +50,7 @@
                                             <div class="form-group">
                                                 <label for="message">Mensaje</label>
                                                 <textarea id="message" name="message" cols="40" rows="5"
-                                                    aria-describedby="messageHelpBlock" class="form-control"></textarea>
+                                                          aria-describedby="messageHelpBlock" class="form-control"></textarea>
                                                 <span id="messageHelpBlock" class="form-text text-muted">Ej.: Que
                                                     necesitas que
                                                     se
@@ -61,8 +61,8 @@
                                                 <div>
                                                     <div class="custom-control custom-checkbox custom-control-inline">
                                                         <input name="chkShare" id="chkShare_0" type="checkbox"
-                                                            aria-describedby="chkShareHelpBlock" class="custom-control-input"
-                                                            value="compartirDatos">
+                                                               aria-describedby="chkShareHelpBlock" class="custom-control-input"
+                                                               value="compartirDatos">
                                                         <label for="chkShare_0" class="custom-control-label">Compartir
                                                             datos de contacto</label>
                                                     </div>
@@ -78,8 +78,8 @@
                                         <p style="word-wrap: break-word;">Estas seguro de que deseas cancelar solicitud
                                             de
                                             contacto?</p>>
-                                    </c:when>
-                                </c:choose>
+                                        </c:when>
+                                    </c:choose>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -91,8 +91,8 @@
                                 <c:when test="${mode == 1}">
                                     <button type="button" class="btn btn-danger accion" data-dismiss="modal">Cancelar
                                         Contacto</button>
-                                </c:when>
-                            </c:choose>
+                                    </c:when>
+                                </c:choose>
                         </div>
                     </div>
                 </div>
@@ -109,11 +109,11 @@
     var mode = 0;
 
     /* 
-    @Pirchi:
-        Habilita alguna de las de aca abajo, la primera obtiene el valor de la publicacion si se la asignaste a algun elemento, reemplaza por el ID del elemento.
-        La segunda se la trae del "modelo de datos de la pagina" o en otras palabras, de algun resultado de un jquery.post/get
-        Si necesitas saber mas https://stackoverflow.com/questions/17957933/how-to-get-a-jquery-variable-value
-    */
+     @Pirchi:
+     Habilita alguna de las de aca abajo, la primera obtiene el valor de la publicacion si se la asignaste a algun elemento, reemplaza por el ID del elemento.
+     La segunda se la trae del "modelo de datos de la pagina" o en otras palabras, de algun resultado de un jquery.post/get
+     Si necesitas saber mas https://stackoverflow.com/questions/17957933/how-to-get-a-jquery-variable-value
+     */
     //var publicationID = $("#publicationID").val();
     //var publicationID = "${publicationID}";
 
@@ -133,8 +133,8 @@
         dataType: "json",
         success: function (res) {
             console.log(res);
-            if ("${res.requestID != 0}") {
-                $("#estadoInicial").text("Contacto realizado el: " + "${res.requestDate}");
+            if (res.requestID != 0) {
+                $("#estadoInicial").text("Contacto realizado el: " + res.requestDate);
                 $("#openContactModal").text("Ver Estado");
                 mode = 1;
             } else {
