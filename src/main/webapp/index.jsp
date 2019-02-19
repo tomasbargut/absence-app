@@ -27,7 +27,7 @@
                         <div class="modal-body">
                             <div class="container-fluid" style="height: 100%; width:100%;">
                                 <c:choose>
-                                    <c:when test="${modalMode == 0}">
+                                    <c:when test="${mode == 0}">
                                         <!--StartContactForm------------------------------------------------------------------>
                                         <form>
                                             <div class="form-group">
@@ -39,8 +39,8 @@
                                                         </div>
                                                     </div>
                                                     <input id="fechaInicio" name="fechaInicio" placeholder="dd-mm-aaaa"
-                                                           type="date" aria-describedby="fechaInicioHelpBlock" required="required"
-                                                           class="form-control">
+                                                        type="date" aria-describedby="fechaInicioHelpBlock" required="required"
+                                                        class="form-control">
                                                 </div>
                                                 <span id="fechaInicioHelpBlock" class="form-text text-muted">Esto
                                                     ayudara al
@@ -50,7 +50,7 @@
                                             <div class="form-group">
                                                 <label for="message">Mensaje</label>
                                                 <textarea id="message" name="message" cols="40" rows="5"
-                                                          aria-describedby="messageHelpBlock" class="form-control"></textarea>
+                                                    aria-describedby="messageHelpBlock" class="form-control"></textarea>
                                                 <span id="messageHelpBlock" class="form-text text-muted">Ej.: Que
                                                     necesitas que
                                                     se
@@ -61,8 +61,8 @@
                                                 <div>
                                                     <div class="custom-control custom-checkbox custom-control-inline">
                                                         <input name="chkShare" id="chkShare_0" type="checkbox"
-                                                               aria-describedby="chkShareHelpBlock" class="custom-control-input"
-                                                               value="compartirDatos">
+                                                            aria-describedby="chkShareHelpBlock" class="custom-control-input"
+                                                            value="compartirDatos">
                                                         <label for="chkShare_0" class="custom-control-label">Compartir
                                                             datos de contacto</label>
                                                     </div>
@@ -74,12 +74,12 @@
                                         </form>
                                         <!--EndContactForm------------------------------------------------------------------>
                                     </c:when>
-                                    <c:when test="${modalMode == 1}">
+                                    <c:when test="${mode == 1}">
                                         <p style="word-wrap: break-word;">Estas seguro de que deseas cancelar solicitud
                                             de
                                             contacto?</p>>
-                                        </c:when>
-                                    </c:choose>
+                                    </c:when>
+                                </c:choose>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -91,8 +91,8 @@
                                 <c:when test="${mode == 1}">
                                     <button type="button" class="btn btn-danger accion" data-dismiss="modal">Cancelar
                                         Contacto</button>
-                                    </c:when>
-                                </c:choose>
+                                </c:when>
+                            </c:choose>
                         </div>
                     </div>
                 </div>
@@ -126,6 +126,7 @@
     };
 
     //dinamiza el formato inicial del boton que lanza el modal
+
     $.ajax({
         method: "POST",
         url: "${pageContext.request.contextPath}/contact",
