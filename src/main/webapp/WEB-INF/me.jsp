@@ -83,7 +83,7 @@
 
 		$.ajax({
 			method: "POST",
-			url: "${pageContext.request.contextPath}/notifications",
+			url: "${pageContext.request.contextPath}/contact",
 			data: data,
 			dataType: "json",
 			success: function (res) {

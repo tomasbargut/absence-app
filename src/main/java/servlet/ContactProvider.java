@@ -135,6 +135,47 @@ public class ContactProvider extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 			break;
+
+			case "CARGAR_NOTIFICACIONES":
+            try {
+
+                if (solicitante != null) {
+/*                    solicitud = cn.getNotifications(proveedor);
+                    String jsonNotificaciones = notificaciones.toJsonSimplified();
+                    System.out.println(jsonNotificaciones);
+
+                    request.setAttribute("notificaciones", jsonNotificaciones);
+                    pw.println(jsonNotificaciones);*/ 
+                } else {
+                    // ver como manejar esto, el login filter debe ser una mejor solucion
+                    session.setAttribute("error", "Debes ingresar para continuar");
+                    // antes de redirigir guardar locacion para regresar.
+                    response.sendRedirect("/login"); // no puede redirigir.
+                    dispatcher.forward(request, response);
+				}		
+            } catch (Exception e) {
+                session.setAttribute("error", "Servicio no disponible");
+                dispatcher.forward(request, response);
+            }
+            break;
+
+            case "CARGAR_SOLICITUDES":
+            try {
+
+                if (solicitante!= null) {
+                    //redireccion?
+                } else {
+                    // ver como manejar esto, el login filter debe ser una mejor solucion
+                    session.setAttribute("error", "Debes ingresar para continuar");
+                    // antes de redirigir guardar locacion para regresar.
+                    response.sendRedirect("/login"); // no puede redirigir.
+                    dispatcher.forward(request, response);
+                }          
+            } catch (Exception e) {
+                session.setAttribute("error", "Servicio no disponible");
+                dispatcher.forward(request, response);
+            }
+            break;
 		default:
 			break;
 		}
