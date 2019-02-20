@@ -3,6 +3,8 @@ package entities;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class Review {
     private int reviewID;
     private String title;
@@ -17,7 +19,12 @@ public class Review {
         this.pointsGiven = rs.getInt("pointsGiven");
         this.reviewDate = rs.getString("reviiwDate");
     }
-    /**
+    public Review(HttpServletRequest req) {
+        this.title = req.getParameter("title");
+        this.desc = req.getParameter("desc");
+        this.pointsGiven = Integer.parseInt(req.getParameter("pointsGiven"));
+	}
+	/**
      * @return the reviewID
      */
     public int getReviewID() {

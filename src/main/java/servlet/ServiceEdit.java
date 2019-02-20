@@ -35,7 +35,6 @@ public class ServiceEdit extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Service service = (Service) session.getAttribute("service");
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/ServiceForm.jsp");
         ArrayList<Category> categories = dataCategory.getAll();
         session.setAttribute("categories", categories);

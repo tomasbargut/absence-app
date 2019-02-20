@@ -16,7 +16,11 @@ import javax.servlet.http.HttpSession;
 /**
  * Login
  */
+<<<<<<< HEAD
 @WebFilter({ "/me", "/provider", "/admin"/* , "/contact" */ })
+=======
+@WebFilter(filterName="login")
+>>>>>>> 5eeae669a04412f9aad0a57238314437744d0af1
 public class LoginFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
     }

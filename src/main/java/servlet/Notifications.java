@@ -66,7 +66,7 @@ public class Notifications extends HttpServlet {
             try {
 
                 if (proveedor != null) {
-                    notificaciones = cn.getNotifications(solicitante, publicationID);
+                    notificaciones = cn.getNotifications(proveedor);
                     String jsonNotificaciones = notificaciones.toJsonSimplified();
                     System.out.println(jsonNotificaciones);
 
