@@ -66,10 +66,9 @@
 </t:base>
 
 <script type="text/javascript">
-	var notificationNumber = 0;
 
 	$(document).ready(function () {
-		actualizarNotificaciones();
+		actualizarTablaSolicitudes();
 	});
 
 	$(".accion").click(
@@ -77,8 +76,8 @@
 		alert("PLACEHOLDER: Boton presionado!")
 	);
 
-	function actualizarNotificaciones() {
-
+	function actualizarTablaSolicitudes() {
+		var action = "CARGAR_NOTIFICACIONES"
 		var data = {
 			ACTION: action
 		};
@@ -89,7 +88,7 @@
 			data: data,
 			success: function () {},
 			error: function () {
-				alert("Error intentando recuperar notificaciones, intenta mas tarde.");
+				alert("Error intentando recuperar solicitudes, intenta mas tarde.");
 			}
 		});
 	}

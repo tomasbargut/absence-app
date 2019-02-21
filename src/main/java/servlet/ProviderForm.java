@@ -38,7 +38,7 @@ public class ProviderForm extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		if(session.getAttribute("provider") != null){
-			response.sendError(403);
+			//response.sendError(403);
 		}else{
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/providerform.jsp");
 			dispatcher.forward(request, response);

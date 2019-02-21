@@ -88,7 +88,6 @@
             method: "POST",
             url: "${pageContext.request.contextPath}/contact",
             data: data,
-            dataType: "json",
             success: function () {
 
             },
