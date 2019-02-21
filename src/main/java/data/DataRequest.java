@@ -210,4 +210,32 @@ public class DataRequest {
 
 		return ProvisionRequestList;
 	}
+
+	public ArrayList<Request> getLastNotificationsByProvider(User solicitante) {
+		ArrayList<Request> ProvisionRequestList = new ArrayList<Request>();
+
+		try(Connection conn = ConnectorBuilder.getConnector();){
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM requests WHERE providerID = ? AND request_statusID <> ?");
+			ResultSet rs = stmt.executeQuery();
+			stmt.setInt(1, solicitante.getUserID());
+			stmt.setString(2, Request.STATUS_SOLICITADA);
+			while (rs.next()) {
+				User petitioner = dataUser.get(rs.getInt("requesting_userID"));
+				Service service = dataService.get(rs.getInt("serviceID"));
+				Provider provider = dataProvider.get(rs.getInt("providerID"));
+				Review review = dataReview.get(rs.getInt("reviewID"));
+				Report report = dataReport.get(rs.getInt("reportID"));
+				Request request = new Request(rs, petitioner, service, provider, review, report);
+				request.setStatus(rs.getString("request_statusID"));
+				//request.setMessage(rs.getString("message"));
+				//request.setResponse(rs.getString("response"));	
+				ProvisionRequestList.add(request);
+			}
+
+		} catch (Exception e) {
+			// TODO: IMPLEMENTAR LOGGER
+		}
+
+		return ProvisionRequestList;
+	}
 }

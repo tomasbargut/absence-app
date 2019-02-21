@@ -131,4 +131,8 @@ public class ControllerContact {
 
 		return datarequest.getAllRequestsByProvider(solicitante);
 	}
+
+	public ArrayList<Request> getLastNotificationsByProvider(User solicitante) {
+		return datarequest.getLastNotificationsByProvider(solicitante);
+	}
 }

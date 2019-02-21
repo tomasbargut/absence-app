@@ -151,6 +151,13 @@ public class ContactProvider extends HttpServlet {
 					 * request.setAttribute("notificaciones", jsonNotificaciones);
 					 * pw.println(jsonNotificaciones);
 					 */
+
+					// TODO: Replace with JSON method
+					ArrayList<Request> solicitudes = cc.getLastNotificationsByProvider(solicitante);
+					Integer cantNotificaciones = solicitudes.size();
+					session.setAttribute("solicitudes", solicitudes);
+					session.setAttribute("cantNotificaciones",cantNotificaciones);
+
 				} else {
 					// ver como manejar esto, el login filter debe ser una mejor solucion
 					session.setAttribute("error", "Debes ingresar para continuar");
@@ -167,6 +174,7 @@ public class ContactProvider extends HttpServlet {
 		case "CARGAR_SOLICITUDES":
 			try {
 				if (solicitante != null) {
+					// TODO: Replace with JSON method
 					ArrayList<Request> solicitudes = cc.getAllRequestsByProvider(solicitante);
 					session.setAttribute("solicitudes", solicitudes);
 				} else {

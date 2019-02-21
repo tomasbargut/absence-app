@@ -45,8 +45,8 @@
 							<c:foreach items="${solicitudes}" var="solicitud">
 								<tr id="${solicitud.requestID}">
 									<td class="text-center" style="width:5%; white-space:nowrap; text-align:center;">${solicitud.requestID}</td>
-									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.serviceTitle}</td>
-									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.petitionerName}</td>
+									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.service.serviceTitle}</td>
+									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.petitioner.username}</td>
 									<td class="text-center" style="width:10%; white-space:nowrap;">${solicitud.message}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap; text-align:center;">${solicitud.requestDate}</td>
 									<td class="text-center" style="width:10%; white-space:nowrap;">${solicitud.response}</td>
@@ -57,6 +57,7 @@
 										<button class="btn btn-danger accion" title="Rechazar">Rechazar</button>
 									</td>
 								</tr>
+							</c:foreach>
 						</tbody>
 					</table>
 				</div>
@@ -68,16 +69,16 @@
 	var notificationNumber = 0;
 
 	$(document).ready(function () {
-		actualizarNotificaciones();		
+		actualizarNotificaciones();
 	});
 
-	$(".accion").click(		
+	$(".accion").click(
 		//TODO: Acciones
 		alert("PLACEHOLDER: Boton presionado!")
 	);
 
 	function actualizarNotificaciones() {
-		
+
 		var data = {
 			ACTION: action
 		};
@@ -86,8 +87,7 @@
 			method: "POST",
 			url: "${pageContext.request.contextPath}/contact",
 			data: data,
-			success: function () {				
-			},
+			success: function () {},
 			error: function () {
 				alert("Error intentando recuperar notificaciones, intenta mas tarde.");
 			}

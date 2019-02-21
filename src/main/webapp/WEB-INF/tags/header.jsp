@@ -30,21 +30,24 @@
             <li class="nav-item p-2">
                 <div id="drpNotifications" class="dropdown">
                     <c:choose>
-                        <c:when test="${notificationNumber != 0}">
+                        <c:when test="${cantNotificaciones != 0}">
                             <button id="drpBtnNotifications" class="btn btn-danger dropdown-toggle" type="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">
                                     notifications_active
-                                </i>${notificationNumber}
+                                </i>${cantNotificaciones}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <!-- Listado ultimas 5 notificaciones <button class="dropdown-item" type="button">Action</button>-->
+                                <c:foreach items="${notificaciones}" var="notificacion">
+                                    <a class="dropdown-item" href="me.jsp#divSolicitudes">${notificacion.petitioner.username}
+                                        ha solicitado tus servicios.</a>
+                                </c:foreach>
                             </div>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="myRequests">Ver Todas</a>
+                            <a class="dropdown-item" href="me.jsp#divSolicitudes">Ver Todas</a>
                             <!--^ACA VA EL ENLACE AL LISTADO DE SOLICITUDES QUE VE EL PROVEEDOR (Informe?)-->
                         </c:when>
-                        <c:when test="${notificationNumber == 0}">
+                        <c:when test="${cantNotificaciones == 0}">
                             <button id="drpBtnNotifications" class="btn btn-light dropdown-toggle" type="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">
@@ -52,7 +55,7 @@
                                 </i>0
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2"></div>
-                            <a class="dropdown-item" href="myRequests">Ver Todas</a>
+                            <a class="dropdown-item" href="me.jsp#divSolicitudes">Ver Todas</a>
                             <!--^ACA VA EL ENLACE AL LISTADO DE SOLICITUDES QUE VE EL PROVEEDOR (Informe?)-->
                         </c:when>
                     </c:choose>
@@ -63,7 +66,7 @@
 </nav>
 
 <script type="text/javascript">
-    var notificationNumber = 0;
+    var cantNotificaciones = 0;
 
     $(document).ready(function () {
         actualizarNotificaciones();
@@ -83,17 +86,13 @@
 
         $.ajax({
             method: "POST",
-            url: "${pageContext.request.contextPath}/notifications",
+            url: "${pageContext.request.contextPath}/contact",
             data: data,
             dataType: "json",
-            success: function (res) {
-                if (res.notificationNumber != 0) {
-                    //cargar dropdown lleno o redirigir a pagina
-                } else {
-                    //cargar dropdown vacio?
-                }
+            success: function () {
+
             },
-            error: function (res) {
+            error: function () {
                 alert("Error intentando recuperar notificaciones, intenta mas tarde.");
             }
         });
