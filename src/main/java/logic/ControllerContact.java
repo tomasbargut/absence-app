@@ -1,6 +1,7 @@
 package logic;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import data.*;
 import entities.*;
@@ -35,23 +36,24 @@ public class ControllerContact {
 				if (requestID != null) {
 					requestToSave.setRequestID(requestID);
 
-					//si fue registrada, la retorna entera con ID para mostrar datos confirmatorios.
+					// si fue registrada, la retorna entera con ID para mostrar datos
+					// confirmatorios.
 					return requestToSave;
 				} else {
 					throw new ContactException("Error, solicitud no registrada");
 				}
 			} else {
 				throw new ContactException("Error, publicacion no encontrada.");
-			}		
+			}
 		} catch (SQLException e) {
 			// error general sql
 			return null;
-		}	catch (Exception e) {
+		} catch (Exception e) {
 			// error general sql
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param solicitante
@@ -61,7 +63,8 @@ public class ControllerContact {
 	 * @throws Exception
 	 */
 	public String deleteRequest(User solicitante, String publicationID) throws Exception {
-		// Este metodo no borra datos, solo la busca en DB y actualiza su estado a "cancelada".
+		// Este metodo no borra datos, solo la busca en DB y actualiza su estado a
+		// "cancelada".
 		// RN: No podra "eliminarla" si: 1) no existe la request. 2) La request fue
 		// vista, respondida, moderada, inhibida, borrada.
 		// (Esto ultimo asegura que la publicacion sea la ultima que haya hecho el
@@ -92,14 +95,17 @@ public class ControllerContact {
 	 * @throws Exception
 	 */
 	public Request getRequestIfExists(User solicitante, String publicationID) throws Exception {
-		// Este metodo realiza ingenieria inversa para reconstruir una Request, para luego validar su existencia contra la DB.
-		
+		// Este metodo realiza ingenieria inversa para reconstruir una Request, para
+		// luego validar su existencia contra la DB.
+
 		// Crea instancia publicacion con solo ID
 		Publication publication = new Publication(publicationID);
 		// Obtiene todos los datos enlazados de la publicacion y la reescribe
 		publication = datapublication.getOneByID(publication.getProviderID(), publication.getServiceID());
-		// Si la publicacion fue obtenida con exito, no sera nula y genero una request a partir de ella
-		// RN: Esto es posible solo porque no puede haber mas de 1 request de un usuario a una publicacion activa.
+		// Si la publicacion fue obtenida con exito, no sera nula y genero una request a
+		// partir de ella
+		// RN: Esto es posible solo porque no puede haber mas de 1 request de un usuario
+		// a una publicacion activa.
 		// busco en la DB su ID y lo retorno, si no la encuentro, no existia en DB.
 		if (publication != null) {
 			Request solicitud = new Request(solicitante, publication.getService(), publication.getProvider(), null,
@@ -116,8 +122,13 @@ public class ControllerContact {
 		}
 	}
 
-	public boolean update(Request request) throws ContactException{
-		
+	public boolean update(Request request) throws ContactException {
+
 		return datarequest.update(request);
+	}
+
+	public ArrayList<Request> getAllRequestsByProvider(User solicitante) {
+
+		return datarequest.getAllRequestsByProvider(solicitante);
 	}
 }

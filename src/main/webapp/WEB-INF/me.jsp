@@ -44,15 +44,17 @@
 						<tbody id="tblSolicitudesBody">
 							<c:foreach items="${solicitudes}" var="solicitud">
 								<tr id="${solicitud.requestID}">
-									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.requestID}</td>
+									<td class="text-center" style="width:5%; white-space:nowrap; text-align:center;">${solicitud.requestID}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.serviceTitle}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.petitionerName}</td>
-									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.message}</td>
-									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.response}</td>
-									<td class="text-center" style="width:5%; white-space:nowrap;">
-										<button class="btn btn-info" title="Ver">Ver</button>
-										<button class="btn btn-success" title="Aceptar">Aceptar</button>
-										<button class="btn btn-danger" title="Rechazar">Rechazar</button>
+									<td class="text-center" style="width:10%; white-space:nowrap;">${solicitud.message}</td>
+									<td class="text-center" style="width:5%; white-space:nowrap; text-align:center;">${solicitud.requestDate}</td>
+									<td class="text-center" style="width:10%; white-space:nowrap;">${solicitud.response}</td>
+									<td class="text-center" style="width:5%; white-space:nowrap; text-align:center;">${solicitud.status}</td>
+									<td class="text-center" style="width:10%; white-space:nowrap;">
+										<button class="btn btn-info accion" title="Ver">Ver</button>
+										<button class="btn btn-success accion" title="Aceptar">Aceptar</button>
+										<button class="btn btn-danger accion" title="Rechazar">Rechazar</button>
 									</td>
 								</tr>
 						</tbody>
@@ -66,17 +68,16 @@
 	var notificationNumber = 0;
 
 	$(document).ready(function () {
-		actualizarNotificaciones();
-
-		//Sera reemplazado con tecnologia de webSockets
-		setInterval(function () {
-			actualizarNotificaciones();
-		}, 15000);
+		actualizarNotificaciones();		
 	});
 
-	function actualizarNotificaciones() {
-		var action = "CARGAR_SOLICITUDES"
+	$(".accion").click(		
+		//TODO: Acciones
+		alert("PLACEHOLDER: Boton presionado!")
+	);
 
+	function actualizarNotificaciones() {
+		
 		var data = {
 			ACTION: action
 		};
@@ -85,15 +86,9 @@
 			method: "POST",
 			url: "${pageContext.request.contextPath}/contact",
 			data: data,
-			dataType: "json",
-			success: function (res) {
-				if (res.notificationNumber != 0) {
-					//cargar dropdown lleno o redirigir a pagina
-				} else {
-					//cargar dropdown vacio?
-				}
+			success: function () {				
 			},
-			error: function (res) {
+			error: function () {
 				alert("Error intentando recuperar notificaciones, intenta mas tarde.");
 			}
 		});

@@ -3,6 +3,9 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -55,7 +58,8 @@ public class ContactProvider extends HttpServlet {
 		String fechaInicio = Utils.getStringValue(request, "fechaInicio", null);
 
 		HttpSession session = request.getSession();
-		User solicitante = (User) session.getAttribute("user");
+		User solicitante = (User) session.getAttribute("user"); // Solicitante representa el usuario/proveedor que
+																// solicita la operacion action
 		Request solicitud = null;
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");// contact/contactProviderModal
@@ -68,15 +72,15 @@ public class ContactProvider extends HttpServlet {
 					if (solicitante != null) {
 						solicitud = cc.getRequestIfExists(solicitante, publicationID);
 						String jsonSolicitud = solicitud.toJsonSimplified();
-						System.out.println(jsonSolicitud); 
-						
-						request.setAttribute("solicitud", jsonSolicitud);						
+						System.out.println(jsonSolicitud);
+
+						request.setAttribute("solicitud", jsonSolicitud);
 						pw.println(jsonSolicitud);
 					} else {
-						//ver como manejar esto, el login filter debe ser una mejor solucion
+						// ver como manejar esto, el login filter debe ser una mejor solucion
 						session.setAttribute("error", "Debes ingresar para continuar");
-						//antes de redirigir guardar locacion para regresar.
-						response.sendRedirect("/login"); //no puede redirigir.
+						// antes de redirigir guardar locacion para regresar.
+						response.sendRedirect("/login"); // no puede redirigir.
 						dispatcher.forward(request, response);
 					}
 				} else {
@@ -136,46 +140,44 @@ public class ContactProvider extends HttpServlet {
 			}
 			break;
 
-			case "CARGAR_NOTIFICACIONES":
-            try {
+		case "CARGAR_NOTIFICACIONES":
+			try {
 
-                if (solicitante != null) {
-/*                    solicitud = cn.getNotifications(proveedor);
-                    String jsonNotificaciones = notificaciones.toJsonSimplified();
-                    System.out.println(jsonNotificaciones);
+				if (solicitante != null) {
+					/*
+					 * solicitud = cn.getNotifications(proveedor); String jsonNotificaciones =
+					 * notificaciones.toJsonSimplified(); System.out.println(jsonNotificaciones);
+					 * 
+					 * request.setAttribute("notificaciones", jsonNotificaciones);
+					 * pw.println(jsonNotificaciones);
+					 */
+				} else {
+					// ver como manejar esto, el login filter debe ser una mejor solucion
+					session.setAttribute("error", "Debes ingresar para continuar");
+					// antes de redirigir guardar locacion para regresar.
+					response.sendRedirect("/login"); // no puede redirigir.
+					dispatcher.forward(request, response);
+				}
+			} catch (Exception e) {
+				session.setAttribute("error", "Servicio no disponible");
+				dispatcher.forward(request, response);
+			}
+			break;
 
-                    request.setAttribute("notificaciones", jsonNotificaciones);
-                    pw.println(jsonNotificaciones);*/ 
-                } else {
-                    // ver como manejar esto, el login filter debe ser una mejor solucion
-                    session.setAttribute("error", "Debes ingresar para continuar");
-                    // antes de redirigir guardar locacion para regresar.
-                    response.sendRedirect("/login"); // no puede redirigir.
-                    dispatcher.forward(request, response);
-				}		
-            } catch (Exception e) {
-                session.setAttribute("error", "Servicio no disponible");
-                dispatcher.forward(request, response);
-            }
-            break;
-
-            case "CARGAR_SOLICITUDES":
-            try {
-
-                if (solicitante!= null) {
-                    //redireccion?
-                } else {
-                    // ver como manejar esto, el login filter debe ser una mejor solucion
-                    session.setAttribute("error", "Debes ingresar para continuar");
-                    // antes de redirigir guardar locacion para regresar.
-                    response.sendRedirect("/login"); // no puede redirigir.
-                    dispatcher.forward(request, response);
-                }          
-            } catch (Exception e) {
-                session.setAttribute("error", "Servicio no disponible");
-                dispatcher.forward(request, response);
-            }
-            break;
+		case "CARGAR_SOLICITUDES":
+			try {
+				if (solicitante != null) {
+					ArrayList<Request> solicitudes = cc.getAllRequestsByProvider(solicitante);
+					session.setAttribute("solicitudes", solicitudes);
+				} else {
+					// ver como manejar esto, el login filter debe ser una mejor solucion
+					session.setAttribute("error", "Debes ingresar para continuar");
+				}
+			} catch (Exception e) {
+				session.setAttribute("error", "Servicio no disponible");
+				dispatcher.forward(request, response);
+			}
+			break;
 		default:
 			break;
 		}
