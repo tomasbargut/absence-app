@@ -1,7 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/include.jsp"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <t:base>
+
 	<h1>Dashboard</h1>
 	<c:if test="${success != null}">
 		${success}
@@ -19,9 +22,11 @@
 			<div id="divServicios">
 				<h3>Mis Servicios</h3>
 				<a href="service">Añadir Servicios</a>
-				<c:forEach items="${provider.getServices()}" var="service">
-					<a href="${pageContext.request.contextPath}/service/${service.getServiceID()}">${service.getTitle()}</a>
-				</c:forEach>
+				<div>
+					<c:forEach items="${provider.getServices()}" var="service">
+						<a href="${pageContext.request.contextPath}/service/${service.getServiceID()}">${service.getTitle()}</a>
+					</c:forEach>
+				</div>
 			</div>
 			<div id="divSolicitudes">
 				<h3>Listado de Solicitudes</h3>
@@ -42,7 +47,7 @@
 							<th>Acciones</th>
 						</thead>
 						<tbody id="tblSolicitudesBody">
-							<c:foreach items="${solicitudes}" var="solicitud">
+							<c:forEach items="${solicitudes}" var="solicitud">
 								<tr id="${solicitud.requestID}">
 									<td class="text-center" style="width:5%; white-space:nowrap; text-align:center;">${solicitud.requestID}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.service.serviceTitle}</td>
@@ -57,24 +62,24 @@
 										<button class="btn btn-danger accion" title="Rechazar">Rechazar</button>
 									</td>
 								</tr>
-							</c:foreach>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>
+			</div>
 		</c:if>
 	</div>
 </t:base>
 
 <script type="text/javascript">
-
 	$(document).ready(function () {
 		actualizarTablaSolicitudes();
 	});
 
-	$(".accion").click(
+	/*$(".accion").click(
 		//TODO: Acciones
 		alert("PLACEHOLDER: Boton presionado!")
-	);
+	);*/
 
 	function actualizarTablaSolicitudes() {
 		var action = "CARGAR_NOTIFICACIONES"
@@ -92,3 +97,4 @@
 			}
 		});
 	}
+</script>

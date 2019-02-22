@@ -20,58 +20,57 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
+                            <h4 class="modal-title" id="contactModalLabel">Contacto</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="contactModalLabel">Contacto</h4>
                         </div>
                         <div class="modal-body">
                             <div class="container-fluid" style="height: 100%; width:100%;">
                                 <c:choose>
                                     <c:when test="${mode == 0}">
                                         <!--StartContactForm------------------------------------------------------------------>
-                                        <form>
-                                            <div class="form-group">
-                                                <label for="fechaInicio">Fecha tentativa de comienzo del trabajo</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </div>
+                                        <div class="form-group">
+                                            <label for="fechaInicio">Fecha tentativa de comienzo del trabajo</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input id="fechaInicio" name="fechaInicio" placeholder="dd-mm-aaaa"
-                                                        type="date" aria-describedby="fechaInicioHelpBlock" required="required"
-                                                        class="form-control">
                                                 </div>
-                                                <span id="fechaInicioHelpBlock" class="form-text text-muted">Esto
-                                                    ayudara al
-                                                    proveedor
-                                                    del servicio a responderte con mayor certidumbre.</span>
+                                                <input id="fechaInicio" name="fechaInicio" placeholder="dd-mm-aaaa"
+                                                    type="date" aria-describedby="fechaInicioHelpBlock" required="required"
+                                                    class="form-control">
                                             </div>
-                                            <div class="form-group">
-                                                <label for="message">Mensaje</label>
-                                                <textarea id="message" name="message" cols="40" rows="5"
-                                                    aria-describedby="messageHelpBlock" class="form-control"></textarea>
-                                                <span id="messageHelpBlock" class="form-text text-muted">Ej.: Que
-                                                    necesitas que
-                                                    se
-                                                    haga?</span>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Que datos de contacto deseas compartir?</label>
-                                                <div>
-                                                    <div class="custom-control custom-checkbox custom-control-inline">
-                                                        <input name="chkShare" id="chkShare_0" type="checkbox"
-                                                            aria-describedby="chkShareHelpBlock" class="custom-control-input"
-                                                            value="compartirDatos">
-                                                        <label for="chkShare_0" class="custom-control-label">Compartir
-                                                            datos de contacto</label>
-                                                    </div>
-                                                    <span id="chkShareHelpBlock" class="form-text text-muted">Aunque no
-                                                        compartas tus datos, los pondremos en contacto dentro del
-                                                        sitio.</span>
+                                            <span id="fechaInicioHelpBlock" class="form-text text-muted">Esto
+                                                ayudara al
+                                                proveedor
+                                                del servicio a responderte con mayor certidumbre.</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="message">Mensaje</label>
+                                            <textarea id="message" name="message" cols="40" rows="5" aria-describedby="messageHelpBlock"
+                                                class="form-control"></textarea>
+                                            <span id="messageHelpBlock" class="form-text text-muted">Ej.: Que
+                                                necesitas que
+                                                se
+                                                haga?</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Que datos de contacto deseas compartir?</label>
+                                            <div>
+                                                <div class="custom-control custom-checkbox custom-control-inline">
+                                                    <input name="chkShare" id="chkShare_0" type="checkbox"
+                                                        aria-describedby="chkShareHelpBlock" class="custom-control-input"
+                                                        value="compartirDatos">
+                                                    <label for="chkShare_0" class="custom-control-label">Compartir
+                                                        datos de contacto</label>
                                                 </div>
+                                                <span id="chkShareHelpBlock" class="form-text text-muted">Aunque no
+                                                    compartas tus datos, los pondremos en contacto dentro del
+                                                    sitio.</span>
                                             </div>
-                                        </form>
+                                        </div>
+
                                         <!--EndContactForm------------------------------------------------------------------>
                                     </c:when>
                                     <c:when test="${mode == 1}">

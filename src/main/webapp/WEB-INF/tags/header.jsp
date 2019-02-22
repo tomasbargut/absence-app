@@ -38,10 +38,10 @@
                                 </i>${cantNotificaciones}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <c:foreach items="${notificaciones}" var="notificacion">
+                                <c:forEach items="${notificaciones}" var="notificacion">
                                     <a class="dropdown-item" href="me.jsp#divSolicitudes">${notificacion.petitioner.username}
                                         ha solicitado tus servicios.</a>
-                                </c:foreach>
+                                    </c:forEach>
                             </div>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="me.jsp#divSolicitudes">Ver Todas</a>
