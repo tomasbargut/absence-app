@@ -53,7 +53,12 @@ public class Request {
 		this.requestDate = requestDate;
 		this.message = message;
 	}
-
+	public Request(User petitioner, Service service, Provider provider, String message) {
+		this.petitioner = petitioner;
+		this.service = service;
+		this.provider = provider;
+		this.message = message;
+	}
 	/**
 	 * @return the response
 	 */

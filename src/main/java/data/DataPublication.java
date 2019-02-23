@@ -99,4 +99,23 @@ public class DataPublication {
         return publications;
     }
 
+	public ArrayList<Publication> all() {
+        ArrayList<Publication> publications = new ArrayList<Publication>();
+        try(Connection conn = ConnectorBuilder.getConnector()){
+            PreparedStatement stmt = conn.prepareStatement(
+                "select * from provisions"
+            );
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Service service = dataService.get(rs.getInt("serviceID"));
+                Provider provider = dataProvider.get(rs.getInt("userID"));
+                Publication publication = new Publication(service, provider);
+                publications.add(publication);
+            }
+        }catch(Exception e){
+            // IMPLEMENTAR LOGGER
+        }
+		return publications;
+	}
+
 }

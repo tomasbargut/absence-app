@@ -42,7 +42,7 @@
 							<th>Acciones</th>
 						</thead>
 						<tbody id="tblSolicitudesBody">
-							<c:foreach items="${solicitudes}" var="solicitud">
+							<c:forEach items="${solicitudes}" var="solicitud">
 								<tr id="${solicitud.requestID}">
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.requestID}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.serviceTitle}</td>
@@ -55,6 +55,7 @@
 										<button class="btn btn-danger" title="Rechazar">Rechazar</button>
 									</td>
 								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>

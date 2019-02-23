@@ -32,24 +32,16 @@ public class UserMe extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		if(session.getAttribute("user")!=null) {
-			Provider provider = (Provider)session.getAttribute("provider");
-			if(provider != null){
-				session.setAttribute("provider", dataProvider.get(provider.getUserID()));
-			}
-			request.getRequestDispatcher("/WEB-INF/me.jsp").forward(request, response);
-		}else {
-			response.sendRedirect("singin");
-		}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/me.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

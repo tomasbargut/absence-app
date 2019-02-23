@@ -3,6 +3,7 @@ package data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -32,12 +33,13 @@ public class DataRequest {
 	 * @return ProvisionRequest
 	 * @throws Exception
 	 */
-	public Integer save(Request request) throws Exception {
-		
-		try(Connection conn = ConnectorBuilder.getConnector()) {
+	public Integer save(Request request) {
+
+		try (Connection conn = ConnectorBuilder.getConnector()) {
 			PreparedStatement stmtReq = conn.prepareStatement(
 					"INSERT INTO requests (requesting_userID, providerID, serviceID, requestDate, responseDate, reviewID, request_statusID, reportID)"
-							+ " VALUES(?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+							+ " VALUES(?,?,?,?,?,?,?,?)",
+					Statement.RETURN_GENERATED_KEYS);
 			stmtReq.setInt(1, request.getPetitioner().getUserID());
 			stmtReq.setInt(2, request.getProvider().getUserID());
 			stmtReq.setInt(3, request.getService().getServiceID());
@@ -53,7 +55,7 @@ public class DataRequest {
 			request.setRequestID(generatedKeys.getInt(1));
 			return request.getRequestID();
 		} catch (Exception e) {
-			// TODO: IMPLEMENTAR LOGGER
+			// TODO Auto-generated catch block
 			return null;
 		}
 	}
@@ -61,7 +63,7 @@ public class DataRequest {
 	public ArrayList<Request> all() throws Exception {
 		ArrayList<Request> ProvisionRequestList = new ArrayList<Request>();
 		try(Connection conn = ConnectorBuilder.getConnector();){
-			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM request");
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM requests");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				User petitioner = dataUser.get(rs.getInt("requesting_userID"));
@@ -140,7 +142,7 @@ public class DataRequest {
 	public boolean update(Request request) {
 		try(Connection conn = ConnectorBuilder.getConnector()){
 			PreparedStatement stmtReq = conn.prepareStatement(
-				"UPDATE request requesting_userID=?, providerID=?, serviceID=?, requestDate=?, responseDate=?, reviewID=?, request_statusID=?, reportID=? WHERE `requestID = ?"
+				"UPDATE requests requesting_userID=?, providerID=?, serviceID=?, requestDate=?, responseDate=?, reviewID=?, request_statusID=?, reportID=? WHERE `requestID = ?"
 			);
 			stmtReq.setInt(1, request.getPetitioner().getUserID());
 			stmtReq.setInt(2, request.getProvider().getUserID());

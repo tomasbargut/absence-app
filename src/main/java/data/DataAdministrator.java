@@ -3,6 +3,7 @@ package data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import entities.Administrator;
 
@@ -11,7 +12,7 @@ import entities.Administrator;
  */
 public class DataAdministrator {
 
-    public Administrator get(int userID) {
+    public Administrator get(int userID) throws SQLException {
         Administrator administrator = null;
         try(Connection conn = ConnectorBuilder.getConnector()) {
             PreparedStatement stmt = conn.prepareStatement(
@@ -22,8 +23,6 @@ public class DataAdministrator {
             if(rs.next() && rs != null){
                 administrator = new Administrator(rs);
             }
-        }catch(Exception e){
-            // TODO Implementar Loggerrrrrrrrrrrrrrr
         }
         return administrator;
     }

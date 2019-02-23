@@ -9,11 +9,12 @@
     <div id="testingDiv" class="container-fluid">
         <h2>Testeo</h2>
         <div id="divContact">
-
-            <!--Author notice: This HTML is only for testing purposes, it will be reformatted to a cleaner version later-->
-
-            <p id="estadoInicial"></p> <button id="openContactModal" type="button" class="btn btn-primary">Contactar
-                Proveedor</button>
+            <c:forEach items="${publications}" var="publication">
+                <p id="estadoInicial"></p> 
+                <button id="openContactModal" type="button" class="btn btn-primary">
+                    Contactar ${publication.getProvider().getUsername()}
+                </button>    
+            </c:forEach>
             <div id="divContactModal" class="modal fade" tabindex="-1" role="dialog" style="display: none">
                 <!-- Modal -->
 
@@ -107,48 +108,6 @@
 <script type="text/javascript">
     //0=contactar, 1=ver/cancelar contacto
     var mode = 0;
-
-    /* 
-     @Pirchi:
-     Habilita alguna de las de aca abajo, la primera obtiene el valor de la publicacion si se la asignaste a algun elemento, reemplaza por el ID del elemento.
-     La segunda se la trae del "modelo de datos de la pagina" o en otras palabras, de algun resultado de un jquery.post/get
-     Si necesitas saber mas https://stackoverflow.com/questions/17957933/how-to-get-a-jquery-variable-value
-     */
-    //var publicationID = $("#publicationID").val();
-    //var publicationID = "${publicationID}";
-
-    var publicationID = "000000001000000001";
-    var action = "VERIFICAR_CONTACTO";
-
-    var data = {
-        publicationID: publicationID,
-        ACTION: action
-    };
-
-    //dinamiza el formato inicial del boton que lanza el modal
-
-    $.ajax({
-        method: "POST",
-        url: "${pageContext.request.contextPath}/contact",
-        data: data,
-        dataType: "json",
-        success: function (res) {
-            console.log(res);
-            if (res.requestID != 0) {
-                $("#estadoInicial").text("Contacto realizado el: " + res.requestDate);
-                $("#openContactModal").text("Ver Estado");
-                mode = 1;
-            } else {
-                $("#estadoInicial").text("Puedes contactar!");
-                $("#openContactModal").text("Contactar");
-                mode = 0;
-            }
-        },
-        error: function (res) {
-            alert("Error intentando recuperar datos, intenta mas tarde.");
-        }
-    });
-
     //dinamiza el formato inicial del panel modal de contacto
     $("#openContactModal").click(function () {
         if (mode == 0) {
@@ -185,20 +144,7 @@
             data: data,
             dataType: "json",
             success: function (res) {
-                var resultado = "${res.resultado}";
-                setTimeout(function () {
-                    if (resultado != "") {
-                        //reemplazar con modal modificado y cambio de boton
-                        alert("solicitud realizada con exito!");
-                        mode = 1;
-                    } else {
-                        //reemplazar con modal modificado y cambio de boton
-                        alert("solicitud eliminada con exito!");
-                        mode = 0;
-                    }
-                    //recargar pagina?
-                }, 500);
-
+                alert(res.status);
             }
         });
     });

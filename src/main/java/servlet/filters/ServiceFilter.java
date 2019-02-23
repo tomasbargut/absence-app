@@ -31,7 +31,14 @@ public class ServiceFilter implements Filter {
             throws IOException, ServletException {
                 HttpServletRequest request = (HttpServletRequest) req;
                 HttpServletResponse response = (HttpServletResponse) res;
-                int serviceID = Integer.parseInt(request.getRequestURI().split("/")[3]);
+                Integer serviceID = null;
+                try{
+                    serviceID = Integer.parseInt(request.getRequestURI().split("/")[3]);
+                }catch(Exception e){
+                    chain.doFilter(request, response);
+                    return;
+                }
+                
                 HttpSession session = request.getSession();
                 Provider provider = (Provider) session.getAttribute("provider");
                 Service service = null;
@@ -41,10 +48,6 @@ public class ServiceFilter implements Filter {
                         service = s;
                         break;
                     }
-                }
-                if(service == null){
-                    response.sendError(403);
-                    return;
                 }
                 session.setAttribute("service", service);
                 chain.doFilter(request, response);

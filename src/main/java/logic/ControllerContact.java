@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import data.*;
 import entities.*;
 import logic.exceptions.*;
+import utils.Utils;
 
 public class ControllerContact {
 	private DataRequest datarequest;
@@ -119,5 +120,10 @@ public class ControllerContact {
 	public boolean update(Request request) throws ContactException{
 		
 		return datarequest.update(request);
+	}
+
+	public int save(Request request) throws ContactException{
+		request.setRequestDate(Utils.getCurrentTime());
+		return datarequest.save(request);
 	}
 }
