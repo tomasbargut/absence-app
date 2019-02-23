@@ -5,97 +5,32 @@
     Hubo bardo ${error}
     <% session.removeAttribute("error");%>
 </c:if>
-<nav class="nav">
-    <li class="nav-item">
-        <a href="" class="nav-link">Absence</a>
-    </li>
-    <ul class="nav justify-content-end">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a href="${request.getContextPath()}" class="navbar-brand mr-auto">Absence</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+      
+        </ul>
+        <ul class="navbar-nav my-2 my-lg-0">
         <c:if test="${user != null}">
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a href="me" class="nav-link">${user.getUsername()}</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a href="logout" class="nav-link">Log out</a>
             </li>
         </c:if>
         <c:if test="${user == null }">
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a href="singup" class="nav-link">Register</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a href="login" class="nav-link">Login</a>
             </li>
         </c:if>
-        <c:if test="${providerID != null}">
-            <li class="nav-item p-2">
-                <div id="drpNotifications" class="dropdown">
-                    <c:choose>
-                        <c:when test="${notificationNumber != 0}">
-                            <button id="drpBtnNotifications" class="btn btn-danger dropdown-toggle" type="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">
-                                    notifications_active
-                                </i>${notificationNumber}
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <!-- Listado ultimas 5 notificaciones <button class="dropdown-item" type="button">Action</button>-->
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="myRequests">Ver Todas</a>
-                            <!--^ACA VA EL ENLACE AL LISTADO DE SOLICITUDES QUE VE EL PROVEEDOR (Informe?)-->
-                        </c:when>
-                        <c:when test="${notificationNumber == 0}">
-                            <button id="drpBtnNotifications" class="btn btn-light dropdown-toggle" type="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">
-                                    notifications_none
-                                </i>0
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2"></div>
-                            <a class="dropdown-item" href="myRequests">Ver Todas</a>
-                            <!--^ACA VA EL ENLACE AL LISTADO DE SOLICITUDES QUE VE EL PROVEEDOR (Informe?)-->
-                        </c:when>
-                    </c:choose>
-                </div>
-            </li>
-        </c:if>
-    </ul>
+        </ul>
+    </div>
 </nav>
-
-<script type="text/javascript">
-    var notificationNumber = 0;
-
-    $(document).ready(function () {
-        actualizarNotificaciones();
-
-        //Sera reemplazado con tecnologia de webSockets
-        setInterval(function () {
-            actualizarNotificaciones();
-        }, 15000);
-    });
-
-    function actualizarNotificaciones() {
-        var action = "CARGAR_NOTIFICACIONES"
-
-        var data = {
-            ACTION: action
-        };
-
-        $.ajax({
-            method: "POST",
-            url: "${pageContext.request.contextPath}/notifications",
-            data: data,
-            dataType: "json",
-            success: function (res) {
-                if (res.notificationNumber != 0) {
-                    //cargar dropdown lleno o redirigir a pagina
-                } else {
-                    //cargar dropdown vacio?
-                }
-            },
-            error: function (res) {
-                alert("Error intentando recuperar notificaciones, intenta mas tarde.");
-            }
-        });
-    }
-</script>

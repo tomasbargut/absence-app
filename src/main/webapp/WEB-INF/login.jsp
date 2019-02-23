@@ -3,10 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <t:base>
 	<form method="post" action="login">
-	          <label for="username">Username</label>
-	          <input type="text" name="username">
-	          <label for="password">Password</label>
-	          <input type="password" name="password">
-	          <input type = "submit" value = "Log in" />
-    	</form>
+		<div class="form-group">
+			<label for="username">Username</label>
+			<input type="text" class="form-control" name="username">
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="password" class="form-control" name="password">
+		</div>
+		<input class="btn btn-primary" type = "submit" value = "Log in" />
+	</form>
 </t:base>

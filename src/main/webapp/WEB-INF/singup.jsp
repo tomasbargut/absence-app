@@ -5,15 +5,24 @@
 <t:base>
 	<jsp:body>
 		<form method="post" action="singup">
-	          <label for="username">Username</label>
-	          <input type="text" name="username"><br>
-	          <label for="email">Email</label>
-	          <input type="text" name="email"><br>
-	          <label for="password1">Password</label>
-	          <input type="password" name="password"><br>
-	          <label for="password2">Repetir Password</label>
-	          <input type="password" name="password2"><br>
-	          <input type = "submit" value = "Sign up" />
+			<div class="form-group">
+				<label for="username">Username</label>
+				<input type="text" class="form-control" name="username">
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input type="text" class="form-control" name="email">
+			</div>
+			<div class="form-group">
+				<label for="password1">Password</label>
+				<input type="password" class="form-control" name="password">
+			</div>
+			<div class="form-group">
+				<label for="password2">Repetir Password</label>
+				<input type="password" class="form-control" name="password2">
+			</div>
+			<div class="form-group">
+			<input class="btn btn-primary" type="submit" value="Sign up" />
     	</form>
 	</jsp:body>
 </t:base>
