@@ -3,7 +3,7 @@
 
 <html lang="en">
 
-  <head style="background-color: #6351ce; color: #ECEFF1; padding-top: 60px;>
+  <head>
 	  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	  <meta charset="utf-8">
 	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +22,7 @@
   <body>
     <jsp:include page="/WEB-INF/tags/header.jsp" />
     <jsp:include page="/WEB-INF/include.jsp" />
-    <div id="body" class"unique-color-dark">
+    <div id="body" style="background-color: #212121; color: #ECEFF1;">
       <jsp:doBody/>
     </div>
     <jsp:include page="/WEB-INF/tags/footer.jsp" />
