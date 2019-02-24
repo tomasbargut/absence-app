@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import entities.Category;
 import entities.Provider;
@@ -116,5 +117,38 @@ public class DataService {
             }
         }
         return services;
+	}
+
+	public ArrayList<Service> getByCategories(ArrayList<Integer> categories) throws SQLException{
+        ArrayList<Service> services = new ArrayList<Service>();
+        String sql = "select s.`serviceID` from services as s inner join services_categories as sc on s.`serviceID`=sc.`serviceID` where sc.`categoryID` in (" +
+            String.join(",", Collections.nCopies(categories.size(), "?")) +
+            ")";
+        try(Connection conn = ConnectorBuilder.getConnector();
+                PreparedStatement statement = conn.prepareStatement(sql);) {
+            for(int i=0; i< categories.size(); i++){
+                statement.setInt(i+1, categories.get(i));
+            }
+            try(ResultSet rs = statement.executeQuery()){
+                while(rs.next()){
+                    services.add(this.get(rs.getInt("serviceID")));
+                }
+            }
+        }
+        return services;
+	}
+
+	public ArrayList<Service> all() throws SQLException{
+        ArrayList<Service> services = new ArrayList<Service>();
+        String sql = "SELECT `serviceID` FROM services";
+        try(Connection conn = ConnectorBuilder.getConnector();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+        ){
+            while(rs.next()){
+                services.add(this.get(rs.getInt("serviceID")));
+            }
+        }
+		return services;
 	}
 }

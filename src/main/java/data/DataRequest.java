@@ -33,77 +33,55 @@ public class DataRequest {
 	 * @return ProvisionRequest
 	 * @throws Exception
 	 */
-	public Integer save(Request request) {
-
+	public void save(Request request) throws SQLException{
 		try (Connection conn = ConnectorBuilder.getConnector()) {
 			PreparedStatement stmtReq = conn.prepareStatement(
-					"INSERT INTO requests (requesting_userID, providerID, serviceID, requestDate, responseDate, reviewID, request_statusID, reportID)"
-							+ " VALUES(?,?,?,?,?,?,?,?)",
+					"INSERT INTO requests (requesting_userID, serviceID, requestDate, responseDate, request_statusID)"
+							+ " VALUES(?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			stmtReq.setInt(1, request.getPetitioner().getUserID());
-			stmtReq.setInt(2, request.getProvider().getUserID());
-			stmtReq.setInt(3, request.getService().getServiceID());
-			stmtReq.setString(4, request.getRequestDate());
-			stmtReq.setString(5, request.getResponseDate());
-			stmtReq.setInt(6, request.getReview().getReviewID());
-			stmtReq.setString(7, request.getStatus());
-			stmtReq.setInt(8, request.getReport().getReportID());
+			stmtReq.setInt(2, request.getService().getServiceID());
+			stmtReq.setString(3, request.getRequestDate());
+			stmtReq.setString(4, request.getResponseDate());
+			stmtReq.setString(5, request.getStatus());
 			stmtReq.executeUpdate();
-
 			ResultSet generatedKeys = stmtReq.getGeneratedKeys();
 			generatedKeys.next();
 			request.setRequestID(generatedKeys.getInt(1));
-			return request.getRequestID();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			return null;
 		}
 	}
 
-	public ArrayList<Request> all() throws Exception {
-		ArrayList<Request> ProvisionRequestList = new ArrayList<Request>();
+	public ArrayList<Request> all() throws SQLException {
+		ArrayList<Request> requests = new ArrayList<Request>();
 		try(Connection conn = ConnectorBuilder.getConnector();){
-			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM requests");
+			PreparedStatement stmt = conn.prepareStatement("SELECT requestID FROM requests");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				User petitioner = dataUser.get(rs.getInt("requesting_userID"));
-				Service service = dataService.get(rs.getInt("serviceID"));
-				Provider provider = dataProvider.get(rs.getInt("providerID"));
-				Review review = dataReview.get(rs.getInt("reviewID"));
-				Report report = dataReport.get(rs.getInt("reportID"));
-				Request request = new Request(rs, petitioner, service, provider, review, report);
-				ProvisionRequestList.add(request);
+				requests.add(this.get(rs.getInt(1)));
 			}
-
-		} catch (Exception e) {
-			// TODO: IMPLEMENTAR LOGGER
 		}
-
-		return ProvisionRequestList;
+		return requests;
 	}
 
 	public void delete(Request solicitud) throws SQLException{
-		
 		try(Connection conn = ConnectorBuilder.getConnector()) {
 			PreparedStatement stmtReq = null;
 			if (solicitud.getRequestID() != 0) {
 				stmtReq = conn.prepareStatement("UPDATE requests SET request_statusID = ?"
-						+ " WHERE requestID = ? AND requesting_user = ? AND providerID = ? AND serviceID = ? AND request_statusID = ? ");
+						+ " WHERE requestID = ? AND requesting_user = ? AND serviceID = ? AND request_statusID = ? ");
 				stmtReq.setString(1, Request.STATUS_CANCELADA);
 				stmtReq.setInt(2, solicitud.getRequestID());
-				stmtReq.setInt(3, solicitud.getPetitioner().getUserID());
-				stmtReq.setInt(4, solicitud.getProvider().getUserID());
-				stmtReq.setInt(5, solicitud.getService().getServiceID());
-				stmtReq.setString(6, Request.STATUS_SOLICITADA);
-				stmtReq.executeUpdate();
-			} else {
-				stmtReq = conn.prepareStatement("UPDATE requests SET request_statusID = ?"
-						+ " WHERE requesting_user = ? AND providerID = ? AND serviceID = ? AND request_statusID = ? ");
-				stmtReq.setString(1, Request.STATUS_CANCELADA);
-				stmtReq.setInt(2, solicitud.getPetitioner().getUserID());
 				stmtReq.setInt(3, solicitud.getProvider().getUserID());
 				stmtReq.setInt(4, solicitud.getService().getServiceID());
 				stmtReq.setString(5, Request.STATUS_SOLICITADA);
+				stmtReq.executeUpdate();
+			} else {
+				stmtReq = conn.prepareStatement("UPDATE requests SET request_statusID = ?"
+						+ " WHERE requesting_user = ? AND serviceID = ? AND request_statusID = ? ");
+				stmtReq.setString(1, Request.STATUS_CANCELADA);
+				stmtReq.setInt(2, solicitud.getPetitioner().getUserID());
+				stmtReq.setInt(3, solicitud.getService().getServiceID());
+				stmtReq.setString(4, Request.STATUS_SOLICITADA);
 				stmtReq.executeUpdate();
 			}
 		}
@@ -131,29 +109,22 @@ public class DataRequest {
 		return requestID;
 	}
 
-	public boolean update(Request request) {
+	public void update(Request request) throws SQLException {
 		try(Connection conn = ConnectorBuilder.getConnector()){
 			PreparedStatement stmtReq = conn.prepareStatement(
-				"UPDATE requests requesting_userID=?, providerID=?, serviceID=?, requestDate=?, responseDate=?, reviewID=?, request_statusID=?, reportID=? WHERE `requestID = ?"
+				"UPDATE requests requesting_userID=?, serviceID=?, requestDate=?, responseDate=?, request_statusID=? WHERE `requestID = ?"
 			);
 			stmtReq.setInt(1, request.getPetitioner().getUserID());
-			stmtReq.setInt(2, request.getProvider().getUserID());
-			stmtReq.setInt(3, request.getService().getServiceID());
-			stmtReq.setString(4, request.getRequestDate());
-			stmtReq.setString(5, request.getResponseDate());
-			stmtReq.setInt(6, request.getReview().getReviewID());
-			stmtReq.setString(7, request.getStatus());
-			stmtReq.setInt(8, request.getReport().getReportID());
-			stmtReq.setInt(9, request.getRequestID());
+			stmtReq.setInt(2, request.getService().getServiceID());
+			stmtReq.setString(3, request.getRequestDate());
+			stmtReq.setString(4, request.getResponseDate());
+			stmtReq.setString(5, request.getStatus());
+			stmtReq.setInt(6, request.getRequestID());
 			stmtReq.executeUpdate();
-		}catch(Exception e ){
-			//TODO: IMPLEMENTAR LOGGER
-			return false;
 		}
-		return true;
 	}
 
-	public Request get(int requestID) {
+	public Request get(int requestID) throws SQLException {
 		Request request = null;
 		try(Connection conn = ConnectorBuilder.getConnector()){
 			PreparedStatement stmt = conn.prepareStatement(
@@ -162,37 +133,29 @@ public class DataRequest {
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next()){
 				User petitioner = dataUser.get(rs.getInt("requesting_userID"));
-				Provider provider = dataProvider.get(rs.getInt("providerID"));
 				Service service = dataService.get(rs.getInt("serviceID"));
-				Report report = dataReport.get(rs.getInt("reportID"));
-				Review review = dataReview.get(rs.getInt("reviewID"));
-				request = new Request(rs, petitioner, service, provider, review, report);
+				request = new Request(rs);
+				request.setPetitioner(petitioner);
+				request.setService(service);
 				return request;
 			}
-		}catch(Exception e){
-			//TODO IMPLEMENTAR LOGGER
-			e.printStackTrace();
 		}
 		return request;
 	}
 
-	public Request get(int serviceID, int userID) throws SQLException{
-		Request request = null;
+	public ArrayList<Request> getAll(Request request) throws SQLException{
+		ArrayList<Request> requests = new ArrayList<Request>();
 		try(Connection conn = ConnectorBuilder.getConnector()){
 			PreparedStatement stmt = conn.prepareStatement(
-				"select * from requests where id = ?"
+				"select requestID from requests where serviceID = ? and requesting_userID = ?"
 			);
+			stmt.setInt(1, request.getService().getServiceID());
+			stmt.setInt(2, request.getPetitioner().getUserID());
 			ResultSet rs = stmt.executeQuery();
-			if(rs.next()){
-				User petitioner = dataUser.get(rs.getInt("requesting_userID"));
-				Provider provider = dataProvider.get(rs.getInt("providerID"));
-				Service service = dataService.get(rs.getInt("serviceID"));
-				Report report = dataReport.get(rs.getInt("reportID"));
-				Review review = dataReview.get(rs.getInt("reviewID"));
-				request = new Request(rs, petitioner, service, provider, review, report);
-				return request;
+			while(rs.next()){
+				requests.add(this.get(rs.getInt(1)));
 			}
 		}
-		return request;
+		return requests;
 	}
 }

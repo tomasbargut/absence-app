@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,10 +18,11 @@ import entities.Review;
  * ReviewServlet
  */
 @WebServlet("/review")
-public class ReviewServlet extends HttpServlet{
+public class ReviewServlet extends HttpServlet {
 
     private final DataRequest dataRequest;
-    public ReviewServlet(){
+
+    public ReviewServlet() {
         super();
         dataRequest = new DataRequest();
     }
@@ -36,10 +38,12 @@ public class ReviewServlet extends HttpServlet{
         Request request = (Request) session.getAttribute("request");
         Review review = new Review(req);
         request.setReview(review);
-        if(dataRequest.update(request)){
-            resp.sendRedirect(req.getContextPath());
-        }else{
+        try {
+            dataRequest.update(request);
+        } catch (SQLException e) {
             resp.sendError(500);
+            return;
         }
+        resp.sendRedirect(req.getContextPath());
     }
 }

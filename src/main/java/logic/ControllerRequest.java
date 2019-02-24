@@ -32,21 +32,26 @@ public class ControllerRequest {
 	}
 
 	private void validar(Request request) throws SQLException, RequestException{
-		Request req = datarequest.get(request.getService().getServiceID(), 
-								request.getPetitioner().getUserID());
-		if(req != null && req.getStatus() != "CANCELADO"){ // TODO: HACER ENUM PARA ESTO
-			throw new RequestException("Ya hay una request vijente");
+		for(Request req: datarequest.getAll(request)){
+			if(req.getStatus() != "CANCELADO"){ // TODO: HACER ENUM PARA ESTO
+				throw new RequestException("Ya hay una request vijente");
+			}
+		}
+		if(Utils.isNullOrEmpty(request.getMessage())){
+			throw new RequestException("Envia un mensaje al proveedor");
 		}
 	}
 
-	public boolean update(Request request) throws SQLException, RequestException{
+	public void update(Request request) throws SQLException, RequestException{
 		validar(request);	
-		return datarequest.update(request);
+		datarequest.update(request);
 	}
 
-	public int save(Request request) throws SQLException, RequestException{
+	public void save(Request request) throws SQLException, RequestException{
 		request.setRequestDate(Utils.getCurrentTime());
+		request.setProvider(request.getService().getProvider());
+		request.setStatus("CREADO");
 		validar(request);
-		return datarequest.save(request);
+		datarequest.save(request);
 	}
 }

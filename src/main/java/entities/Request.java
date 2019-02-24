@@ -38,94 +38,102 @@ public class Request {
 	private String message;
 	private String response;
 
-	public Request(ResultSet rs, User petitioner, Service service, Provider provider, Review review, Report report)
+	public Request(ResultSet rs)
 			throws SQLException {
 		this.requestID = rs.getInt("requestID");
-		this.petitioner = petitioner;
-		this.service = service;
-		this.provider = provider;
 		this.requestDate = rs.getString("requestDate");
-		this.review = review;
 		this.status = rs.getString("status");
-		this.report = report;
 		this.responseDate = rs.getString("responseDate");
 	}
 
-	public Request(User petitioner, Service service, Provider provider, String requestDate, String message) {
-
+	public Request(User petitioner, Service service, String message) {
 		this.petitioner = petitioner;
 		this.service = service;
-		this.provider = provider;
-		this.requestDate = requestDate;
 		this.message = message;
 	}
 
 	/**
-	 * @return the response
+	 * @return the requestID
 	 */
-	public String getResponse() {
-		return response;
-	}
-
-	/**
-	 * @param response the response to set
-	 */
-	public void setResponse(String response) {
-		this.response = response;
-	}
-
-	/**
-	 * @return the message
-	 */
-	public String getMessage() {
-		return message;
-	}
-
-	/**
-	 * @param message the message to set
-	 */
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public Request(HttpServletRequest request) {
-		// TODO: NOT IMPLEMENTED
-	}
-
 	public int getRequestID() {
 		return requestID;
 	}
 
+	/**
+	 * @param requestID the requestID to set
+	 */
 	public void setRequestID(int requestID) {
 		this.requestID = requestID;
 	}
 
+	/**
+	 * @return the petitioner
+	 */
 	public User getPetitioner() {
 		return petitioner;
 	}
 
+	/**
+	 * @param petitioner the petitioner to set
+	 */
 	public void setPetitioner(User petitioner) {
 		this.petitioner = petitioner;
 	}
 
+	/**
+	 * @return the service
+	 */
 	public Service getService() {
 		return service;
 	}
 
+	/**
+	 * @param service the service to set
+	 */
 	public void setService(Service service) {
 		this.service = service;
 	}
 
+	/**
+	 * @return the provider
+	 */
 	public Provider getProvider() {
 		return provider;
 	}
 
-	public String getRequestDate() {
-		return this.requestDate;
+	/**
+	 * @param provider the provider to set
+	 */
+	public void setProvider(Provider provider) {
+		this.provider = provider;
 	}
 
+	/**
+	 * @return the requestDate
+	 */
+	public String getRequestDate() {
+		return requestDate;
+	}
+
+	/**
+	 * @param requestDate the requestDate to set
+	 */
 	public void setRequestDate(String requestDate) {
 		this.requestDate = requestDate;
+	}
+
+	/**
+	 * @return the responseDate
+	 */
+	public String getResponseDate() {
+		return responseDate;
+	}
+
+	/**
+	 * @param responseDate the responseDate to set
+	 */
+	public void setResponseDate(String responseDate) {
+		this.responseDate = responseDate;
 	}
 
 	/**
@@ -171,50 +179,30 @@ public class Request {
 	}
 
 	/**
-	 * @return the responseDate
+	 * @return the message
 	 */
-	public String getResponseDate() {
-		return responseDate;
+	public String getMessage() {
+		return message;
 	}
 
 	/**
-	 * @param responseDate the responseDate to set
+	 * @param message the message to set
 	 */
-	public void setResponseDate(String responseDate) {
-		this.responseDate = responseDate;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
-	@Override
-	public String toString() {
-		return "{" + " requestID='" + getRequestID() + "'" + ", petitioner='" + getPetitioner() + "'" + ", service='"
-				+ getService() + "'" + ", provider='" + getProvider() + "'" + ", requestDate='" + getRequestDate() + "'"
-				+ ", responseDate='" + getResponseDate() + "'" + ", review='" + getReview() + "'" + ", status='"
-				+ getStatus() + "'" + ", report='" + getReport() + "'" + ", message='" + getMessage() + "'"
-				+ ", response='" + getResponse() + "'" + "}";
+	/**
+	 * @return the response
+	 */
+	public String getResponse() {
+		return response;
 	}
 
-	public String toJson() {
-		GsonBuilder builder = new GsonBuilder();
-		Gson gson = builder.create();
-		return gson.toJson(this);
-	}
-
-	public String toJsonSimplified() {
-		Gson gson = new Gson();
-		JsonObject data = new JsonObject();
-
-		data.addProperty("requestID", this.requestID);
-		data.addProperty("requestDate", this.requestDate);
-		data.addProperty("petitionerID", this.petitioner.getUserID());
-		data.addProperty("petitionerName", this.petitioner.getUsername());
-		data.addProperty("providerID", this.provider.getUserID());
-		data.addProperty("providerName", this.provider.getName());
-		data.addProperty("providerPhone", this.provider.getPhone());
-		data.addProperty("providerEmail", this.provider.getEmail());
-		data.addProperty("serviceID", this.service.getServiceID());
-		data.addProperty("serviceTitle", this.service.getTitle());
-		String request = gson.toJson(data);
-
-		return request;
+	/**
+	 * @param response the response to set
+	 */
+	public void setResponse(String response) {
+		this.response = response;
 	}
 }
