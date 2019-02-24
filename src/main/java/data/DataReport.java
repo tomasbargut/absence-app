@@ -12,16 +12,18 @@ import entities.Report;
  */
 public class DataReport {
 
-    private DataAdministrator dataAdministrator;
+    private final DataAdministrator dataAdministrator;
+    private final DataService dataService;
 
     public DataReport(){
         this.dataAdministrator = new DataAdministrator();
+        this.dataService = new DataService();
     }
 
     public boolean save(Report report){
         try(Connection conn = ConnectorBuilder.getConnector();){
             PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO reports(title, `desc`, sentDate, answerDate, `statusID`, `administratorID`, reportType, `serviceID`) values(?,?,?,?,?,?,?,?)"
+                "INSERT INTO reports(title, `desc`, sentDate, answerDate, `statusID`, `administratorID`, reportType) values(?,?,?,?,?,?,?,?)"
             );
             stmt.setString(1,report.getTitle());
             stmt.setString(2, report.getDesc());
@@ -30,7 +32,6 @@ public class DataReport {
             stmt.setString(5, report.getStatus());
             stmt.setInt(6, report.getAdministrator().getUserID());
             stmt.setString(7, report.getReportType());
-            stmt.setInt(8, report.getPublication().getService().getServiceID());
             stmt.executeUpdate();
         } catch (Exception e) {
             //TODO: handle except
@@ -60,7 +61,7 @@ public class DataReport {
 	public boolean update(Report report) {
         try(Connection conn = ConnectorBuilder.getConnector()){
             PreparedStatement stmt = conn.prepareStatement(
-                "update reports set title=?,`desc`=?,sentDate=?,answerDate=?,`statusID`=?,`administratorID`=?,reportType=?, `serviceID`=? WHERE reportID = ?"
+                "update reports set title=?,`desc`=?,sentDate=?,answerDate=?,`statusID`=?,`administratorID`=?,reportType=? WHERE reportID = ?"
             );
             stmt.setString(1,report.getTitle());
             stmt.setString(2, report.getDesc());
@@ -69,8 +70,7 @@ public class DataReport {
             stmt.setString(5, report.getStatus());
             stmt.setInt(6, report.getAdministrator().getUserID());
             stmt.setString(7, report.getReportType());
-            stmt.setInt(8, report.getPublication().getService().getServiceID());
-            stmt.setInt(9, report.getReportID());
+            stmt.setInt(8, report.getReportID());
             stmt.executeUpdate();
         }catch(Exception e){
             //TODO: IMPLEMENTAR LOGGER

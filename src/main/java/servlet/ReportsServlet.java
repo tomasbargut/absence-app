@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,9 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import entities.Report;
 import entities.Request;
-import logic.ControllerContact;
+import logic.ControllerRequest;
 import logic.ControllerReport;
-import logic.exceptions.ContactException;
+import logic.exceptions.RequestException;
 
 /**
  * Reports
@@ -25,11 +26,11 @@ public class ReportsServlet extends HttpServlet{
     
     private static final long serialVersionUID = 1L;
     private final ControllerReport controllerReport;
-    private final ControllerContact controllerContact;
+    private final ControllerRequest controllerContact;
     public ReportsServlet(){
         super();
         controllerReport = new ControllerReport();
-        controllerContact = new ControllerContact();
+        controllerContact = new ControllerRequest();
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,19 +43,19 @@ public class ReportsServlet extends HttpServlet{
         HttpSession session = req.getSession();
         if(session.getAttribute("request") == null){
             resp.sendError(400);
+            return;
         }
         Request request= (Request) session.getAttribute("request");
         Report report = new Report(req);
         request.setReport(report);
         try{
-            if(controllerContact.update(request)){
-                resp.sendRedirect(req.getContextPath());
-            }else{
-                resp.sendError(500);
-            }
-        }catch(ContactException e){
+            controllerContact.update(request);
+        }catch(RequestException e){
             session.setAttribute("error", e.getMessage());
+        }catch(SQLException e){
+            resp.sendError(500);
         }
+        resp.sendRedirect(req.getContextPath());
     }
     
 }

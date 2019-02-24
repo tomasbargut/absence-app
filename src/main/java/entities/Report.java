@@ -13,7 +13,6 @@ public class Report {
     private String answerDate;
     private String status;
     private Administrator administrator;
-    private Publication publication;
     private String reportType;
 
     public Report(ResultSet rs, Administrator admin) throws SQLException {
@@ -149,17 +148,4 @@ public class Report {
         this.administrator = administrator;
     }
 
-    /**
-     * @return the publication
-     */
-    public Publication getPublication() {
-        return publication;
-    }
-
-    /**
-     * @param publication the publication to set
-     */
-    public void setPublication(Publication publication) {
-        this.publication = publication;
-    }
 }

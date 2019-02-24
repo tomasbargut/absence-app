@@ -25,14 +25,6 @@
     <filter-mapping>
     <filter-name>login</filter-name>
         <url-pattern>/me</url-pattern>
-        <!-- <url-pattern>/provider</url-pattern>
-        <url-pattern>/service/*</url-pattern>
-        <url-pattern>/report/*</url-pattern>
-        <url-pattern>/review/*</url-pattern> -->
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>request</filter-name>
-        <url-pattern>/report/*</url-pattern>
-        <url-pattern>/review/*</url-pattern>
+        <url-pattern>/provider</url-pattern>
     </filter-mapping>
 </web-app>

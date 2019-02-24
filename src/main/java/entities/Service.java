@@ -11,6 +11,7 @@ public class Service {
     private String title;
     private String desc;
     private ArrayList<Category> categories;
+    private Provider provider;
 
     public Service(ResultSet rs) throws SQLException {
         this.serviceID = rs.getInt("serviceID");
@@ -18,7 +19,21 @@ public class Service {
         this.desc = rs.getString("desc");
         this.categories = new ArrayList<Category>();
     }
-    
+
+    /**
+     * @return the provider
+     */
+    public Provider getProvider() {
+        return provider;
+    }
+
+    /**
+     * @param provider the provider to set
+     */
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
     public Service(ResultSet rs, ArrayList<Category> categories) throws SQLException {
         this.serviceID = rs.getInt("serviceID");
         this.title = rs.getString("title");

@@ -19,8 +19,8 @@
 			<div id="divServicios">
 				<h3>Mis Servicios</h3>
 				<a href="service">Añadir Servicios</a>
-				<c:forEach items="${provider.getServices()}" var="service">
-					<a href="${pageContext.request.contextPath}/service/${service.getServiceID()}">${service.getTitle()}</a>
+				<c:forEach items="${services}" var="service">
+					<a href="${pageContext.request.contextPath}/service?${service.getServiceID()}">${service.getTitle()}</a>
 				</c:forEach>
 			</div>
 			<div id="divSolicitudes">

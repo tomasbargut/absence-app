@@ -82,11 +82,10 @@ public class DataRequest {
 		return ProvisionRequestList;
 	}
 
-	public boolean delete(Request solicitud) throws Exception {
-		Connection conn = ConnectorBuilder.getConnector();
-		try {
+	public void delete(Request solicitud) throws SQLException{
+		
+		try(Connection conn = ConnectorBuilder.getConnector()) {
 			PreparedStatement stmtReq = null;
-
 			if (solicitud.getRequestID() != 0) {
 				stmtReq = conn.prepareStatement("UPDATE requests SET request_statusID = ?"
 						+ " WHERE requestID = ? AND requesting_user = ? AND providerID = ? AND serviceID = ? AND request_statusID = ? ");
@@ -107,13 +106,6 @@ public class DataRequest {
 				stmtReq.setString(5, Request.STATUS_SOLICITADA);
 				stmtReq.executeUpdate();
 			}
-			conn.close();
-
-			return true;
-
-		} catch (Exception e) {
-			// TODO: IMPLEMENTAR LOGGER
-			return false;
 		}
 	}
 
@@ -180,6 +172,26 @@ public class DataRequest {
 		}catch(Exception e){
 			//TODO IMPLEMENTAR LOGGER
 			e.printStackTrace();
+		}
+		return request;
+	}
+
+	public Request get(int serviceID, int userID) throws SQLException{
+		Request request = null;
+		try(Connection conn = ConnectorBuilder.getConnector()){
+			PreparedStatement stmt = conn.prepareStatement(
+				"select * from requests where id = ?"
+			);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()){
+				User petitioner = dataUser.get(rs.getInt("requesting_userID"));
+				Provider provider = dataProvider.get(rs.getInt("providerID"));
+				Service service = dataService.get(rs.getInt("serviceID"));
+				Report report = dataReport.get(rs.getInt("reportID"));
+				Review review = dataReview.get(rs.getInt("reviewID"));
+				request = new Request(rs, petitioner, service, provider, review, report);
+				return request;
+			}
 		}
 		return request;
 	}
