@@ -17,7 +17,7 @@
         <ul class="navbar-nav my-2 my-lg-0">
         <c:if test="${user != null}">
             <li class="nav-item active">
-                <a href="me" class="nav-link">${user.getUsername()}</a>
+                <a href="${pageContext.request.contextPath}/me" class="nav-link">${user.getUsername()}</a>
             </li>
             <li class="nav-item active">
                 <a href="logout" class="nav-link">Log out</a>
@@ -32,5 +32,5 @@
             </li>
         </c:if>
         </ul>
-    </div>
+    </div>  
 </nav>

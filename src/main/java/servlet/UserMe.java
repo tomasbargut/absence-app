@@ -34,7 +34,11 @@ public class UserMe extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/me.jsp").forward(request, response);
+		if(request.getSession().getAttribute("administrator") != null){
+			response.sendRedirect(request.getContextPath()+ "/admin");
+		}else{
+			request.getRequestDispatcher("/WEB-INF/me.jsp").forward(request, response);
+		}
 	}
 
 	/**
