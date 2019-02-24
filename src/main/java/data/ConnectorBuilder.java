@@ -10,8 +10,8 @@ public class ConnectorBuilder {
 		try {
 			Connection conn = null;
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Absence?useSSL=false", "teddie", "teddie");
-			System.out.println("Connected to teddies DB.");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Absence?useSSL=false", "admin", "absence-admin");
+			System.out.println("Connected to fercho's DB.");
 
 			return conn;
 
