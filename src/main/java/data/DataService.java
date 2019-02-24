@@ -69,7 +69,7 @@ public class DataService {
             for(Category category: service.getCategories()){
                 stmtCategory.setInt(1, service.getServiceID());
                 stmtCategory.setInt(2, category.getCategoryID());
-                stmt.executeUpdate();
+                stmtCategory.executeUpdate();
             }
         }
     }
@@ -84,22 +84,19 @@ public class DataService {
             stmtService.setInt(3, service.getProvider().getUserID());
             stmtService.setInt(4, service.getServiceID());
             stmtService.executeUpdate();
+            PreparedStatement stmtDeleteServiceCategory = conn.prepareStatement(
+                "delete from services_categories where serviceID = ?"
+            );
+            stmtDeleteServiceCategory.setInt(1, service.getServiceID());
+            stmtDeleteServiceCategory.executeUpdate();
             PreparedStatement stmtServiceCategoryInsert = conn.prepareStatement(
                 "insert into services_categories(serviceID, categoryID) values(?,?)"
             );
-            PreparedStatement stmtServiceCategorySelect = conn.prepareStatement(
-                "select * from services_categories where `serviceID`= ? and `categoryID` = ?"
-            );
             // TODO: HACER BULK_INSERT
             for (Category category : service.getCategories()) {
-                stmtServiceCategorySelect.setInt(1,service.getServiceID());
-                stmtServiceCategorySelect.setInt(2, category.getCategoryID());
-                ResultSet rs = stmtServiceCategorySelect.executeQuery();
-                if(!rs.next()){
-                    stmtServiceCategoryInsert.setInt(1, service.getServiceID());
-                    stmtServiceCategoryInsert.setInt(2, category.getCategoryID());
-                    stmtServiceCategoryInsert.executeUpdate();
-                }
+                stmtServiceCategoryInsert.setInt(1, service.getServiceID());
+                stmtServiceCategoryInsert.setInt(2, category.getCategoryID());
+                stmtServiceCategoryInsert.executeUpdate();
             }
         }
     }

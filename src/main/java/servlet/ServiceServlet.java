@@ -96,10 +96,8 @@ public class ServiceServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        
-        Service service = new Service(request);
+        Service service;
         Provider provider = (Provider) session.getAttribute("provider");
-        service.setProvider(provider);
         String qString = request.getQueryString();
         String[] categoriesIDsString = request.getParameterValues("categories");
         ArrayList<Category> categoriesTodas = (ArrayList<Category>) session.getAttribute("categories");
@@ -122,6 +120,9 @@ public class ServiceServlet extends HttpServlet {
             }
         }
         if(qString == null){
+            service = new Service(request);
+            service.setProvider(provider);
+            service.setCategories(categories);
             try {
                 controllerService.save(service);
             } catch (ServiceException e) {
@@ -142,7 +143,11 @@ public class ServiceServlet extends HttpServlet {
                 response.sendError(400);
                 return;
             }
-            service.setServiceID(serviceID);
+            service = (Service) session.getAttribute("service");
+            // service.setServiceID(serviceID);
+            service.setTitle(request.getParameter("title"));
+            service.setDesc(request.getParameter("desc"));
+            service.setCategories(categories);
             try{
                 controllerService.update(service);
             }catch(ServiceException e){
