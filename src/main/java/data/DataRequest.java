@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import entities.Provider;
 import entities.Report;
@@ -182,5 +183,28 @@ public class DataRequest {
 			e.printStackTrace();
 		}
 		return request;
+	}
+
+	public List<Request> getAllByProvider(User user) {
+		ArrayList<Request> ProvisionRequestList = new ArrayList<Request>();
+		try(Connection conn = ConnectorBuilder.getConnector();){
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM requests WHERE providerID = ?");
+			stmt.setInt(1, user.getUserID());
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				User petitioner = dataUser.get(rs.getInt("requesting_userID"));
+				Service service = dataService.get(rs.getInt("serviceID"));
+				Provider provider = dataProvider.get(rs.getInt("providerID"));
+				Review review = dataReview.get(rs.getInt("reviewID"));
+				Report report = dataReport.get(rs.getInt("reportID"));
+				Request request = new Request(rs, petitioner, service, provider, review, report);
+				ProvisionRequestList.add(request);
+			}
+
+		} catch (Exception e) {
+			// TODO: IMPLEMENTAR LOGGER
+		}
+
+		return ProvisionRequestList;
 	}
 }

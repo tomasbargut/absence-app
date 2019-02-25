@@ -1,6 +1,7 @@
 package logic;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import data.*;
 import entities.*;
@@ -125,5 +126,9 @@ public class ControllerContact {
 	public int save(Request request) throws ContactException{
 		request.setRequestDate(Utils.getCurrentTime());
 		return datarequest.save(request);
+	}
+
+	public List<Request> getAllByProvider(User user) {
+		return datarequest.getAllByProvider(user);
 	}
 }

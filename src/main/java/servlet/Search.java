@@ -70,8 +70,7 @@ public class Search extends HttpServlet{
         switch (action) {
 			case "SOLICITAR_CONTACTO":
 				try {
-                    Request request = new Request(
-                        user, publication.getService(), publication.getProvider(), mensaje);
+                    Request request = new Request(user, publication.getService(), publication.getProvider(), null, mensaje);
                     controllerContact.save(request);
                     pw.print("{\"status\":\"success\"}");
                     return;

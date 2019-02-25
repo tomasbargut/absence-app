@@ -23,36 +23,42 @@
 					<a href="${pageContext.request.contextPath}/service/${service.getServiceID()}">${service.getTitle()}</a>
 				</c:forEach>
 			</div>
-			<div id="divSolicitudes">
+			<div id="divSolicitudes" class="divSolicitudes-container" style="text-align: center">
 				<h3>Listado de Solicitudes</h3>
 
 				<div id="divTblSolicitudes">
 					<div id="tblControls">
 						<button id="btnActualizar" class="btn btn-primary" title="Actualizar">Actualizar Listado</button>
 					</div>
-					<table id="tblSolicitudes">
+					<table id="tblSolicitudes" class="table table-hover table-dark">
 						<thead>
-							<th>N°</th>
-							<th>Servicio Solicitado</th>
-							<th>Usuario</th>
-							<th>Mensaje</th>
-							<th>Fecha Tentativa</th>
-							<th>Tu respuesta</th>
-							<th>Estado de Solicitud</th>
-							<th>Acciones</th>
+							<tr>
+								<th scope="col">N°</th>
+								<th scope="col">Servicio Solicitado</th>
+								<th scope="col">Usuario</th>
+								<th scope="col">Mensaje</th>
+								<th scope="col">Fecha Tentativa</th>
+								<th scope="col">Tu respuesta</th>
+								<th scope="col">Estado de Solicitud</th>
+								<th scope="col">Acciones</th>
+							</tr>
 						</thead>
 						<tbody id="tblSolicitudesBody">
 							<c:forEach items="${solicitudes}" var="solicitud">
-								<tr id="${solicitud.requestID}">
+								<tr id="${solicitud.requestID}" scope="row">
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.requestID}</td>
-									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.serviceTitle}</td>
-									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.petitionerName}</td>
+									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.service.serviceTitle}</td>
+									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.petitioner.petitionerName}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.message}</td>
+									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.requestDate}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.response}</td>
+									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.status}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">
-										<button class="btn btn-info" title="Ver">Ver</button>
-										<button class="btn btn-success" title="Aceptar">Aceptar</button>
-										<button class="btn btn-danger" title="Rechazar">Rechazar</button>
+										<button class="btn btn-info ver" title="Ver">Ver</button>
+										<c:if test="${solicitud.status == 'solicitado'}">
+											<button class="btn btn-success aceptar" title="Aceptar">Aceptar</button>
+											<button class="btn btn-danger rechazar" title="Rechazar">Rechazar</button>
+										</c:if>
 									</td>
 								</tr>
 							</c:forEach>
@@ -64,38 +70,45 @@
 </t:base>
 
 <script type="text/javascript">
-	var notificationNumber = 0;
-
+	/*
 	$(document).ready(function () {
-		actualizarNotificaciones();
+		actualizarTablaSolicitudes();
 
 		//Sera reemplazado con tecnologia de webSockets
 		setInterval(function () {
-			actualizarNotificaciones();
+			actualizarTablaSolicitudes();
 		}, 15000);
 	});
+	*/
 
-	function actualizarNotificaciones() {
-		var action = "CARGAR_SOLICITUDES"
+	$(".ver").click(function () {
+		alert("Mostrando modal con datos completos de la solicitud y ejecutar ajax status->visto");
+	});
+	$(".aceptar").click(function () {
+		alert("Mostrar confirmacion de aceptacion de solicitud, y ejecutar ajax status->respondida");
+	});
+	$(".borrar").click(function () {
+		alert("Mostrar confirmacion de rechazo de solicitud, y ejecutar ajax status->cancelado");
+	});
 
-		var data = {
-			ACTION: action
-		};
+	/*
+		function actualizarTablaSolicitudes() {
+			var action = "CARGAR_SOLICITUDES"
 
-		$.ajax({
-			method: "POST",
-			url: "${pageContext.request.contextPath}/contact",
-			data: data,
-			dataType: "json",
-			success: function (res) {
-				if (res.notificationNumber != 0) {
-					//cargar dropdown lleno o redirigir a pagina
-				} else {
-					//cargar dropdown vacio?
+			var data = {
+				ACTION: action
+			};
+
+			$.ajax({
+				method: "POST",
+				url: "${pageContext.request.contextPath}/contact",
+				data: data,
+				dataType: "json",
+				success: function (res) {},
+				error: function (res) {
+					alert("Error intentando recuperar solicitudes, intenta mas tarde.");
 				}
-			},
-			error: function (res) {
-				alert("Error intentando recuperar notificaciones, intenta mas tarde.");
-			}
-		});
-	}
+			});
+		}
+		*/
+</script>

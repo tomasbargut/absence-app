@@ -5,15 +5,155 @@
 
 <t:base>
 
-    <h1>Welcome to Absence</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-offset-1 col-sm-10"></div>
+
+
+            <!-- Section: Blog v.3 -->
+            <section class="my-5">
+
+                <!-- Section heading -->
+                <h2 class="h1-responsive font-weight-bold text-center my-5">Servicios Populares</h2>
+                <!-- Section description -->
+                <p class="text-center dark-grey-text w-responsive mx-auto mb-5">Estos son los servicios mejor valorados
+                    de la
+                    semana, hechales un vistazo!</p>
+
+                <!-- Grid row -->
+                <div class="row">
+
+                    <!-- Grid column -->
+                    <div class="col-lg-5 col-xl-4">
+
+                        <!-- Featured image -->
+                        <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/49.jpg" alt="Sample image">
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-lg-7 col-xl-8">
+
+                        <!-- Post title -->
+                        <h3 class="font-weight-bold mb-3"><strong>ELECTROFRIO Promo instalación</strong></h3>
+                        <!-- Excerpt -->
+                        <p class="dark-grey-text">Promo $ 3.000 todo en refriger. A/acond. Matriculado factura. c/gtía.
+                            aceptamos tarjetas 154-624255</p>
+                        <!-- Post data -->
+                        <p>by <a class="font-weight-bold">Electrofrio</a>, 19/04/2018</p>
+                        <!-- Read more button -->
+                        <a class="btn btn-primary btn-md">Ver Mas</a>
+
+                    </div>
+                    <!-- Grid column -->
+
+                </div>
+                <!-- Grid row -->
+
+                <hr class="my-5">
+
+                <!-- Grid row -->
+                <div class="row">
+
+                    <!-- Grid column -->
+                    <div class="col-lg-5 col-xl-4">
+
+                        <!-- Featured image -->
+                        <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/31.jpg" alt="Sample image">
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-lg-7 col-xl-8">
+
+                        <!-- Post title -->
+                        <h3 class="font-weight-bold mb-3"><strong>Talleres Dulcedani 2019</strong></h3>
+                        <!-- Excerpt -->
+                        <p class="dark-grey-text">TALLER de Patelería y Chocolatería Dulce Dany. Cursos para niños,
+                            adolescentes y adultos. Cursos cortos y prácticos: Pastelería y chocolatería, Panadería y
+                            pastelería, Pastelería para chicos. Inscripciones abiertas. T. 0342-154-443070.
+                            face:dulcedany</p>
+                        <!-- Post data -->
+                        <p>by <a class="font-weight-bold">dulcedany</a>, 16/04/2019</p>
+                        <!-- Read more button -->
+                        <a class="btn btn-primary btn-md">Ver Mas</a>
+
+                    </div>
+                    <!-- Grid column -->
+
+                </div>
+                <!-- Grid row -->
+
+                <hr class="my-5">
+
+                <!-- Grid row -->
+                <div class="row">
+
+                    <!-- Grid column -->
+                    <div class="col-lg-5 col-xl-4">
+
+                        <!-- Featured image -->
+                        <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/52.jpg" alt="Sample image">
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-lg-7 col-xl-8">
+
+                        <!-- Post title -->
+                        <h3 class="font-weight-bold mb-3"><strong>Apertura Sexologia Argent</strong></h3>
+                        <!-- Excerpt -->
+                        <p class="dark-grey-text">DR. NORBERTO DEL POZO Eyaculación precoz. Deseo. Impotencia.
+                            Anorgasmia.
+                            Ex-Pte. Federac. Sexológica Argent. Obispo Gelabert 2574. T. 156-155958.</p>
+                        <!-- Post data -->
+                        <p>by <a class="font-weight-bold">Dr Del Pozo</a>, 12/04/2018</p>
+                        <!-- Read more button -->
+                        <a class="btn btn-primary btn-md">Ver Mas</a>
+
+                    </div>
+                    <!-- Grid column -->
+
+                </div>
+                <!-- Grid row -->
+
+            </section>
+            <!-- Section: Blog v.3 -->
+
+        </div>
+    </div>
+
+
+
+
+
+
     <div id="testingDiv" class="container-fluid">
         <h2>Testeo</h2>
         <div id="divContact">
             <c:forEach items="${publications}" var="publication">
-                <p id="estadoInicial"></p> 
+                <p id="estadoInicial"></p>
                 <button id="openContactModal" type="button" class="btn btn-primary">
                     Contactar ${publication.getProvider().getUsername()}
-                </button>    
+                </button>
             </c:forEach>
             <div id="divContactModal" class="modal fade" tabindex="-1" role="dialog" style="display: none">
                 <!-- Modal -->
@@ -67,7 +207,8 @@
                                                         <label for="chkShare_0" class="custom-control-label">Compartir
                                                             datos de contacto</label>
                                                     </div>
-                                                    <span id="chkShareHelpBlock" class="form-text text-muted">Aunque no
+                                                    <span id="chkShareHelpBlock" class="form-text text-muted">Aunque
+                                                        no
                                                         compartas tus datos, los pondremos en contacto dentro del
                                                         sitio.</span>
                                                 </div>
@@ -76,7 +217,8 @@
                                         <!--EndContactForm------------------------------------------------------------------>
                                     </c:when>
                                     <c:when test="${mode == 1}">
-                                        <p style="word-wrap: break-word;">Estas seguro de que deseas cancelar solicitud
+                                        <p style="word-wrap: break-word;">Estas seguro de que deseas cancelar
+                                            solicitud
                                             de
                                             contacto?</p>>
                                     </c:when>
