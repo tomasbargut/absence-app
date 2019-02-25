@@ -128,8 +128,9 @@ public class DataRequest {
 		Request request = null;
 		try(Connection conn = ConnectorBuilder.getConnector()){
 			PreparedStatement stmt = conn.prepareStatement(
-				"select * from requests where id = ?"
+				"select * from requests where requestID = ?"
 			);
+			stmt.setInt(1, requestID);
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next()){
 				User petitioner = dataUser.get(rs.getInt("requesting_userID"));
@@ -137,7 +138,6 @@ public class DataRequest {
 				request = new Request(rs);
 				request.setPetitioner(petitioner);
 				request.setService(service);
-				return request;
 			}
 		}
 		return request;

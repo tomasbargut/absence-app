@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 
 public class Report {
-    private int reportID;
+    private Request request;
     private String title;
     private String desc;
     private String sentDate;
@@ -15,14 +15,12 @@ public class Report {
     private Administrator administrator;
     private String reportType;
 
-    public Report(ResultSet rs, Administrator admin) throws SQLException {
-        this.reportID = rs.getInt("reportID");
+    public Report(ResultSet rs) throws SQLException {
         this.title = rs.getString("title");
         this.desc = rs.getString("desc");
         this.sentDate = rs.getString("sentDate");
         this.answerDate = rs.getString("answerDate");
         this.status = rs.getString("statusID");
-        this.administrator = admin;
         this.reportType = rs.getString("reportType");
     }
     public Report(HttpServletRequest req) {
@@ -30,17 +28,13 @@ public class Report {
         this.desc = req.getParameter("desc");
 	}
 	/**
-     * @return the reportID
+     * @return the request
      */
-    public int getReportID() {
-        return reportID;
+    public Request getRequest() {
+        return request;
     }
-
-    /**
-     * @param reportID the reportID to set
-     */
-    public void setReportID(int reportID) {
-        this.reportID = reportID;
+    public void setRequest(Request request) {
+        this.request=request;
     }
 
     /**

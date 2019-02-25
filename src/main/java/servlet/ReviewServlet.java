@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import data.DataRequest;
 import entities.Request;
 import entities.Review;
+import logic.ControllerReview;
+import logic.exceptions.ReviewException;
 
 /**
  * ReviewServlet
@@ -20,11 +22,12 @@ import entities.Review;
 @WebServlet("/review")
 public class ReviewServlet extends HttpServlet {
 
-    private final DataRequest dataRequest;
+    private static final long serialVersionUID = 1L;
+    private final ControllerReview controllerReview;
 
     public ReviewServlet() {
         super();
-        dataRequest = new DataRequest();
+        controllerReview = new ControllerReview();
     }
 
     @Override
@@ -35,15 +38,26 @@ public class ReviewServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        Request request = (Request) session.getAttribute("request");
+        Request request = (Request) session.getAttribute("peticion");
+        Integer pointsGiven = null;
+        try{
+            pointsGiven = Integer.parseInt(req.getParameter("pointsGiven"));
+        }catch(Exception e){
+            resp.sendError(400);
+            return;
+        }
         Review review = new Review(req);
-        request.setReview(review);
+        review.setPointsGive(pointsGiven);
+        review.setRequest(request);
         try {
-            dataRequest.update(request);
+            controllerReview.save(review);
         } catch (SQLException e) {
             resp.sendError(500);
             return;
+        } catch (ReviewException e) {
+            session.setAttribute("error", e.getMessage());
+            resp.sendRedirect(req.getContextPath()+"/review");
         }
-        resp.sendRedirect(req.getContextPath());
+        resp.sendRedirect(req.getContextPath()+"/request?"+ review.getRequest().getRequestID());
     }
 }
