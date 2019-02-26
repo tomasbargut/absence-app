@@ -4,154 +4,75 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <t:base>
+    <div class="container">
+        <form action="${pageContext.request.contextPath}/search" method="POST">
+            <input type="text" name="q">
+            <input type="submit">
+            <div id="categories">
+                <c:forEach items="${categories}" var="category">
+                    <div id="${category.getCategoryID()}">
+                        <input type="checkbox" id="${category.getCategoryID()}" name="categorias" 
+                                value="${category.getCategoryID()}">
+                        <label for="${category.getCategoryID()}">${category.getName()}</label>
+                    </div>
+                </c:forEach>
+            </div>
+        <form> 
+        <div class="row">
+            <div class="col-sm-offset-1 col-sm-10"></div>
 
-    <h1>Welcome to Absence</h1>
-    <form action="${pageContext.request.contextPath}/search">
-        <input type="text" name="q">
-        <input type="submit">
-        <div id="categories">
-            <c:forEach items="${categories}" var="category">
-                <div id="${category.getCategoryID()}">
-                    <input type="checkbox" id="${category.getCategoryID()}" name="categorias" value="${category.getCategoryID()}">
-                    <label for="${category.getCategoryID()}">${category.getName()}</label>
+
+            <!-- Section: Blog v.3 -->
+            <section class="my-5">
+
+                <!-- Section heading -->
+                <h2 class="h1-responsive font-weight-bold text-center my-5">Servicios Populares</h2>
+                <!-- Section description -->
+                <p class="text-center dark-grey-text w-responsive mx-auto mb-5">Estos son los servicios mejor valorados
+                    de la
+                    semana, hechales un vistazo!</p>
+                <c:forEach items="${services}" var="service">
+                <!-- Grid row -->
+                <div class="row">
+
+                    <!-- Grid column -->
+                    <div class="col-lg-5 col-xl-4">
+
+                        <!-- Featured image -->
+                        <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                            <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/49.jpg" alt="Sample image">
+                            <a>
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-lg-7 col-xl-8">
+
+                        <!-- Post title -->
+                        <h3 class="font-weight-bold mb-3"><strong>${service.getTitle()}</strong></h3>
+                        <!-- Excerpt -->
+                        <p class="dark-grey-text">${service.getDesc()}</p>
+                        <!-- Post data -->
+                        <p>by <a class="font-weight-bold">${service.getProvider().getUsername()}</a>, 19/04/2018</p>
+                        <!-- Read more button -->
+                        <a href="${pageContext.request.contextPath}/service?${service.getServiceID()}" 
+                            class="btn btn-primary btn-md">Ver Mas</a>
+
+                    </div>
+                    <!-- Grid column -->
+
                 </div>
-            </c:forEach>
+                <!-- Grid row -->
+
+                <hr class="my-5">
+                </c:forEach>
+            </section>
+            <!-- Section: Blog v.3 -->
+
         </div>
-    <form> 
-    <c:forEach items="${services}" var="service">
-    <div id="divContact">
-        <a href="${pageContext.request.contextPath}/service?${service.getServiceID()}">
-            Contactar ${service.getProvider().getUsername()}
-        </a>
     </div>
-    </c:forEach>
-    
 </t:base>
-<%-- <div id="divContactModal" class="modal fade" tabindex="-1" role="dialog" style="display: none">
-    <!-- Modal -->
-
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="contactModalLabel">Contacto</h4>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid" style="height: 100%; width:100%;">
-                    <c:choose>
-                        <c:when test="${mode == 0}">
-                            <!--StartContactForm------------------------------------------------------------------>
-                            <form>
-                                <div class="form-group">
-                                    <label for="fechaInicio">Fecha tentativa de comienzo del trabajo</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                        </div>
-                                        <input id="fechaInicio" name="fechaInicio" placeholder="dd-mm-aaaa"
-                                            type="date" aria-describedby="fechaInicioHelpBlock" required="required"
-                                            class="form-control">
-                                    </div>
-                                    <span id="fechaInicioHelpBlock" class="form-text text-muted">Esto
-                                        ayudara al
-                                        proveedor
-                                        del servicio a responderte con mayor certidumbre.</span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="message">Mensaje</label>
-                                    <textarea id="message" name="message" cols="40" rows="5"
-                                        aria-describedby="messageHelpBlock" class="form-control"></textarea>
-                                    <span id="messageHelpBlock" class="form-text text-muted">Ej.: Que
-                                        necesitas que
-                                        se
-                                        haga?</span>
-                                </div>
-                                <div class="form-group">
-                                    <label>Que datos de contacto deseas compartir?</label>
-                                    <div>
-                                        <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input name="chkShare" id="chkShare_0" type="checkbox"
-                                                aria-describedby="chkShareHelpBlock" class="custom-control-input"
-                                                value="compartirDatos">
-                                            <label for="chkShare_0" class="custom-control-label">Compartir
-                                                datos de contacto</label>
-                                        </div>
-                                        <span id="chkShareHelpBlock" class="form-text text-muted">Aunque no
-                                            compartas tus datos, los pondremos en contacto dentro del
-                                            sitio.</span>
-                                    </div>
-                                </div>
-                            </form>
-                            <!--EndContactForm------------------------------------------------------------------>
-                        </c:when>
-                        <c:when test="${mode == 1}">
-                            <p style="word-wrap: break-word;">Estas seguro de que deseas cancelar solicitud
-                                de
-                                contacto?</p>>
-                        </c:when>
-                    </c:choose>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link" data-dismiss="modal">Atras</button>
-                <c:choose>
-                    <c:when test="${mode == 0}">
-                        <button type="button" class="btn btn-success accion" data-dismiss="modal">Contactar</button>
-                    </c:when>
-                    <c:when test="${mode == 1}">
-                        <button type="button" class="btn btn-danger accion" data-dismiss="modal">Cancelar
-                            Contacto</button>
-                    </c:when>
-                </c:choose>
-            </div>
-        </div>
-    </div>
-</div> --%>
-
-<%-- <script type="text/javascript">
-    //0=contactar, 1=ver/cancelar contacto
-    var mode = 0;
-    //dinamiza el formato inicial del panel modal de contacto
-    $("#openContactModal").click(function () {
-        if (mode == 0) {
-            $(".modal-title").text("Contactar Proveedor");
-        } else {
-            $(".modal-title").text("Cancelar Contacto");
-        }
-        $("#divContactModal").modal('show');
-    });
-
-    $(".accion").click(function () {
-        $("#divContactModal").modal('hide');
-        if (mode == 0) {
-            action == SOLICITAR_CONTACTO;
-            var fechaInicio = $("#inputDate").val;
-            var mensajeDeContacto = $("#inputMessage").val;
-            var telefono = ($('input.compartirContacto').is(':checked')) ? ("${telefono}") : (null);
-
-        } else {
-            action == CANCELAR_CONTACTO;
-        }
-
-        var data = {
-            publicationID: publicationID,
-            ACTION: action,
-            fechaInicio: fechaInicio,
-            mensaje: mensajeDeContacto,
-            telefono: telefono
-        };
-
-        $.ajax({
-            method: "POST",
-            url: "${pageContext.request.contextPath}/contact",
-            data: data,
-            dataType: "json",
-            success: function (res) {
-                alert(res.status);
-            }
-        });
-    });
-</script> --%>

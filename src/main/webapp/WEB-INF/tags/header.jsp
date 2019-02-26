@@ -6,7 +6,7 @@
         <% session.removeAttribute("error");%>
     </c:if>
     <nav class="navbar navbar-expand-lg">
-        <a href="${request.getContextPath()}" class="navbar-brand mr-auto text-white"><h2><strong>Absence</strong></h2></a>
+        <a href="${pageContext.request.contextPath}" class="navbar-brand mr-auto text-white"><h2><strong>Absence</strong></h2></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

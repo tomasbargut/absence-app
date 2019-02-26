@@ -3,6 +3,12 @@ package entities;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import com.google.gson.JsonObject;
+
 
 public class Request {
 	// Constants

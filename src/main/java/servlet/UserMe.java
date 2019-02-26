@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,12 +17,15 @@ import com.google.protobuf.Service;
 import data.DataProvider;
 import data.DataService;
 import entities.Provider;
+import entities.User;
 
 /**
  * Servlet implementation class UserMe
+ * 
+ * @param <Request>
  */
 @WebServlet("/me")
-public class UserMe extends HttpServlet {
+public class UserMe<Request> extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -56,5 +60,6 @@ public class UserMe extends HttpServlet {
 		}else{
 			request.getRequestDispatcher("/WEB-INF/me.jsp").forward(request, response);
 		}
+
 	}
 }
