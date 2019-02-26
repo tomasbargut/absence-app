@@ -163,7 +163,9 @@ public class DataRequest {
 	public List<Request> getAllByProvider(User user) throws SQLException{
 		ArrayList<Request> ProvisionRequestList = new ArrayList<Request>();
 		try(Connection conn = ConnectorBuilder.getConnector();){
-			PreparedStatement stmt = conn.prepareStatement("SELECT requestID FROM requests WHERE providerID = ?");
+			PreparedStatement stmt = conn.prepareStatement(
+				"SELECT r.requestID FROM requests AS r INNER JOIN services AS s WHERE s.userID = ?"
+			);
 			stmt.setInt(1, user.getUserID());
 			try(ResultSet rs = stmt.executeQuery();){
 				while (rs.next()) {

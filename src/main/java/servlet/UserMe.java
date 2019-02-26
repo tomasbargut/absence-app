@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.google.protobuf.Service;
 
 import data.DataProvider;
+import data.DataRequest;
 import data.DataService;
 import entities.Provider;
 import entities.User;
@@ -32,11 +33,12 @@ public class UserMe<Request> extends HttpServlet {
 	 * @see HttpServlet#HttpServlet()
 	 */
 	private final DataService dataService;
+	private final DataRequest dataRequest;
 
 	public UserMe() {
 		super();
 		dataService = new DataService();
-		// TODO Auto-generated constructor stub
+		dataRequest = new DataRequest();
 	}
 
 	/**
@@ -50,6 +52,7 @@ public class UserMe<Request> extends HttpServlet {
 		if (provider != null) {
 			try {
 				session.setAttribute("services", dataService.getByProvider(provider));
+				session.setAttribute("solicitudes", dataRequest.getAllByProvider(provider));
 			} catch (SQLException e) {
 				response.sendError(500);
 				return;
