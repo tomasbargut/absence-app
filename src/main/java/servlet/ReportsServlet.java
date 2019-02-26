@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,10 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import entities.Publication;
 import entities.Report;
+import entities.Request;
+import logic.ControllerRequest;
 import logic.ControllerReport;
 import logic.exceptions.ReportException;
+import logic.exceptions.RequestException;
 
 /**
  * Reports
@@ -30,32 +33,28 @@ public class ReportsServlet extends HttpServlet{
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //TODO: EVALUAR UN FILTER CON ESTO
-        HttpSession session = req.getSession();
-        if(session.getAttribute("publication") == null){
-            resp.sendError(404);
-        }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/reportForm.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/reportForm.jsp");
         dispatcher.forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        if(session.getAttribute("publication") == null){
+        if(session.getAttribute("peticion") == null){
             resp.sendError(400);
+            return;
         }
-        Publication publication = (Publication) session.getAttribute("publication");
-        Report report = new Report(req, publication);
+        Request request = (Request) session.getAttribute("peticion");
+        Report report = new Report(req);
+        report.setRequest(request);
         try{
-            if(controllerReport.save(report)){
-                resp.sendRedirect(req.getContextPath());
-            }else{
-                resp.sendError(500);
-            }
+            controllerReport.save(report);
         }catch(ReportException e){
             session.setAttribute("error", e.getMessage());
+        }catch(SQLException e){
+            resp.sendError(500);
         }
+        resp.sendRedirect(req.getContextPath()+ "/request?" + request.getRequestID());
     }
     
 }

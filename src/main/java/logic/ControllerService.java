@@ -1,9 +1,8 @@
 package logic;
 
-import data.DataPublication;
+import java.sql.SQLException;
+
 import data.DataService;
-import entities.Category;
-import entities.Publication;
 import entities.Service;
 import logic.exceptions.ServiceException;
 import utils.Utils;
@@ -17,9 +16,9 @@ public class ControllerService {
     public ControllerService(){
         this.dataService = new DataService();
     }
-	public boolean save(Service service) throws ServiceException {
+	public void save(Service service) throws ServiceException, SQLException {
         validar(service);
-        return dataService.save(service);
+        dataService.save(service);
     }
     
     private void validar(Service service) throws ServiceException {
@@ -30,10 +29,8 @@ public class ControllerService {
             throw new ServiceException("Descripcion invalida");
         }
     }
-	public boolean update(Service service) throws ServiceException{
+	public void update(Service service) throws ServiceException, SQLException{
         validar(service);
-        return dataService.update(service);
+        dataService.update(service);
 	}
-
-    
 }

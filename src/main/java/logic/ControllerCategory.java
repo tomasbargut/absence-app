@@ -1,5 +1,7 @@
 package logic;
 
+import java.util.List;
+
 import data.DataCategory;
 import entities.Category;
 import logic.exceptions.CategoryException;
@@ -27,4 +29,7 @@ public class ControllerCategory {
             throw new CategoryException("Descripcion invalida");
         }
     }
+	public List<Category> getAll() {
+        return dataCategory.getAll();
+	}
 }

@@ -1,6 +1,9 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,48 +12,57 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.protobuf.Service;
+
 import data.DataProvider;
+import data.DataRequest;
+import data.DataService;
 import entities.Provider;
+import entities.User;
 
 /**
  * Servlet implementation class UserMe
+ * 
+ * @param <Request>
  */
 @WebServlet("/me")
-public class UserMe extends HttpServlet {
+public class UserMe<Request> extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-	private DataProvider dataProvider;
-    public UserMe() {
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	private final DataService dataService;
+	private final DataRequest dataRequest;
+
+	public UserMe() {
 		super();
-		dataProvider = new DataProvider();
-        // TODO Auto-generated constructor stub
-    }
+		dataService = new DataService();
+		dataRequest = new DataRequest();
+	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if(session.getAttribute("user")!=null) {
-			Provider provider = (Provider)session.getAttribute("provider");
-			if(provider != null){
-				session.setAttribute("provider", dataProvider.get(provider.getUserID()));
+		Provider provider = (Provider) session.getAttribute("provider");
+		if (provider != null) {
+			try {
+				session.setAttribute("services", dataService.getByProvider(provider));
+				session.setAttribute("solicitudes", dataRequest.getAllByProvider(provider));
+			} catch (SQLException e) {
+				response.sendError(500);
+				return;
 			}
-			request.getRequestDispatcher("/WEB-INF/me.jsp").forward(request, response);
-		}else {
-			response.sendRedirect("singin");
 		}
-	}
+		if(request.getSession().getAttribute("administrator") != null){
+			response.sendRedirect(request.getContextPath()+ "/admin");
+		}else{
+			request.getRequestDispatcher("/WEB-INF/me.jsp").forward(request, response);
+		}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
-
 }

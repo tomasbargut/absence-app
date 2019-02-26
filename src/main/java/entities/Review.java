@@ -3,33 +3,40 @@ package entities;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class Review {
-    private int reviewID;
+    private Request request;
     private String title;
     private String desc;
     private int pointsGiven;
     private String reviewDate;
 
     public Review(ResultSet rs) throws SQLException {
-        this.reviewID= rs.getInt("reviewID");
         this.title = rs.getString("title");
         this.desc = rs.getString("desc");
         this.pointsGiven = rs.getInt("pointsGiven");
-        this.reviewDate = rs.getString("reviiwDate");
-    }
-    /**
-     * @return the reviewID
-     */
-    public int getReviewID() {
-        return reviewID;
+        this.reviewDate = rs.getString("reviewDate");
     }
 
     /**
-     * @param reviewID the reviewID to set
+     * @return the request
      */
-    public void setReviewID(int reviewID) {
-        this.reviewID = reviewID;
+    public Request getRequest() {
+        return request;
     }
+
+    /**
+     * @param request the request to set
+     */
+    public void setRequest(Request request) {
+        this.request = request;
+    }
+
+    public Review(HttpServletRequest req) {
+        this.title = req.getParameter("title");
+        this.desc = req.getParameter("desc");
+	}
 
     /**
      * @return the title

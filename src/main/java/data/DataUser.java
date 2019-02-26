@@ -1,9 +1,9 @@
 package data;
 
-import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import entities.User;
 
@@ -35,8 +35,7 @@ public class DataUser {
 			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE userID = ?");
 			stmt.setInt(1, userID);
 			ResultSet rs = stmt.executeQuery();
-			user = null;
-			if (rs != null) {
+			if (rs.next()) {
 				user = new User(rs);
 			}
 		} catch (Exception e) {

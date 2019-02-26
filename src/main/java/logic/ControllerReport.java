@@ -1,5 +1,7 @@
 package logic;
 
+import java.sql.SQLException;
+
 import data.DataReport;
 import entities.Report;
 import logic.exceptions.ReportException;
@@ -13,14 +15,13 @@ public class ControllerReport {
     public ControllerReport(){
         dataReport = new DataReport();
     }
-	public boolean save(Report report) throws ReportException{
+	public void save(Report report) throws ReportException, SQLException{
         report.setSentDate(Utils.getCurrentTime());
         report.setStatus("CREADA");
-        return dataReport.save(report);
+        dataReport.save(report);
 	}
-	public boolean update(Report report) {
-        //TODO IMPLEMENTAR BORRADO DE PULBICAICIO EN CASO DE APROBADO
-		return dataReport.update(report);
+	public void update(Report report) throws SQLException{
+		dataReport.update(report);
 	}
 
     

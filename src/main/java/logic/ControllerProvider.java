@@ -18,7 +18,7 @@ public class ControllerProvider {
 		dataProvider = new DataProvider();
 	}
 
-	public boolean save(Provider provider) throws ProviderException{
+	public void save(Provider provider) throws ProviderException, SQLException{
 		long ahora = new Date().getTime();
 		long nacimiento;
 		try {
@@ -33,6 +33,6 @@ public class ControllerProvider {
 			throw new ProviderException("El wachin ya es proveedor");
 		}
 		provider.setPrestige(0);
-		return dataProvider.save(provider);
+		dataProvider.save(provider);
 	}
 }

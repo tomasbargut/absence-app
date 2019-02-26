@@ -6,26 +6,19 @@ import java.sql.SQLException;
 
 public class ConnectorBuilder {
 
-	public static Connection getConnector() throws Exception {
+	public static Connection getConnector() throws SQLException{
 		try {
 			Connection conn = null;
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Absence?useSSL=false","teddie","teddie");
-		
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Absence?useSSL=false", "admin", "absence-admin");
+			System.out.println("Connected to fercho's DB.");
+
 			return conn;
-			
-		} catch (SQLException sqlex) {
-			System.out.println("Failed to connect to teddies DB, trying with fernandos DB.");
-			try {
-				Connection conn = null;
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Absence?useSSL=false","admin","absence-admin");
 
-				return conn;
-
-			} catch (Exception ex) {
-				throw ex;
-			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			System.exit(1);
+			return null;
 		}
 	}
 }

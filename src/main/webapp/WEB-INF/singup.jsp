@@ -4,16 +4,32 @@
 
 <t:base>
 	<jsp:body>
-		<form method="post" action="singup">
-	          <label for="username">Username</label>
-	          <input type="text" name="username"><br>
-	          <label for="email">Email</label>
-	          <input type="text" name="email"><br>
-	          <label for="password1">Password</label>
-	          <input type="password" name="password"><br>
-	          <label for="password2">Repetir Password</label>
-	          <input type="password" name="password2"><br>
-	          <input type = "submit" value = "Sign up" />
-    	</form>
+		<div class="container-fluid">
+			<div class="row justify-content-center align-self-center">
+				<div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3 h-100">
+
+					<form method="post" action="singup">
+						<div class="form-group">
+							<label for="username">Usuario</label>
+							<input type="text" class="form-control" name="username">
+						</div>
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input type="text" class="form-control" name="email">
+						</div>
+						<div class="form-group">
+							<label for="password1">Contrase&ntilde;a</label>
+							<input type="password" class="form-control" name="password">
+						</div>
+						<div class="form-group">
+							<label for="password2">Repetir Contrase&ntilde;a</label>
+							<input type="password" class="form-control" name="password2">
+						</div>
+						<div class="form-group">
+							<input class="btn btn-primary btn-lg btn-block" type="submit" value="Registrarse" />
+					</form>
+				</div>
+			</div>
+		</div>
 	</jsp:body>
 </t:base>

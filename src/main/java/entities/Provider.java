@@ -14,9 +14,8 @@ public class Provider extends User{
 	private String birthDate;
 	private int prestige;
 	private String providerType;
-	private ArrayList<Service> services;
 
-	public Provider(ResultSet rs, ArrayList<Service> services) throws SQLException {
+	public Provider(ResultSet rs) throws SQLException {
 		super(rs);
 		this.prestige = rs.getInt("prestigeID");
 		this.providerType = rs.getString("providerType");
@@ -25,7 +24,6 @@ public class Provider extends User{
 		this.postalCode = rs.getString("postalCode");
 		this.address = rs.getString("address");
 		this.birthDate = rs.getString("birthDate");
-		this.services = services;
 	}
 
 	public Provider(HttpServletRequest request, User user) {
@@ -165,19 +163,5 @@ public class Provider extends User{
 	 */
 	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
-	}
-
-	/**
-	 * @return the services
-	 */
-	public ArrayList<Service> getServices() {
-		return services;
-	}
-
-	/**
-	 * @param services the services to set
-	 */
-	public void setServices(ArrayList<Service> services) {
-		this.services = services;
 	}
 }
