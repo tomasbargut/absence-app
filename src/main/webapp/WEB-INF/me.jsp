@@ -33,14 +33,14 @@
 							<c:forEach items="${services}" var="service">
 								<tr scope="row">
 									<td class="text-center" style="width:5%; white-space:nowrap;">
-										<a href="${pageContext.request.contextPath}/service?${service.serviceID}">${service.title}
+										<a href="${pageContext.request.contextPath}/service?${service.serviceID}" class="text-white">${service.title}
 										</a>
 									</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">
-										<button class="btn btn-info ver" title="Ver">Detalle</button>
+										<button class="btn btn-info btn-sm ver" title="Ver">Detalle</button>
 										<c:if test="${solicitud.status == 'solicitado'}">
-											<button class="btn btn-primary aceptar" title="Aceptar">Modificar</button>
-											<button class="btn btn-danger rechazar" title="Rechazar">Eliminar</button>
+											<button class="btn btn-primary btn-sm aceptar" title="Aceptar">Modificar</button>
+											<button class="btn btn-danger btn-sm rechazar" title="Rechazar">Eliminar</button>
 										</c:if>
 									</td>
 								</tr>
@@ -79,7 +79,7 @@
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.response}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.status}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">
-										<a href="${pageContext.request.contextPath}/request?${solicitud.requestID}" class="btn btn-info ver" title="Ver">Ver</a>
+										<a href="${pageContext.request.contextPath}/request?${solicitud.requestID}" class="btn btn-info btn-sm ver" role="button" title="Ver">Ver</a>
 									</td>
 								</tr>
 							</c:forEach>
