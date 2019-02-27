@@ -2,16 +2,22 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <t:base>
-	<h1 class="h1-responsive font-weight-bold text-center my-5">Dashboard</h1>
-	<c:if test="${success != null}">
-		${success}
-	</c:if>
-	<div id="divUsuario">
-		<c:if test="${provider == null }">
-			<h2 class="h2-responsive font-weight-bold text-center my-5"></h2>Mis Datos</h2>
-			<p>PLACEHOLDER: Form ABM Datos Usuario/Proveedor</p>
-			<a href="provider">Ser proveedor</a>
-		</c:if>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-offset-2 col-sm-8"></div>
+
+			<h1 class="h1-responsive font-weight-bold text-center my-5">Dashboard</h1>
+			<c:if test="${success != null}">
+				${success}
+			</c:if>
+			<div id="divUsuario">
+				<c:if test="${provider == null }">
+					<h2 class="h2-responsive font-weight-bold text-center my-5"></h2>Mis Datos</h2>
+					<p>PLACEHOLDER: Form ABM Datos Usuario/Proveedor</p>
+					<a href="provider" class="btn btn-info btn-sm ver" role="button">Ser proveedor</a>
+				</c:if>
+			</div>
+		</div>
 	</div>
 	<div id="divProveedor">
 		<c:if test="${provider != null }">
@@ -19,34 +25,34 @@
 			<div id="divServicios">
 				<h3 class="h3-responsive text-center my-5">Mis Servicios</h3>
 
-					<a href="service"></a>
-					<h4 class="h4-responsive text-center my-5">Añadir Servicios</h4>
-					</a>
-					<table id="tblServicios" class="table table-hover table-dark">
-						<thead>
-							<tr>
-								<th scope="col">Servicios que prestas</th>
-								<th scope="col">Acciones</th>
+				<a href="service"></a>
+				<h4 class="h4-responsive text-center my-5">Añadir Servicios</h4>
+				</a>
+				<table id="tblServicios" class="table table-hover table-dark">
+					<thead>
+						<tr>
+							<th scope="col">Servicios que prestas</th>
+							<th scope="col">Acciones</th>
+						</tr>
+					</thead>
+					<tbody id="tblServiciosBody">
+						<c:forEach items="${services}" var="service">
+							<tr scope="row">
+								<td class="text-center" style="width:5%; white-space:nowrap;">
+									<a href="${pageContext.request.contextPath}/service?${service.serviceID}" class="text-white">${service.title}
+									</a>
+								</td>
+								<td class="text-center" style="width:5%; white-space:nowrap;">
+									<button class="btn btn-info btn-sm ver" title="Ver">Detalle</button>
+									<c:if test="${solicitud.status == 'solicitado'}">
+										<button class="btn btn-primary btn-sm aceptar" title="Aceptar">Modificar</button>
+										<button class="btn btn-danger btn-sm rechazar" title="Rechazar">Eliminar</button>
+									</c:if>
+								</td>
 							</tr>
-						</thead>
-						<tbody id="tblServiciosBody">
-							<c:forEach items="${services}" var="service">
-								<tr scope="row">
-									<td class="text-center" style="width:5%; white-space:nowrap;">
-										<a href="${pageContext.request.contextPath}/service?${service.serviceID}" class="text-white">${service.title}
-										</a>
-									</td>
-									<td class="text-center" style="width:5%; white-space:nowrap;">
-										<button class="btn btn-info btn-sm ver" title="Ver">Detalle</button>
-										<c:if test="${solicitud.status == 'solicitado'}">
-											<button class="btn btn-primary btn-sm aceptar" title="Aceptar">Modificar</button>
-											<button class="btn btn-danger btn-sm rechazar" title="Rechazar">Eliminar</button>
-										</c:if>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
 			<div id="divSolicitudes" class="divSolicitudes-container" style="text-align: center">
 				<h3 class="h3-responsive text-center my-5">Listado de Solicitudes</h3>
@@ -79,7 +85,8 @@
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.response}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.status}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">
-										<a href="${pageContext.request.contextPath}/request?${solicitud.requestID}" class="btn btn-info btn-sm ver" role="button" title="Ver">Ver</a>
+										<a href="${pageContext.request.contextPath}/request?${solicitud.requestID}" class="btn btn-info btn-sm ver"
+										 role="button" title="Ver">Ver</a>
 									</td>
 								</tr>
 							</c:forEach>
