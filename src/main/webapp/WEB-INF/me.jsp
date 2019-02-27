@@ -2,25 +2,25 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <t:base>
-	<h1>Dashboard</h1>
+	<h1 class="h1-responsive font-weight-bold text-center my-5">Dashboard</h1>
 	<c:if test="${success != null}">
 		${success}
 	</c:if>
 	<div id="divUsuario">
 		<c:if test="${provider == null }">
-			<h2>Mis Datos</h2>
+			<h2 class="h2-responsive font-weight-bold text-center my-5"></h2>Mis Datos</h2>
 			<p>PLACEHOLDER: Form ABM Datos Usuario/Proveedor</p>
 			<a href="provider">Ser proveedor</a>
 		</c:if>
 	</div>
 	<div id="divProveedor">
 		<c:if test="${provider != null }">
-			<h2>Mi Portfolio</h2>
+			<h2 class="h2-responsive font-weight-bold text-center my-5">Mi Portfolio</h2>
 			<div id="divServicios">
-				<h3 class="h1-responsive font-weight-bold text-center my-5">Mis Servicios</h2>
+				<h3 class="h3-responsive text-center my-5">Mis Servicios</h3>
 
 					<a href="service"></a>
-					<h4 class="h1-responsive font-weight-bold text-center my-5">Añadir Servicios</h4>
+					<h4 class="h4-responsive text-center my-5">Añadir Servicios</h4>
 					</a>
 					<table id="tblServicios" class="table table-hover table-dark">
 						<thead>
@@ -49,7 +49,7 @@
 					</table>
 			</div>
 			<div id="divSolicitudes" class="divSolicitudes-container" style="text-align: center">
-				<h3>Listado de Solicitudes</h3>
+				<h3 class="h3-responsive text-center my-5">Listado de Solicitudes</h3>
 
 				<div id="divTblSolicitudes">
 					<div id="tblControls">
