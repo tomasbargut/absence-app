@@ -6,9 +6,7 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import com.google.gson.JsonObject;
-
 
 public class Request {
 	// Constants
@@ -34,8 +32,7 @@ public class Request {
 	private String message;
 	private String response;
 
-	public Request(ResultSet rs)
-			throws SQLException {
+	public Request(ResultSet rs) throws SQLException {
 		this.requestID = rs.getInt("requestID");
 		this.requestDate = rs.getString("requestDate");
 		this.status = rs.getString("request_statusID");

@@ -58,9 +58,9 @@ public class UserMe<Request> extends HttpServlet {
 				return;
 			}
 		}
-		if(request.getSession().getAttribute("administrator") != null){
-			response.sendRedirect(request.getContextPath()+ "/admin");
-		}else{
+		if (request.getSession().getAttribute("administrator") != null) {
+			response.sendRedirect(request.getContextPath() + "/admin");
+		} else {
 			request.getRequestDispatcher("/WEB-INF/me.jsp").forward(request, response);
 		}
 

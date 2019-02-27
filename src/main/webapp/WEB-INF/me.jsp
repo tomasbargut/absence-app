@@ -18,35 +18,35 @@
 			<h2>Mi Portfolio</h2>
 			<div id="divServicios">
 				<h3 class="h1-responsive font-weight-bold text-center my-5">Mis Servicios</h2>
-				
-				<a href="service"></a>
-				<h4 class="h1-responsive font-weight-bold text-center my-5">Añadir Servicios</h4>
-				</a>
-				<table id="tblServicios" class="table table-hover table-dark">
-					<thead>
-						<tr>
-							<th scope="col">Servicios que prestas</th>
-							<th scope="col">Acciones</th>
-						</tr>
-					</thead>
-					<tbody id="tblServiciosBody">
-						<c:forEach items="${services}" var="service">
-							<tr scope="row">
-								<td class="text-center" style="width:5%; white-space:nowrap;">
-									<a href="${pageContext.request.contextPath}/service?${service.serviceID}">${service.title}
-									</a>
-								</td>
-								<td class="text-center" style="width:5%; white-space:nowrap;">
-									<button class="btn btn-info ver" title="Ver">Detalle</button>
-									<c:if test="${solicitud.status == 'solicitado'}">
-										<button class="btn btn-primary aceptar" title="Aceptar">Modificar</button>
-										<button class="btn btn-danger rechazar" title="Rechazar">Eliminar</button>
-									</c:if>
-								</td>
+
+					<a href="service"></a>
+					<h4 class="h1-responsive font-weight-bold text-center my-5">Añadir Servicios</h4>
+					</a>
+					<table id="tblServicios" class="table table-hover table-dark">
+						<thead>
+							<tr>
+								<th scope="col">Servicios que prestas</th>
+								<th scope="col">Acciones</th>
 							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+						</thead>
+						<tbody id="tblServiciosBody">
+							<c:forEach items="${services}" var="service">
+								<tr scope="row">
+									<td class="text-center" style="width:5%; white-space:nowrap;">
+										<a href="${pageContext.request.contextPath}/service?${service.serviceID}">${service.title}
+										</a>
+									</td>
+									<td class="text-center" style="width:5%; white-space:nowrap;">
+										<button class="btn btn-info ver" title="Ver">Detalle</button>
+										<c:if test="${solicitud.status == 'solicitado'}">
+											<button class="btn btn-primary aceptar" title="Aceptar">Modificar</button>
+											<button class="btn btn-danger rechazar" title="Rechazar">Eliminar</button>
+										</c:if>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
 			</div>
 			<div id="divSolicitudes" class="divSolicitudes-container" style="text-align: center">
 				<h3>Listado de Solicitudes</h3>
@@ -79,8 +79,7 @@
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.response}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">${solicitud.status}</td>
 									<td class="text-center" style="width:5%; white-space:nowrap;">
-										<a href="${pageContext.request.contextPath}/request?${solicitud.requestID}" 
-											class="btn btn-info ver" title="Ver">Ver</a>
+										<a href="${pageContext.request.contextPath}/request?${solicitud.requestID}" class="btn btn-info ver" title="Ver">Ver</a>
 									</td>
 								</tr>
 							</c:forEach>

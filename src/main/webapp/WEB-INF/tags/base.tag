@@ -19,7 +19,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.3/css/mdb.min.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body style="background-color: #212121; color: #ECEFF1;>
     <jsp:include page="/WEB-INF/tags/header.jsp" />
     <jsp:include page="/WEB-INF/include.jsp" />
     <div id="body" style="background-color: #212121; color: #ECEFF1;">
